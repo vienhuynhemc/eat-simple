@@ -6,6 +6,8 @@ public class khk {
    //dtg
     // adsfdsfdhghjgjhfg
     //hjhjhj
-
+    public static void main(String[] args) {
+        //lkhfu
+    }
 
 }
