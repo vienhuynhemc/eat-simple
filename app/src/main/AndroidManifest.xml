@@ -12,15 +12,14 @@
         android:theme="@style/Theme.EatSimple"
         tools:ignore="AllowBackup">
         <activity android:name=".MainActivity3">
+        </activity>
+        <activity android:name=".IntroductoryActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".dgjdshkfs" />
-        <activity android:name=".MainActivity2" />
-        <activity android:name=".MainActivity" />
     </application>
 
 </manifest>
