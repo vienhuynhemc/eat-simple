@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".IntroductoryActivity">
+    tools:context=".introductActivity.IntroductoryActivity">
 
 
     <ImageView
@@ -63,7 +63,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:layout_editor_absoluteX="-9dp"
-        tools:layout_editor_absoluteY="-60dp" />
+        tools:layout_editor_absoluteY="-60dp"
+        tools:ignore="MissingClass" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

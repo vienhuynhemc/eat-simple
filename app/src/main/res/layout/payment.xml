@@ -38,7 +38,7 @@
         app:srcCompat="@drawable/name" />
 
     <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/lottiePayment"
+        android:id="@+id/lottieFresh"
         android:layout_width="250dp"
         android:layout_height="250dp"
         android:elevation="2dp"
@@ -50,7 +50,7 @@
         app:layout_constraintVertical_bias="0.05"
         app:lottie_autoPlay="true"
         app:lottie_rawRes="@raw/payment"
-        tools:ignore="InvalidId"></com.airbnb.lottie.LottieAnimationView>
+        tools:ignore="InvalidId"/>
 
     <ImageView
         android:id="@+id/imageView5"

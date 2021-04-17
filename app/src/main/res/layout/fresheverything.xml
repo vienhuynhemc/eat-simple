@@ -51,7 +51,7 @@
         app:layout_constraintVertical_bias="0.355"
         app:lottie_autoPlay="true"
         app:lottie_rawRes="@raw/fresh"
-        tools:ignore="InvalidId"></com.airbnb.lottie.LottieAnimationView>
+        tools:ignore="InvalidId"/>
 
     <ImageView
         android:id="@+id/imageView6"
