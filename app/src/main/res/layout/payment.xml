@@ -25,6 +25,7 @@
     <ImageView
         android:id="@+id/name"
         android:layout_width="300dp"
+
         android:layout_height="300dp"
         android:layout_marginBottom="40dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -54,6 +55,7 @@
 
     <ImageView
         android:id="@+id/imageView5"
+
         android:layout_width="1080px"
         android:layout_height="2160px"
         android:elevation="1dp"
