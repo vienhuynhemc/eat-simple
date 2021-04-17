@@ -9,28 +9,30 @@
 
     <ImageView
         android:id="@+id/img"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="900dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/activity_introductory_bg"
         android:elevation="5dp"
+        android:scaleType="centerCrop"
+        android:background="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0" />
+        app:layout_constraintVertical_bias="0"
+        tools:ignore="ContentDescription" />
 
     <ImageView
         android:id="@+id/logo"
         android:layout_width="189dp"
         android:layout_height="184dp"
         android:elevation="5dp"
-        android:src="@drawable/activity_introductory_logo"
+        android:src="@drawable/activity_introductory_lgo"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias=".1" />
+        app:layout_constraintVertical_bias=".1"
+        tools:ignore="ContentDescription" />
 
     <ImageView
         android:id="@+id/appName"
@@ -49,22 +51,22 @@
         android:layout_width="wrap_content"
         android:layout_height="200dp"
         android:elevation="5dp"
-        app:lottie_autoPlay="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
-        app:lottie_rawRes="@raw/activity_introductory_hamburger"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/appName"
-        app:layout_constraintVertical_bias="0" />
+        app:layout_constraintVertical_bias="0"
+        app:lottie_autoPlay="true"
+        app:lottie_rawRes="@raw/activity_introductory_hamburger" />
 
     <com.cuberto.liquid_swipe.LiquidPager
         android:id="@+id/pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        tools:ignore="MissingClass"
         tools:layout_editor_absoluteX="-9dp"
-        tools:layout_editor_absoluteY="-60dp"
-        tools:ignore="MissingClass" />
+        tools:layout_editor_absoluteY="-60dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
