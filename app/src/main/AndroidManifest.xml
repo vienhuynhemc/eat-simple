@@ -11,7 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.EatSimple"
         tools:ignore="AllowBackup">
-        <activity android:name=".DashboardActivity">
+        <activity android:name=".introductActivity.IntroductoryActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -15,7 +15,7 @@
 
         android:id="@+id/img_food"
         android:layout_width="100dp"
-        android:src="@drawable/activity_introductory_lgo"
+        android:src="@drawable/activity_introductory_icon"
         android:layout_gravity="center"
         android:layout_height="100dp"/>
 

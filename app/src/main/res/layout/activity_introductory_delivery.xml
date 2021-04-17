@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#6cc6c5"
     tools:context=".introductActivity.IntroductoryActivity">
 
 
@@ -11,7 +12,8 @@
         android:id="@+id/logo"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="37dp"
+        android:layout_marginEnd="70dp"
         android:layout_marginBottom="16dp"
         android:elevation="1dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -20,23 +22,26 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.02"
-        app:srcCompat="@drawable/activity_introductory_lgo" />
+        app:srcCompat="@drawable/activity_introductory_icon"
+        tools:ignore="ContentDescription" />
 
     <ImageView
         android:id="@+id/name"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
+        android:layout_width="230dp"
+        android:layout_height="230dp"
         android:layout_marginBottom="40dp"
+        android:layout_marginTop="35dp"
+        android:layout_marginEnd="25dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintVertical_bias="0.05"
         android:translationY="-70dp"
         android:elevation="1dp"
-        app:srcCompat="@drawable/activity_introductory_name" />
-
+        app:srcCompat="@drawable/activity_introductory_name"
+        tools:ignore="ContentDescription" />
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/lottieFresh"
@@ -65,7 +70,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/activity_introductory_deliverybackground" />
+        />
 
     <ImageView
         android:id="@+id/imageView6"
@@ -78,7 +83,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.9"
-        app:srcCompat="@drawable/activity_introductory_textdelivery" />
+        />
 
     <ImageView
         android:id="@+id/imageView7"

@@ -6,14 +6,13 @@
     android:layout_height="match_parent"
     tools:context=".introductActivity.IntroductoryActivity">
 
-
     <ImageView
         android:id="@+id/img"
         android:layout_width="match_parent"
         android:layout_height="900dp"
+        android:background="@color/white"
         android:elevation="5dp"
         android:scaleType="centerCrop"
-        android:background="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -26,7 +25,8 @@
         android:layout_width="189dp"
         android:layout_height="184dp"
         android:elevation="5dp"
-        android:src="@drawable/activity_introductory_lgo"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/activity_introductory_icon"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -39,12 +39,14 @@
         android:layout_width="300dp"
         android:layout_height="300dp"
         android:elevation="5dp"
-        android:src="@drawable/activity_introductory_title"
+        android:layout_marginTop="50dp"
+        android:src="@drawable/activity_introductory_name"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.319" />
+        app:layout_constraintVertical_bias="0.319"
+        tools:ignore="ContentDescription" />
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/lottie"

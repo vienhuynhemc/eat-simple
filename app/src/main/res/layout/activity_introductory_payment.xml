@@ -4,39 +4,42 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    >
-
+    android:background="#4CA9DF">
 
     <ImageView
         android:id="@+id/logo"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="37dp"
+        android:layout_marginEnd="70dp"
         android:layout_marginBottom="16dp"
-        android:elevation="2dp"
+        android:elevation="1dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.159"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.02"
-        app:srcCompat="@drawable/activity_introductory_lgo" />
+        app:srcCompat="@drawable/activity_introductory_icon"
+        tools:ignore="ContentDescription" />
 
     <ImageView
         android:id="@+id/name"
-        android:layout_width="300dp"
-
-        android:layout_height="300dp"
+        android:layout_width="230dp"
+        android:layout_height="230dp"
+        android:layout_marginTop="35dp"
+        android:layout_marginEnd="25dp"
         android:layout_marginBottom="40dp"
+        android:elevation="1dp"
+        android:translationY="-70dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        android:translationY="-70dp"
-        android:elevation="2dp"
-        app:srcCompat="@drawable/activity_introductory_name" />
+        app:layout_constraintVertical_bias="0.05"
+        app:srcCompat="@drawable/activity_introductory_name"
+        tools:ignore="ContentDescription" />
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/lottieFresh"
@@ -51,7 +54,7 @@
         app:layout_constraintVertical_bias="0.05"
         app:lottie_autoPlay="true"
         app:lottie_rawRes="@raw/activity_introductory_payment"
-        tools:ignore="InvalidId"/>
+        tools:ignore="InvalidId" />
 
     <ImageView
         android:id="@+id/imageView5"
@@ -62,8 +65,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/activity_introductory_paymentbackground" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <ImageView
         android:id="@+id/imageView"
@@ -75,20 +77,19 @@
         app:layout_constraintHorizontal_bias="0.3"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.9"
-        app:srcCompat="@drawable/activity_introductory_textpayment" />
+        app:layout_constraintVertical_bias="0.9" />
 
     <ImageView
         android:id="@+id/imageView3"
         android:layout_width="50dp"
         android:layout_height="50dp"
+        android:elevation="1dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.12"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.96"
-        android:elevation="1dp"
         app:srcCompat="@drawable/activity_introductory_dot3" />
 
 

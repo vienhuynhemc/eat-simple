@@ -54,7 +54,7 @@
             android:layout_width="82dp"
             android:layout_height="63dp"
             android:elevation="20dp"
-            android:src="@drawable/activity_introductory_lgo"
+            android:src="@drawable/activity_introductory_icon"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
