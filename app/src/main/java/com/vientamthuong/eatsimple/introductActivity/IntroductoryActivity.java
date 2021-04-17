@@ -4,11 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.airbnb.lottie.LottieAnimationView;
@@ -28,7 +24,7 @@ public class IntroductoryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         // Xóa status bar
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN);
-        setContentView(R.layout.activity_introductory);
+        setContentView(R.layout.activity_introductory_main);
         // Ánh xạ view
         getView();
         // run animation

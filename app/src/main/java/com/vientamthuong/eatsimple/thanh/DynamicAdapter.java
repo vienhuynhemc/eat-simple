@@ -80,10 +80,10 @@ public class DynamicAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         if (viewType == VIEW_TYPE_ITEM){
-            View view = LayoutInflater.from(activity).inflate(R.layout.dynamic_rv_item,parent,false);
+            View view = LayoutInflater.from(activity).inflate(R.layout.activity_dashboard_dynamic_rv_item,parent,false);
             return new LoadingViewHolder(view);
         }else if (viewType == VIEW_TYPE_LOADING){
-            View view = LayoutInflater.from(activity).inflate(R.layout.dynamic_rv_processbar,parent,false);
+            View view = LayoutInflater.from(activity).inflate(R.layout.activity_dashboard_dynamic_rv_processbar,parent,false);
             return new LoadingViewHolder(view);
         }
 

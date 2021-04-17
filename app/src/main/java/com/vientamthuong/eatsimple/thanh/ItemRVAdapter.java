@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.vientamthuong.eatsimple.R;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class ItemRVAdapter extends RecyclerView.Adapter<ItemRVAdapter.ItemRVHolder> {
@@ -28,7 +27,7 @@ public class ItemRVAdapter extends RecyclerView.Adapter<ItemRVAdapter.ItemRVHold
     @Override
     public ItemRVHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.one_item,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_dashboard_one_item,parent,false);
 
         ItemRVHolder itemRVHolder = new ItemRVHolder(view);
 
