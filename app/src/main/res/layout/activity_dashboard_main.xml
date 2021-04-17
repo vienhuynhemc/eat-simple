@@ -23,7 +23,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.004"
-            app:lottie_rawRes="@raw/user" />
+            app:lottie_rawRes="@raw/activity_introductory_user" />
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/cart_icon"
@@ -37,7 +37,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.004"
-            app:lottie_rawRes="@raw/user" />
+            app:lottie_rawRes="@raw/activity_introductory_user" />
 
         <TextView
             android:id="@+id/logo_name"
@@ -65,7 +65,7 @@
             android:paddingBottom="10dp"
             android:layout_marginTop="15dp"
             android:paddingTop="15dp"
-            android:background="@drawable/search_bg"
+            android:background="@drawable/activity_dashboard_search_bg"
             android:elevation="4dp"
             android:layout_marginLeft="30dp"
             app:layout_constraintWidth_percent="0.7"
@@ -88,7 +88,7 @@
             app:layout_constraintStart_toEndOf="@+id/search_edit"
             app:layout_constraintTop_toTopOf="@+id/search_edit"
             app:layout_constraintVertical_bias="0.0"
-            app:lottie_rawRes="@raw/search" />
+            app:lottie_rawRes="@raw/activity_introductory_search" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_1"

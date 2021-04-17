@@ -34,11 +34,11 @@ public class DashboardActivity extends AppCompatActivity {
 
         ArrayList<ItemRVModel> models = new ArrayList<>();
 
-        models.add(new ItemRVModel(R.drawable.lgo,"Món 2"));
-        models.add(new ItemRVModel(R.drawable.lgo,"Món 3"));
-        models.add(new ItemRVModel(R.drawable.lgo,"Món 4"));
-        models.add(new ItemRVModel(R.drawable.lgo,"Món 5"));
-        models.add(new ItemRVModel(R.drawable.lgo,"Món 6"));
+        models.add(new ItemRVModel(R.drawable.activity_introductory_lgo,"Món 2"));
+        models.add(new ItemRVModel(R.drawable.activity_introductory_lgo,"Món 3"));
+        models.add(new ItemRVModel(R.drawable.activity_introductory_lgo,"Món 4"));
+        models.add(new ItemRVModel(R.drawable.activity_introductory_lgo,"Món 5"));
+        models.add(new ItemRVModel(R.drawable.activity_introductory_lgo,"Món 6"));
 
         recyclerView = findViewById(R.id.rv_1);
         itemRVAdapter = new ItemRVAdapter(models);

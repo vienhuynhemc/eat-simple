@@ -49,9 +49,9 @@ public class ItemRVAdapter extends RecyclerView.Adapter<ItemRVAdapter.ItemRVHold
         });
 
         if (position == row){
-            holder.linearLayout.setBackgroundResource(R.drawable.item_bg);
+            holder.linearLayout.setBackgroundResource(R.drawable.activity_dashboard_item_bg);
         }else{
-            holder.linearLayout.setBackgroundResource(R.drawable.rv_layout);
+            holder.linearLayout.setBackgroundResource(R.drawable.activity_dashboard_rv_layout);
         }
 
     }

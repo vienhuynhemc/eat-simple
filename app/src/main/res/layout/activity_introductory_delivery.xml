@@ -20,7 +20,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.02"
-        app:srcCompat="@drawable/lgo" />
+        app:srcCompat="@drawable/activity_introductory_lgo" />
 
     <ImageView
         android:id="@+id/name"
@@ -35,7 +35,7 @@
         app:layout_constraintVertical_bias="0.0"
         android:translationY="-70dp"
         android:elevation="1dp"
-        app:srcCompat="@drawable/name" />
+        app:srcCompat="@drawable/activity_introductory_name" />
 
 
     <com.airbnb.lottie.LottieAnimationView
@@ -52,7 +52,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.23"
         app:lottie_autoPlay="true"
-        app:lottie_rawRes="@raw/animate1"
+        app:lottie_rawRes="@raw/activity_introductory_animate1"
         tools:ignore="InvalidId"/>
 
     <ImageView
@@ -65,7 +65,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/deliverybackground" />
+        app:srcCompat="@drawable/activity_introductory_deliverybackground" />
 
     <ImageView
         android:id="@+id/imageView6"
@@ -78,7 +78,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.9"
-        app:srcCompat="@drawable/textdelivery" />
+        app:srcCompat="@drawable/activity_introductory_textdelivery" />
 
     <ImageView
         android:id="@+id/imageView7"
@@ -90,7 +90,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.96"
-        app:srcCompat="@drawable/dot2" />
+        app:srcCompat="@drawable/activity_introductory_dot2" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
