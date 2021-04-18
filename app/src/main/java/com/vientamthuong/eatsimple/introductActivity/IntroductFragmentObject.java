@@ -36,8 +36,6 @@ public class IntroductFragmentObject extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(resoucre, container, false);
-        LottieAnimationView lottie = view.findViewById(R.id.lottieFresh);
-        lottie.setRepeatCount(Integer.MAX_VALUE);
         // Trường hợp layout cuối
         if (state == IntroductConfiguration.END) {
             CardView buttonNext = view.findViewById(R.id.activity_introductory_next);

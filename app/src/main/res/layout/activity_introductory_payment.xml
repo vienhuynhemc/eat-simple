@@ -53,6 +53,7 @@
         app:layout_constraintTop_toBottomOf="@+id/logo"
         app:layout_constraintVertical_bias="0.05"
         app:lottie_autoPlay="true"
+        app:lottie_loop="true"
         app:lottie_rawRes="@raw/activity_introductory_payment"
         tools:ignore="InvalidId" />
 
@@ -103,7 +104,7 @@
         android:layout_marginBottom="30dp"
         app:cardBackgroundColor="@color/color_main"
         app:cardCornerRadius="10dp"
-        app:cardElevation="5dp"
+        app:cardElevation="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
@@ -115,7 +116,8 @@
             android:text="@string/activity_introductory_next"
             android:textAlignment="center"
             android:textColor="@color/white"
-            android:textSize="12sp" />
+            android:textSize="15sp"
+            android:textStyle="bold" />
 
     </androidx.cardview.widget.CardView>
 

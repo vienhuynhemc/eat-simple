@@ -48,7 +48,7 @@
         android:layout_width="380dp"
         android:layout_height="380dp"
         android:elevation="1dp"
-
+        app:lottie_loop="true"
         android:translationX="-20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

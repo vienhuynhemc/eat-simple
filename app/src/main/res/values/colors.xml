@@ -9,4 +9,5 @@
     <color name="white">#FFFFFFFF</color>
     <!-- custom color -->
     <color name="color_main">#fecb4d</color>
+    <color name="color_text_main">#2e2e2e</color>
 </resources>
