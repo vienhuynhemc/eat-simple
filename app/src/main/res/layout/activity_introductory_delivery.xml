@@ -29,17 +29,17 @@
         android:id="@+id/name"
         android:layout_width="230dp"
         android:layout_height="230dp"
-        android:layout_marginBottom="40dp"
         android:layout_marginTop="35dp"
         android:layout_marginEnd="25dp"
+        android:layout_marginBottom="40dp"
+        android:elevation="1dp"
+        android:translationY="-70dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.05"
-        android:translationY="-70dp"
-        android:elevation="1dp"
         app:srcCompat="@drawable/activity_introductory_name"
         tools:ignore="ContentDescription" />
 
@@ -58,7 +58,7 @@
         app:layout_constraintVertical_bias="0.23"
         app:lottie_autoPlay="true"
         app:lottie_rawRes="@raw/activity_introductory_animate1"
-        tools:ignore="InvalidId"/>
+        tools:ignore="InvalidId" />
 
     <ImageView
         android:id="@+id/deliveryBackground"
@@ -82,20 +82,21 @@
         app:layout_constraintHorizontal_bias="0.3"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/activity_introductory_delivery"
         app:layout_constraintVertical_bias="0.9"
+        app:srcCompat="@drawable/activity_introductory_delivery"
         tools:ignore="ContentDescription" />
 
     <ImageView
-        android:id="@+id/imageView7"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        android:id="@+id/imageView3"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:elevation="1dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.12"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.98"
+        app:layout_constraintVertical_bias="0.97"
         app:srcCompat="@drawable/activity_introductory_dot2"
         tools:ignore="ContentDescription" />
 

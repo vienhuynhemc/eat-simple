@@ -1,6 +1,9 @@
 package com.vientamthuong.eatsimple.introductActivity;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -10,14 +13,12 @@ import androidx.viewpager.widget.ViewPager;
 import com.airbnb.lottie.LottieAnimationView;
 import com.vientamthuong.eatsimple.R;
 import com.vientamthuong.eatsimple.data.SourceSound;
+import com.vientamthuong.eatsimple.homePage.HomePageActivity;
 
 public class IntroductoryActivity extends AppCompatActivity {
     private ImageView logo, appName, splashImg;
-    LottieAnimationView lottie;
-
-    private static final int NUM_PAGE = 3;
-    private ViewPager viewPager;
-    private ScreenSlidePagerAdapter adapter;
+    private LottieAnimationView lottie;
+    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,10 +37,24 @@ public class IntroductoryActivity extends AppCompatActivity {
     }
 
     private void init() {
-        // View pager
-        viewPager = findViewById(R.id.pager);
-        adapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
-        viewPager.setAdapter(adapter);
+        // Lấy dữ liệu chạy lần đầu
+        sharedPreferences = getSharedPreferences(IntroductConfiguration.START_FIRST, MODE_PRIVATE);
+        boolean isRuned = sharedPreferences.getBoolean("run", false);
+        if (!isRuned) {
+            // View pager
+            ViewPager viewPager = findViewById(R.id.pager);
+            ScreenSlidePagerAdapter adapter = new ScreenSlidePagerAdapter(getSupportFragmentManager(), IntroductoryActivity.this);
+            viewPager.setAdapter(adapter);
+        } else {
+            // Đã chạy rồi thì vô thẳng home page
+            Handler handler = new Handler();
+            handler.postDelayed(() -> {
+                Intent intent = new Intent();
+                intent.setClass(IntroductoryActivity.this, HomePageActivity.class);
+                finish();
+                startActivity(intent);
+            }, 4500);
+        }
     }
 
     private void runAnimation() {
@@ -58,4 +73,8 @@ public class IntroductoryActivity extends AppCompatActivity {
         lottie = findViewById(R.id.lottie);
     }
 
+    // GETTER AND SETTER
+    public SharedPreferences getSharedPreferences() {
+        return sharedPreferences;
+    }
 }

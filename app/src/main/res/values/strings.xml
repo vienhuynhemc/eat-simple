@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Eat Simple</string>
+    <string name="activity_introductory_next">Tiếp tục</string>
 </resources>

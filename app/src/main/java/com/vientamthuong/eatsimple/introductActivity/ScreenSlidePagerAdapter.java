@@ -9,14 +9,17 @@ import com.vientamthuong.eatsimple.R;
 
 public class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
 
-    public ScreenSlidePagerAdapter(@NonNull FragmentManager fm) {
+    private final IntroductoryActivity appCompatActivity;
+
+    public ScreenSlidePagerAdapter(@NonNull FragmentManager fm, IntroductoryActivity appCompatActivity) {
         super(fm);
+        this.appCompatActivity = appCompatActivity;
     }
 
     @NonNull
     @Override
     public Fragment getItem(int position) {
-        IntroductFragmentObject introductFragmentObject = null;
+        IntroductFragmentObject introductFragmentObject;
         switch (position) {
             case 0:
                 introductFragmentObject = new IntroductFragmentObject(R.layout.activity_introductory_fresheverything);
@@ -24,8 +27,8 @@ public class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
             case 1:
                 introductFragmentObject = new IntroductFragmentObject(R.layout.activity_introductory_delivery);
                 break;
-            case 2:
-                introductFragmentObject = new IntroductFragmentObject(R.layout.activity_introductory_payment);
+            default:
+                introductFragmentObject = new IntroductFragmentObject(R.layout.activity_introductory_payment, IntroductConfiguration.END, appCompatActivity);
                 break;
         }
         return introductFragmentObject;
