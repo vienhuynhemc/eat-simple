@@ -3,4 +3,8 @@
     <string name="activity_introductory_next">Bắt đầu</string>
     <string name="activity_introductory_skip">Bỏ qua</string>
     <string name="exit_app">Nhấn thêm lần nữa để thoát</string>
+    <string name="activity_home_page_orderNow">Đặt Ngay</string>
+    <string name="activity_home_page_banner_1">Nhanh Nhất Trong</string>
+    <string name="activity_home_page_banner_2">Việc Giao</string>
+    <string name="activity_home_page_banner_3">Đồ Ăn</string>
 </resources>
