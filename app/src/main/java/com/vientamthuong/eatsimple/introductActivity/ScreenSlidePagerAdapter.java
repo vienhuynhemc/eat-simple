@@ -22,10 +22,10 @@ public class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
         IntroductFragmentObject introductFragmentObject;
         switch (position) {
             case 0:
-                introductFragmentObject = new IntroductFragmentObject(R.layout.activity_introductory_fresheverything);
+                introductFragmentObject = new IntroductFragmentObject(R.layout.activity_introductory_fresheverything, appCompatActivity);
                 break;
             case 1:
-                introductFragmentObject = new IntroductFragmentObject(R.layout.activity_introductory_delivery);
+                introductFragmentObject = new IntroductFragmentObject(R.layout.activity_introductory_delivery, appCompatActivity);
                 break;
             default:
                 introductFragmentObject = new IntroductFragmentObject(R.layout.activity_introductory_payment, IntroductConfiguration.END, appCompatActivity);

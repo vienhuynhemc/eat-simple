@@ -6,9 +6,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
@@ -22,8 +25,9 @@ public class IntroductFragmentObject extends Fragment {
     private int state;
     private IntroductoryActivity appCompatActivity;
 
-    public IntroductFragmentObject(int res) {
+    public IntroductFragmentObject(int res, IntroductoryActivity appCompatActivity) {
         this.resoucre = res;
+        this.appCompatActivity = appCompatActivity;
     }
 
     public IntroductFragmentObject(int res, int state, IntroductoryActivity appCompatActivity) {
@@ -38,7 +42,7 @@ public class IntroductFragmentObject extends Fragment {
         View view = inflater.inflate(resoucre, container, false);
         // Trường hợp layout cuối
         if (state == IntroductConfiguration.END) {
-            CardView buttonNext = view.findViewById(R.id.activity_introductory_next);
+            CardView buttonNext = view.findViewById(R.id.activity_introductory_skip);
             buttonNext.setOnClickListener(v -> {
                 Intent intent = new Intent();
                 intent.setClass(view.getContext(), HomePageActivity.class);
@@ -47,6 +51,16 @@ public class IntroductFragmentObject extends Fragment {
                 SharedPreferences.Editor editor = appCompatActivity.getSharedPreferences().edit();
                 editor.putBoolean("run", true);
                 editor.apply();
+                startActivity(intent);
+            });
+        }
+        // Trường hợp 2 layout đầu
+        else {
+            TextView buttonNext = view.findViewById(R.id.activity_introductory_skip);
+            buttonNext.setOnClickListener(v -> {
+                Intent intent = new Intent();
+                intent.setClass(view.getContext(), HomePageActivity.class);
+                appCompatActivity.finish();
                 startActivity(intent);
             });
         }

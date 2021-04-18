@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name">Eat Simple</string>
-    <string name="activity_introductory_next">Tiếp tục</string>
+    <string name="activity_introductory_next">Bắt đầu</string>
+    <string name="activity_introductory_skip">Bỏ qua</string>
+    <string name="exit_app">Nhấn thêm lần nữa để thoát</string>
 </resources>

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
@@ -19,6 +20,8 @@ public class IntroductoryActivity extends AppCompatActivity {
     private ImageView logo, appName, splashImg;
     private LottieAnimationView lottie;
     private SharedPreferences sharedPreferences;
+    // Thời gian thoát activity
+    private long lastTimePressBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +37,16 @@ public class IntroductoryActivity extends AppCompatActivity {
         SourceSound.getInstance().loadSound(IntroductoryActivity.this);
         // Khởi tạo các thuộc tính khác
         init();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (lastTimePressBack == 0 || System.currentTimeMillis() - lastTimePressBack > 2000) {
+            lastTimePressBack = System.currentTimeMillis();
+            Toast.makeText(IntroductoryActivity.this, getString(R.string.exit_app), Toast.LENGTH_SHORT).show();
+        } else {
+            finish();
+        }
     }
 
     private void init() {
