@@ -133,6 +133,7 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
+                        android:id="@+id/activity_home_page_viecgiao"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="25dp"
@@ -147,14 +148,14 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="104dp"
-                        android:layout_marginTop="57dp"
+                        android:layout_marginStart="5dp"
                         android:text="@string/activity_home_page_banner_3"
                         android:textColor="@color/color_main"
                         android:textSize="17sp"
                         android:textStyle="bold"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintStart_toEndOf="@id/activity_home_page_viecgiao"
+                        app:layout_constraintTop_toTopOf="@id/activity_home_page_viecgiao"
+                        />
 
                     <androidx.cardview.widget.CardView
                         android:id="@+id/activity_main_oder_now"
