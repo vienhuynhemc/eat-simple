@@ -7,4 +7,8 @@
     <string name="activity_home_page_banner_1">Nhanh Nhất Trong</string>
     <string name="activity_home_page_banner_2">Việc Giao</string>
     <string name="activity_home_page_banner_3">Đồ Ăn</string>
+    <string name="dialog_lost_connection_title">Không có kết nối</string>
+    <string name="dialog_lost_connection_content">Không tìm thầy kết nối, vui lòng kiểm tra lại và nhấn nút "Thử lại"</string>
+    <string name="dialog_lost_connection_refresh">Thử lại</string>
+    <string name="dialog_lost_connection_ignore">Bỏ qua</string>
 </resources>
