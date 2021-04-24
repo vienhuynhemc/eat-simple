@@ -11,4 +11,5 @@
     <string name="dialog_lost_connection_content">Không tìm thầy kết nối, vui lòng kiểm tra lại và nhấn nút "Thử lại"</string>
     <string name="dialog_lost_connection_refresh">Thử lại</string>
     <string name="dialog_lost_connection_ignore">Bỏ qua</string>
+    <string name="activity_home_page_popular_food">Món ăn phổ biến</string>
 </resources>

@@ -8,6 +8,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.google.firebase.database.DataSnapshot;
@@ -17,6 +19,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.vientamthuong.eatsimple.R;
 import com.vientamthuong.eatsimple.connection.CheckConnection;
+import com.vientamthuong.eatsimple.danhMuc.DanhMuc;
 import com.vientamthuong.eatsimple.diaLog.DiaLogLoader;
 import com.vientamthuong.eatsimple.diaLog.DiaLogLostConnection;
 import com.vientamthuong.eatsimple.loadData.LoadDataConfiguration;
@@ -39,6 +42,10 @@ public class HomePageActivity extends AppCompatActivity {
     // Button avatar
     private AppCompatButton appCompatButtonAvatar;
     private LottieAnimationView lottieAnimationViewAvatar;
+    // List danh muc
+    private List<DanhMuc> danhMucs;
+    private RecyclerView recyclerViewDanhMuc;
+    private CustomDanhMucAdapter customDanhMucAdapter;
     // List image cần tải hình
     private List<LoadImageForView> imagesNeedLoad;
 
@@ -61,17 +68,38 @@ public class HomePageActivity extends AppCompatActivity {
         // Button avatar
         appCompatButtonAvatar = findViewById(R.id.activity_home_page_avatar_button);
         lottieAnimationViewAvatar = findViewById(R.id.activity_home_page_avatar_animation);
+        // recyclerview danh mục
+        recyclerViewDanhMuc = findViewById(R.id.activity_home_page_list_danh_muc);
     }
 
     private void init() {
         // Tạo dialog
         initDialog();
+        // Tạo recyclerview danh mục
+        initRecyclerViewDanhMuc();
         // Check connection
         if (!CheckConnection.getInstance().isConnected(HomePageActivity.this)) {
             diaLogLostConnection.show();
         } else {
             getData();
         }
+    }
+
+    private void initRecyclerViewDanhMuc() {
+        danhMucs = new ArrayList<>();
+        danhMucs.add(new DanhMuc("1", "a", "sdf"));
+        danhMucs.add(new DanhMuc("1", "a", "sdf"));
+        danhMucs.add(new DanhMuc("1", "a", "sdf"));
+        danhMucs.add(new DanhMuc("1", "a", "sdf"));
+        danhMucs.add(new DanhMuc("1", "a", "sdf"));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(HomePageActivity.this);
+        linearLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
+        linearLayoutManager.setSmoothScrollbarEnabled(true);
+        recyclerViewDanhMuc.setLayoutManager(linearLayoutManager);
+        recyclerViewDanhMuc.setHasFixedSize(true);
+        int[] resources = {R.layout.activity_home_page_custom_danh_muc_first, R.layout.activity_home_page_custom_danh_muc, R.layout.activity_home_page_custom_danh_muc_last};
+        customDanhMucAdapter = new CustomDanhMucAdapter(resources, danhMucs);
+        recyclerViewDanhMuc.setAdapter(customDanhMucAdapter);
     }
 
     private void getData() {

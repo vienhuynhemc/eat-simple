@@ -22,15 +22,15 @@
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/activity_home_page_button_menu_button"
             android:layout_width="match_parent"
-            android:visibility="gone"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/activity_home_page_button_menu_animation"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:lottie_autoPlay="true"
             android:scaleY="3"
+            app:lottie_autoPlay="true"
             app:lottie_loop="true"
             app:lottie_rawRes="@raw/loader_rectangle" />
     </androidx.cardview.widget.CardView>
@@ -88,25 +88,21 @@
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/activity_home_page_avatar_button"
             android:layout_width="match_parent"
-            android:visibility="gone"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/activity_home_page_avatar_animation"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:scaleY="3"
             app:lottie_autoPlay="true"
             app:lottie_loop="true"
-            android:scaleY="3"
             app:lottie_rawRes="@raw/loader_rectangle" />
     </androidx.cardview.widget.CardView>
     <!-- Kết thúc HEDAER -->
 
     <!-- Nội dung -->
-    <!-- Kết thúc nội dung -->
-
-    <!-- Footer -->
-
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -122,6 +118,7 @@
 
             <!-- Banner -->
             <androidx.cardview.widget.CardView
+                android:id="@+id/activity_home_page_banner"
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
                 android:layout_marginStart="30dp"
@@ -210,10 +207,35 @@
             </androidx.cardview.widget.CardView>
             <!-- Kết thúc banner -->
 
+            <!-- List danh mục -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/activity_home_page_list_danh_muc"
+                android:layout_width="match_parent"
+                android:clipChildren="false"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/activity_home_page_banner" />
+            <!-- Kết thúc list danh mục -->
+
+            <!-- Món ăn phổ biến -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:text="@string/activity_home_page_popular_food"
+                android:textColor="@color/color_text_main"
+                android:textSize="19sp"
+                android:textStyle="bold"
+                android:translationY="-8dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/activity_home_page_list_danh_muc" />
+            <!-- Kết thúc món ăn phổ biến -->
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.core.widget.NestedScrollView>
+    <!-- Kết thúc nội dung -->
 
+    <!-- Footer -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/activity_home_page_footer"
         android:layout_width="match_parent"
@@ -364,14 +386,5 @@
             tools:ignore="ContentDescription" />
     </androidx.cardview.widget.CardView>
     <!-- Kết thúc icon search -->
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
