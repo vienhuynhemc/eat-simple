@@ -83,12 +83,18 @@
     <!-- Kết thúc HEDAER -->
 
     <!-- Nội dung -->
+    <!-- Kết thúc nội dung -->
+
+    <!-- Footer -->
+
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="30dp"
         app:layout_constraintBottom_toTopOf="@id/activity_home_page_footer"
-        app:layout_constraintTop_toBottomOf="@id/activity_home_page_avatar">
+        app:layout_constraintTop_toBottomOf="@id/activity_home_page_avatar"
+        app:layout_constraintVertical_bias="0.0"
+        tools:layout_editor_absoluteX="0dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -187,9 +193,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.core.widget.NestedScrollView>
-    <!-- Kết thúc nội dung -->
 
-    <!-- Footer -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/activity_home_page_footer"
         android:layout_width="match_parent"
@@ -340,5 +344,14 @@
             tools:ignore="ContentDescription" />
     </androidx.cardview.widget.CardView>
     <!-- Kết thúc icon search -->
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
