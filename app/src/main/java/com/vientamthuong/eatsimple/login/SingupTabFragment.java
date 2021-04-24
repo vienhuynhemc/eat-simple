@@ -23,20 +23,20 @@ public class SingupTabFragment extends Fragment {
         repass = root.findViewById(R.id.repass);
         singup = root.findViewById(R.id.button_singup);
 
-        email.setTranslationX(800);
-        pass.setTranslationX(800);
-        repass.setTranslationX(800);
-        singup.setTranslationX(800);
+        email.setTranslationX(0);
+        pass.setTranslationX(0);
+        repass.setTranslationX(0);
+        singup.setTranslationX(0);
 
         email.setAlpha(v);
         pass.setAlpha(v);
         repass.setAlpha(v);
         singup.setAlpha(v);
 
-        email.animate().translationY(0).alpha(1).setDuration(800).setStartDelay(300).start();
-        pass.animate().translationY(0).alpha(1).setDuration(800).setStartDelay(500).start();
-        repass.animate().translationY(0).alpha(1).setDuration(800).setStartDelay(500).start();
-        singup.animate().translationY(0).alpha(1).setDuration(800).setStartDelay(700).start();
+        email.animate().translationY(100).alpha(1).setDuration(800).setStartDelay(300).start();
+        pass.animate().translationY(100).alpha(1).setDuration(800).setStartDelay(500).start();
+        repass.animate().translationY(100).alpha(1).setDuration(800).setStartDelay(500).start();
+        singup.animate().translationY(100).alpha(1).setDuration(800).setStartDelay(700).start();
         return root;
     }
 }

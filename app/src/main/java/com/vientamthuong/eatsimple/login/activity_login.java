@@ -30,11 +30,11 @@ public class activity_login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        tapLayout.findViewById(R.id.table_layout1);
-        viewPager.findViewById(R.id.view_paper1);
-        fb.findViewById(R.id.fab_facebook);
-        gg.findViewById(R.id.fab_google);
-        tw.findViewById(R.id.fab_twitter);
+        tapLayout=findViewById(R.id.table_layout1);
+        viewPager=findViewById(R.id.view_paper1);
+        fb=findViewById(R.id.fab_facebook);
+        gg=findViewById(R.id.fab_google);
+        tw=findViewById(R.id.fab_twitter);
 
         tapLayout.addTab(tapLayout.newTab().setText("Đăng nhập"));
         tapLayout.addTab(tapLayout.newTab().setText("Đăng kí"));
@@ -44,7 +44,22 @@ public class activity_login extends AppCompatActivity {
         viewPager.setAdapter(adapter);
 
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tapLayout));
+        tapLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                viewPager.setCurrentItem(tab.getPosition());
+            }
 
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
 
 
         fb.setTranslationY(300);
