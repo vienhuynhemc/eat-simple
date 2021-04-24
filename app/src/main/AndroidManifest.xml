@@ -11,15 +11,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.EatSimple"
         tools:ignore="AllowBackup">
-        <activity android:name=".detail.activity_detail" />
-        <activity android:name=".introductActivity.IntroductoryActivity" />
-        <activity android:name=".homePage.HomePageActivity">
+        <activity android:name=".login.activity_login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".introductActivity.IntroductoryActivity">
+
+        </activity>
+        <activity android:name=".homePage.HomePageActivity" />
+
     </application>
 
 </manifest>
