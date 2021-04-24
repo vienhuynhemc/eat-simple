@@ -6,8 +6,10 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import com.vientamthuong.eatsimple.R;
+import com.vientamthuong.eatsimple.diaLog.DiaLogLoader;
 
 public class HomePageActivity extends AppCompatActivity {
 
@@ -20,6 +22,11 @@ public class HomePageActivity extends AppCompatActivity {
         // Xóa status bar
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN);
         setContentView(R.layout.activity_home_page_main);
+        CardView cardView = findViewById(R.id.activity_home_page_serach);
+        cardView.setOnClickListener(v -> {
+            DiaLogLoader diaLogLoader = new DiaLogLoader(HomePageActivity.this);
+            diaLogLoader.show();
+        });
     }
 
     @Override
