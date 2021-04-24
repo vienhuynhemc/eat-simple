@@ -23,20 +23,20 @@ public class LoginTabFragment extends Fragment {
         forgotPass = root.findViewById(R.id.forgot_pass);
         login = root.findViewById(R.id.button_login);
 
-        email.setTranslationX(800);
-        pass.setTranslationX(800);
-        forgotPass.setTranslationX(800);
-        login.setTranslationX(800);
+        email.setTranslationX(0);
+        pass.setTranslationX(0);
+        forgotPass.setTranslationX(0);
+        login.setTranslationX(0);
 
         email.setAlpha(v);
         pass.setAlpha(v);
         forgotPass.setAlpha(v);
         login.setAlpha(v);
 
-        email.animate().translationY(0).alpha(1).setDuration(800).setStartDelay(300).start();
-        pass.animate().translationY(0).alpha(1).setDuration(800).setStartDelay(500).start();
-        forgotPass.animate().translationY(0).alpha(1).setDuration(800).setStartDelay(500).start();
-        login.animate().translationY(0).alpha(1).setDuration(800).setStartDelay(700).start();
+        email.animate().translationY(100).alpha(1).setDuration(800).setStartDelay(300).start();
+        pass.animate().translationY(100).alpha(1).setDuration(800).setStartDelay(500).start();
+        forgotPass.animate().translationY(100).alpha(1).setDuration(800).setStartDelay(500).start();
+        login.animate().translationY(100).alpha(1).setDuration(800).setStartDelay(700).start();
 
 
 
