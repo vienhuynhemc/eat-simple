@@ -20,6 +20,11 @@ public class DiaLogLoader extends Dialog {
         init();
     }
 
+    @Override
+    public void onBackPressed() {
+        // Hiện thực lại không cho làm gì cả
+    }
+
     private void init() {
         setCanceledOnTouchOutside(false);
         getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));

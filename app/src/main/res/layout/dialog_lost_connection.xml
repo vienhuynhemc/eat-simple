@@ -56,12 +56,14 @@
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="50dp"
+                android:lineSpacingExtra="4sp"
                 android:text="@string/dialog_lost_connection_content"
-                android:translationY="15dp"
+                android:translationY="13dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@id/dialog_lost_connection_icon" />
 
             <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/dialog_lost_connection_ignore"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
                 android:layout_marginEnd="10dp"
@@ -85,6 +87,7 @@
                 app:layout_constraintEnd_toEndOf="parent">
 
                 <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/dialog_lost_connection_try"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@color/color_main"
