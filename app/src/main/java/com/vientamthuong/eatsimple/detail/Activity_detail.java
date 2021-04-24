@@ -6,7 +6,7 @@ import android.os.Bundle;
 
 import com.vientamthuong.eatsimple.R;
 
-public class activity_detail extends AppCompatActivity {
+public class Activity_detail extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

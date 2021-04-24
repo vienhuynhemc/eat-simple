@@ -11,7 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.EatSimple"
         tools:ignore="AllowBackup">
-        <activity android:name=".detail.activity_detail">
+        <activity android:name=".detail.Activity_detail">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
