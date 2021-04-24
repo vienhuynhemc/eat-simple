@@ -20,11 +20,13 @@
         tools:ignore="ContentDescription,UnusedAttribute">
 
         <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/activity_home_page_button_menu_button"
             android:layout_width="match_parent"
             android:visibility="gone"
             android:layout_height="wrap_content" />
 
         <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/activity_home_page_button_menu_animation"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:lottie_autoPlay="true"
@@ -84,11 +86,13 @@
         tools:ignore="ContentDescription,UnusedAttribute">
 
         <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/activity_home_page_avatar_button"
             android:layout_width="match_parent"
             android:visibility="gone"
             android:layout_height="wrap_content" />
 
         <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/activity_home_page_avatar_animation"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:lottie_autoPlay="true"
