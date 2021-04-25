@@ -35,6 +35,11 @@ public class CustomDanhMucAdapter extends RecyclerView.Adapter<CustomDanhMucView
 
     @Override
     public void onBindViewHolder(@NonNull CustomDanhMucViewHolder holder, int position) {
+        DanhMuc danhMuc = danhMucs.get(position);
+        holder.getTextView().setText(danhMuc.getTen_danh_muc());
+        if (danhMuc.getBitmap() != null) {
+            holder.getImageView().setImageBitmap(danhMuc.getBitmap());
+        }
     }
 
     @Override

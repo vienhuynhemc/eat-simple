@@ -9,22 +9,29 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.android.volley.toolbox.ImageRequest;
+import com.vientamthuong.eatsimple.danhMuc.DanhMuc;
 
 public class LoadImageForView {
 
+    // Các image view nằm riêng lẻ -------------------------------
     // Tùy thuộc vào type mà sẽ chọn view hoặc image view
     private final int type;
     private View view;
     private ImageView imageView;
     private final String url;
     // LottieAnimationView để ẩn nó đi
-    private final LottieAnimationView lottieAnimationView;
+    private LottieAnimationView lottieAnimationView;
     // Để chạy vào luồng AI
     private final AppCompatActivity appCompatActivity;
     // Cập nhật khi load hình thành công
     private boolean isComplete;
     private boolean isError;
     private boolean isStart;
+    //-----------------------------------------------------------
+    // Các object có hình ảnh -----------------------------------
+    //  Danh mục
+    private DanhMuc danhMuc;
+    //-----------------------------------------------------------
 
     public LoadImageForView(ImageView imageView, AppCompatActivity appCompatActivity, LottieAnimationView lottieAnimationView, int type, String url) {
         this.imageView = imageView;
@@ -42,17 +49,32 @@ public class LoadImageForView {
         this.url = url;
     }
 
+    public LoadImageForView(AppCompatActivity appCompatActivity, DanhMuc danhMuc, int type) {
+        this.danhMuc = danhMuc;
+        this.appCompatActivity = appCompatActivity;
+        this.type = type;
+        // Lấy url
+        this.url = danhMuc.getHinh();
+    }
+
     public void run() {
         ImageRequest imageRequest = new ImageRequest(url, response -> {
-            if (type == LoadDataConfiguration.VIEW_NORMAL) {
-                view.setBackground(new BitmapDrawable(response));
-                view.setVisibility(View.VISIBLE);
-            } else if (type == LoadDataConfiguration.IMAGE_VIEW) {
-                imageView.setImageBitmap(response);
-                imageView.setVisibility(View.VISIBLE);
+            switch (type) {
+                case LoadDataConfiguration.VIEW_NORMAL:
+                    view.setBackground(new BitmapDrawable(response));
+                    lottieAnimationView.setVisibility(View.GONE);
+                    view.setVisibility(View.VISIBLE);
+                    break;
+                case LoadDataConfiguration.IMAGE_VIEW:
+                    imageView.setImageBitmap(response);
+                    lottieAnimationView.setVisibility(View.GONE);
+                    imageView.setVisibility(View.VISIBLE);
+                    break;
+                case LoadDataConfiguration.IMAGE_DANH_MUC:
+                    danhMuc.setBitmap(response);
+                    break;
             }
             isComplete = true;
-            lottieAnimationView.setVisibility(View.GONE);
         }, 0, 0, ImageView.ScaleType.FIT_CENTER, null, error -> {
             isError = true;
             Toast.makeText(appCompatActivity, "Lỗi tải hình!", Toast.LENGTH_SHORT).show();
@@ -77,7 +99,11 @@ public class LoadImageForView {
         isStart = start;
     }
 
-    public void setError(boolean error){
+    public int getType() {
+        return type;
+    }
+
+    public void setError(boolean error) {
         this.isError = error;
     }
 }

@@ -1,15 +1,23 @@
 package com.vientamthuong.eatsimple.danhMuc;
 
+import android.graphics.Bitmap;
+
 public class DanhMuc {
 
     private String ma_danh_muc;
     private String ten_danh_muc;
     private String hinh;
+    private Bitmap bitmap;
 
     public DanhMuc(String ma_danh_muc, String ten_danh_muc, String hinh) {
         this.ma_danh_muc = ma_danh_muc;
         this.ten_danh_muc = ten_danh_muc;
         this.hinh = hinh;
+        bitmap = null;
+    }
+
+    public DanhMuc(String ma_danh_muc) {
+        this.ma_danh_muc = ma_danh_muc;
     }
 
     // GETTER AND SETTER
@@ -35,5 +43,13 @@ public class DanhMuc {
 
     public void setHinh(String hinh) {
         this.hinh = hinh;
+    }
+
+    public Bitmap getBitmap() {
+        return bitmap;
+    }
+
+    public void setBitmap(Bitmap bitmap) {
+        this.bitmap = bitmap;
     }
 }

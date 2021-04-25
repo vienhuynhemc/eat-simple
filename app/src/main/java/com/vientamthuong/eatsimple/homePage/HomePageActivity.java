@@ -48,6 +48,8 @@ public class HomePageActivity extends AppCompatActivity {
     private CustomDanhMucAdapter customDanhMucAdapter;
     // List image cần tải hình
     private List<LoadImageForView> imagesNeedLoad;
+    // Biến boolean để kiểm tra luồng volley có đang chạy hay chưa
+    private boolean isRunningVolley;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -87,11 +89,6 @@ public class HomePageActivity extends AppCompatActivity {
 
     private void initRecyclerViewDanhMuc() {
         danhMucs = new ArrayList<>();
-        danhMucs.add(new DanhMuc("1", "a", "sdf"));
-        danhMucs.add(new DanhMuc("1", "a", "sdf"));
-        danhMucs.add(new DanhMuc("1", "a", "sdf"));
-        danhMucs.add(new DanhMuc("1", "a", "sdf"));
-        danhMucs.add(new DanhMuc("1", "a", "sdf"));
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(HomePageActivity.this);
         linearLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
         linearLayoutManager.setSmoothScrollbarEnabled(true);
@@ -108,8 +105,8 @@ public class HomePageActivity extends AppCompatActivity {
         // Không mất kết nối thì lấy dữ liêu  fire base về của activity này
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference root = firebaseDatabase.getReference();
+        // Load hình cho activity
         DatabaseReference databaseHomePage = root.child("activity_home_page");
-        // Tạo danh sách các đối tượng cần load hình
         imagesNeedLoad = new ArrayList<>();
         databaseHomePage.addValueEventListener(new ValueEventListener() {
             @Override
@@ -137,8 +134,42 @@ public class HomePageActivity extends AppCompatActivity {
                 }
                 // Tải dữ liệu từ firebase về thành công
                 // Và giờ tải hình từ các link hình
-                loadImageFromIntenet();
+                if (!isRunningVolley) {
+                    isRunningVolley = true;
+                    loadImageFromIntenet();
+                }
             }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(HomePageActivity.this, "Lỗi tải dữ liệu từ firebase !", Toast.LENGTH_SHORT).show();
+            }
+        });
+        // Load danh mục cho activit
+        DatabaseReference databaseReferenceDanhMuc = root.child("danh_muc");
+        databaseReferenceDanhMuc.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                danhMucs.clear();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    DanhMuc danhMuc = new DanhMuc(dataSnapshot.getKey());
+                    danhMuc.setHinh(dataSnapshot.child("hinh").getValue().toString());
+                    danhMuc.setTen_danh_muc(dataSnapshot.child("ten").getValue().toString());
+                    danhMucs.add(danhMuc);
+                    customDanhMucAdapter.notifyDataSetChanged();
+                }
+                // Tải dữ liệu từ firebase về thành công
+                // Đưa vô imageNeedLoad
+                for (DanhMuc danhMuc : danhMucs) {
+                    imagesNeedLoad.add(new LoadImageForView(HomePageActivity.this, danhMuc, LoadDataConfiguration.IMAGE_DANH_MUC));
+                }
+                // Và giờ tải hình từ các link hình
+                if (!isRunningVolley) {
+                    isRunningVolley = true;
+                    loadImageFromIntenet();
+                }
+            }
+
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
@@ -152,7 +183,9 @@ public class HomePageActivity extends AppCompatActivity {
         if (imagesNeedLoad.size() > 0) {
             Thread thread = new Thread(() -> {
                 runOnUiThread(() -> {
-                    diaLogLoader.show();
+                    if (!diaLogLoader.isShowing()) {
+                        diaLogLoader.show();
+                    }
                 });
                 boolean isError = false;
                 do {
@@ -165,6 +198,10 @@ public class HomePageActivity extends AppCompatActivity {
                             count++;
                         } else {
                             if (loadImageForView.isComplete()) {
+                                // Kiểm tra nếu thằng xong này type là danh mục thì thôgn báo cho adpater danh mục
+                                if (imagesNeedLoad.get(count).getType() == LoadDataConfiguration.IMAGE_DANH_MUC) {
+                                    runOnUiThread(() -> customDanhMucAdapter.notifyDataSetChanged());
+                                }
                                 imagesNeedLoad.remove(count);
                             } else if (loadImageForView.isError()) {
                                 isError = true;
@@ -176,6 +213,8 @@ public class HomePageActivity extends AppCompatActivity {
                     }
                 } while (!isError && imagesNeedLoad.size() != 0);
                 diaLogLoader.dismiss();
+                // Cho biến là hết chạy volley
+                isRunningVolley = false;
                 // Lỗi mạng
                 if (isError) {
                     runOnUiThread(() -> {
@@ -192,7 +231,10 @@ public class HomePageActivity extends AppCompatActivity {
                                         loadImageForView.setError(false);
                                     }
                                 }
-                                loadImageFromIntenet();
+                                if (!isRunningVolley) {
+                                    isRunningVolley = true;
+                                    loadImageFromIntenet();
+                                }
                             } else {
                                 Toast.makeText(HomePageActivity.this, "Không tìm thấy kết nối!", Toast.LENGTH_SHORT).show();
                             }
