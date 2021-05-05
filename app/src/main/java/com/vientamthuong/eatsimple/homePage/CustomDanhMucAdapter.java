@@ -22,9 +22,13 @@ public class CustomDanhMucAdapter extends RecyclerView.Adapter<CustomDanhMucView
 
     @Override
     public int getItemViewType(int position) {
-        if (position == 0) return resource[0];
-        else if (position == danhMucs.size() - 1) return resource[2];
-        else return resource[1];
+        int add = 0;
+        if (!danhMucs.get(position).isLoaded()) {
+            add = 3;
+        }
+        if (position == 0) return resource[add];
+        else if (position == danhMucs.size() - 1) return resource[2 + add];
+        else return resource[1 + add];
     }
 
     @NonNull
@@ -36,9 +40,11 @@ public class CustomDanhMucAdapter extends RecyclerView.Adapter<CustomDanhMucView
     @Override
     public void onBindViewHolder(@NonNull CustomDanhMucViewHolder holder, int position) {
         DanhMuc danhMuc = danhMucs.get(position);
-        holder.getTextView().setText(danhMuc.getTen_danh_muc());
-        if (danhMuc.getBitmap() != null) {
-            holder.getImageView().setImageBitmap(danhMuc.getBitmap());
+        if (danhMuc.isLoaded()) {
+            holder.getTextView().setText(danhMuc.getTen_danh_muc());
+            if (danhMuc.getBitmap() != null) {
+                holder.getImageView().setImageBitmap(danhMuc.getBitmap());
+            }
         }
     }
 

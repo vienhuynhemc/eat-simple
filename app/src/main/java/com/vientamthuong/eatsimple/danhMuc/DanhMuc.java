@@ -20,6 +20,11 @@ public class DanhMuc {
         this.ma_danh_muc = ma_danh_muc;
     }
 
+    // Hàm để nhận biết danh mục này load chưa
+    public boolean isLoaded() {
+        return ma_danh_muc != null && ten_danh_muc != null && hinh != null;
+    }
+
     // GETTER AND SETTER
     public String getMa_danh_muc() {
         return ma_danh_muc;
