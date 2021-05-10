@@ -107,7 +107,7 @@ public class HomePageActivity extends AppCompatActivity {
         // Cho full tam số là null
         // Khi nạp dữ liệu từ fire base thì trải qua các bước
         // 1. Thay vì clear ta xóa hết để lại 4 thằng đầu xong cho full thuộc tính nó là null
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 4; i++) {
             danhMucs.add(new DanhMuc(null, null, null));
         }
         // 2. Sau đó cứ có dữ liệu thì lần lượt thay thế 4 ông này , nếu như có ít hơn 4 thì ta xóa
@@ -115,6 +115,7 @@ public class HomePageActivity extends AppCompatActivity {
         // Nhưng ở trường hợp thiếu khi xóa đi thì lúc nạp vào ta vẫn phải làm sao để có được 4 thằng
         customDanhMucAdapter = new CustomDanhMucAdapter(resources, danhMucs);
         recyclerViewDanhMuc.setAdapter(customDanhMucAdapter);
+        customDanhMucAdapter.notifyDataSetChanged();
     }
 
     private void getData() {
@@ -170,9 +171,10 @@ public class HomePageActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 // Làm cho 4 thằng đầu tiền full null
                 danhMucs.clear();
-                for (int i = 0; i < 5; i++) {
+                for (int i = 0; i < 4; i++) {
                     danhMucs.add(new DanhMuc(null, null, null));
                 }
+                customDanhMucAdapter.notifyDataSetChanged();
                 // Biến count để biết có bao nhiêu thằng
                 int countDanhMuc = 0;
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {

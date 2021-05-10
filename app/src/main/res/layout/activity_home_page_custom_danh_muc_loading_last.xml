@@ -8,12 +8,12 @@
     <androidx.cardview.widget.CardView
         android:layout_width="85dp"
         android:layout_height="110dp"
+        android:layout_marginStart="10dp"
         app:cardBackgroundColor="@color/white"
         app:cardCornerRadius="15dp"
         app:cardElevation="15dp"
         app:cardPreventCornerOverlap="false"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginStart="10dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -42,10 +42,10 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-                android:layout_width="60dp"
+                android:layout_width="70dp"
                 android:layout_height="20dp"
                 android:layout_marginTop="2dp"
-                app:cardCornerRadius="5dp"
+                app:cardCornerRadius="7dp"
                 app:cardElevation="0dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -54,6 +54,8 @@
                 <com.airbnb.lottie.LottieAnimationView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:scaleX="4"
+                    android:scaleY="4"
                     app:lottie_autoPlay="true"
                     app:lottie_loop="true"
                     app:lottie_rawRes="@raw/loader_rectangle" />

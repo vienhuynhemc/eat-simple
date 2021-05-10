@@ -15,10 +15,12 @@ public class CustomDanhMucViewHolder extends RecyclerView.ViewHolder {
     private TextView textView;
     private View layout;
 
-    public CustomDanhMucViewHolder(@NonNull View itemView) {
+    public CustomDanhMucViewHolder(@NonNull View itemView, int type) {
         super(itemView);
         this.layout = itemView;
-        getView(itemView);
+        if (type == HomePageConfiguration.REAL) {
+            getView(itemView);
+        }
     }
 
     private void getView(View view) {

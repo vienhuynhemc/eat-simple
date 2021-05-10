@@ -26,15 +26,16 @@ public class CustomDanhMucAdapter extends RecyclerView.Adapter<CustomDanhMucView
         if (!danhMucs.get(position).isLoaded()) {
             add = 3;
         }
-        if (position == 0) return resource[add];
-        else if (position == danhMucs.size() - 1) return resource[2 + add];
-        else return resource[1 + add];
+        if (position == 0) return add;
+        else if (position == danhMucs.size() - 1) return 2 + add;
+        else return 1 + add;
     }
 
     @NonNull
     @Override
     public CustomDanhMucViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new CustomDanhMucViewHolder(LayoutInflater.from(parent.getContext()).inflate(viewType, parent, false));
+        int type = viewType/3 == 1 ? HomePageConfiguration.BANNER:HomePageConfiguration.REAL;
+        return new CustomDanhMucViewHolder(LayoutInflater.from(parent.getContext()).inflate(resource[viewType], parent, false),type);
     }
 
     @Override

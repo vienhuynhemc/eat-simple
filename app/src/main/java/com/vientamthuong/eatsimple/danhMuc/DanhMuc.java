@@ -2,6 +2,8 @@ package com.vientamthuong.eatsimple.danhMuc;
 
 import android.graphics.Bitmap;
 
+import org.jetbrains.annotations.NotNull;
+
 public class DanhMuc {
 
     private String ma_danh_muc;
@@ -23,6 +25,12 @@ public class DanhMuc {
     // Hàm để nhận biết danh mục này load chưa
     public boolean isLoaded() {
         return ma_danh_muc != null && ten_danh_muc != null && hinh != null;
+    }
+
+    @NotNull
+    @Override
+    public String toString(){
+        return ma_danh_muc+" "+ten_danh_muc+" "+hinh+" "+isLoaded();
     }
 
     // GETTER AND SETTER

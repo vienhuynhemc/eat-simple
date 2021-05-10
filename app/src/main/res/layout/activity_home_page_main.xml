@@ -29,7 +29,6 @@
             android:id="@+id/activity_home_page_button_menu_animation"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleY="3"
             app:lottie_autoPlay="true"
             app:lottie_loop="true"
             app:lottie_rawRes="@raw/loader_rectangle" />
@@ -95,7 +94,6 @@
             android:id="@+id/activity_home_page_avatar_animation"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleY="3"
             app:lottie_autoPlay="true"
             app:lottie_loop="true"
             app:lottie_rawRes="@raw/loader_rectangle" />
