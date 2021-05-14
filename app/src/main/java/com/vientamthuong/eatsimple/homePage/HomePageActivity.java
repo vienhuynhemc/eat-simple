@@ -119,8 +119,6 @@ public class HomePageActivity extends AppCompatActivity {
     }
 
     private void getData() {
-        // Hiện màn hình chờ
-        diaLogLoader.show();
         // Không mất kết nối thì lấy dữ liêu  fire base về của activity này
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference root = firebaseDatabase.getReference();
@@ -130,6 +128,8 @@ public class HomePageActivity extends AppCompatActivity {
         databaseHomePage.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                // Hiện màn hình chờ
+                diaLogLoader.show();
                 imagesNeedLoad.clear();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     switch (Objects.requireNonNull(dataSnapshot.getKey())) {
@@ -157,6 +157,8 @@ public class HomePageActivity extends AppCompatActivity {
                     isRunningVolley = true;
                     loadImageFromIntenet();
                 }
+                // Tắt màn hình chờ
+                diaLogLoader.dismiss();
             }
 
             @Override
@@ -169,6 +171,8 @@ public class HomePageActivity extends AppCompatActivity {
         databaseReferenceDanhMuc.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                // Hiện màn hình chờ
+                diaLogLoader.show();
                 // Làm cho 4 thằng đầu tiền full null
                 danhMucs.clear();
                 for (int i = 0; i < 4; i++) {
@@ -213,6 +217,8 @@ public class HomePageActivity extends AppCompatActivity {
                     isRunningVolley = true;
                     loadImageFromIntenet();
                 }
+                // Tắt màn hình chờ
+                diaLogLoader.dismiss();
             }
 
 
@@ -227,11 +233,6 @@ public class HomePageActivity extends AppCompatActivity {
         // Tải hình về
         if (imagesNeedLoad.size() > 0) {
             Thread thread = new Thread(() -> {
-                runOnUiThread(() -> {
-                    if (!diaLogLoader.isShowing()) {
-                        diaLogLoader.show();
-                    }
-                });
                 boolean isError = false;
                 do {
                     int count = 0;
@@ -257,7 +258,6 @@ public class HomePageActivity extends AppCompatActivity {
                         }
                     }
                 } while (!isError && imagesNeedLoad.size() != 0);
-                diaLogLoader.dismiss();
                 // Cho biến là hết chạy volley
                 isRunningVolley = false;
                 // Lỗi mạng
