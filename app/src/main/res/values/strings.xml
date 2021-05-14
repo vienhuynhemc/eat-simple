@@ -7,4 +7,5 @@
     <string name="activity_home_page_banner_1">Nhanh Nhất Trong</string>
     <string name="activity_home_page_banner_2">Việc Giao</string>
     <string name="activity_home_page_banner_3">Đồ Ăn</string>
+    <string name="acticity_cart_totalProduct">Tổng số sản phẩm</string>
 </resources>

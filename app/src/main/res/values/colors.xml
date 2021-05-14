@@ -10,4 +10,5 @@
     <!-- custom color -->
     <color name="color_main">#fecb4d</color>
     <color name="color_text_main">#2e2e2e</color>
+    <color name="color_cart_main">#5CEFE8E8</color>
 </resources>
