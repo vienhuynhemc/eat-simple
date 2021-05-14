@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "959179109371",
+    "project_id": "eat-simple",
+    "storage_bucket": "eat-simple.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:959179109371:android:f86a2c625ece95d110115e",
+        "android_client_info": {
+          "package_name": "com.vientamthuong.eatsimple"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "959179109371-57iu8ftoi89ghoiprm2gtb3j8e7ho6b7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB52UkCPrU4xywyXr1L4b-4ShPbjvEqUpI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "959179109371-57iu8ftoi89ghoiprm2gtb3j8e7ho6b7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
