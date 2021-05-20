@@ -5,14 +5,18 @@ public class Wishlist {
     private String desP;
     private int priceP;
     private int quantity;
-    private int img;
+    private String img;
 
-    public Wishlist(String name, String desP, int priceP, int quantity, int img) {
+    public Wishlist(String name, String desP, int priceP, int quantity, String img) {
         this.name = name;
         this.desP = desP;
         this.priceP = priceP;
         this.quantity = quantity;
         this.img = img;
+    }
+
+    public Wishlist(){
+
     }
 
     public String getName() {
@@ -47,11 +51,11 @@ public class Wishlist {
         this.quantity = quantity;
     }
 
-    public int getImg() {
+    public String getImg() {
         return img;
     }
 
-    public void setImg(int img) {
+    public void setImg(String img) {
         this.img = img;
     }
 }

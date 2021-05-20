@@ -16,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.chauthai.swipereveallayout.SwipeRevealLayout;
 import com.chauthai.swipereveallayout.ViewBinderHelper;
 import com.facebook.shimmer.ShimmerFrameLayout;
@@ -55,14 +56,14 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
         viewBinderHelper.bind(holder.swipeRevealLayout,w.getName());
         holder.txtName.setText(w.getName());
 
-        viewBinderHelper.bind(holder.swipeRevealLayout,w.getDesP());
-        holder.txtDes.setText(w.getDesP());
+//        viewBinderHelper.bind(holder.swipeRevealLayout,w.getDesP());
+//        holder.txtDes.setText(w.getDesP());
 
         viewBinderHelper.bind(holder.swipeRevealLayout,String.valueOf(w.getPriceP()));
         holder.txtPrice.setText(w.getPriceP()+" VNĐ");
 
         viewBinderHelper.bind(holder.swipeRevealLayout,String.valueOf(w.getImg()));
-        holder.img.setImageResource(w.getImg());
+        Glide.with(context).load(w.getImg()).into(holder.img);
 
         holder.layoutDelete.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,7 +87,7 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
         private SwipeRevealLayout swipeRevealLayout;
         private LinearLayout layoutDelete;
         private ImageView img;
-        private TextView txtName, txtPrice, txtDes;
+        private TextView txtName, txtPrice;
         private CardView btnAdd;
         private CheckBox cbAdd;
 
@@ -108,7 +109,7 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
             img = itemView.findViewById(R.id.imgP);
             txtName = itemView.findViewById(R.id.nameP);
             txtPrice = itemView.findViewById(R.id.priceP);
-            txtDes = itemView.findViewById(R.id.desP);
+
 
 //            shimmer = itemView.findViewById(R.id.shimmer);
 //

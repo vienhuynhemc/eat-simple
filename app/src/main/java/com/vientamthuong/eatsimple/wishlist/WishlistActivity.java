@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.airbnb.lottie.LottieAnimationView;
@@ -27,6 +28,8 @@ import com.vientamthuong.eatsimple.homePage.CustomDanhMucAdapter;
 import com.vientamthuong.eatsimple.homePage.HomePageActivity;
 import com.vientamthuong.eatsimple.loadData.LoadDataConfiguration;
 import com.vientamthuong.eatsimple.loadData.LoadImageForView;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,18 +73,27 @@ public class WishlistActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(linearLayoutManager);
 
 
-        WishlistAdapter wishlistAdapter = new WishlistAdapter(this,getProducts());
-        recyclerView.setAdapter(wishlistAdapter);
-
-    }
-    public ArrayList<Wishlist> getProducts(){
         ArrayList<Wishlist> products = new ArrayList<>();
-        products.add(new Wishlist("Pizza ","abc",59000,1,R.drawable.activity_detail_ham));
+        DatabaseReference database = FirebaseDatabase.getInstance().getReference("yeu_thich").child("001");
+        database.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                for (DataSnapshot ds : snapshot.getChildren()) {
+                    Wishlist w = ds.getValue(Wishlist.class);
+                    products.add(w);
+                }
+                WishlistAdapter wishlistAdapter = new WishlistAdapter(WishlistActivity.this,products);
+                recyclerView.setAdapter(wishlistAdapter);
+                wishlistAdapter.notifyDataSetChanged();
+            }
 
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
 
-
-        return products;
+            }
+        });
     }
+
     private void init() {
         // Tạo dialog
         initDialog();
