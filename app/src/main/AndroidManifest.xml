@@ -4,6 +4,7 @@
     package="com.vientamthuong.eatsimple">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -12,6 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.EatSimple"
         tools:ignore="AllowBackup">
+        <activity android:name=".wishlist.WishlistActivity"></activity>
         <activity android:name=".login.activity_login" />
         <activity android:name=".introductActivity.IntroductoryActivity" />
         <activity android:name=".homePage.HomePageActivity">
@@ -21,7 +23,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
     </application>
 
 </manifest>
