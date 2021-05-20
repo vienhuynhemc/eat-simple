@@ -13,7 +13,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.EatSimple"
         tools:ignore="AllowBackup">
-        <activity android:name=".wishlist.WishlistActivity"></activity>
+        <activity android:name=".wishlist.WishlistActivity">
+
+        </activity>
         <activity android:name=".login.activity_login" />
         <activity android:name=".introductActivity.IntroductoryActivity" />
         <activity android:name=".homePage.HomePageActivity">
