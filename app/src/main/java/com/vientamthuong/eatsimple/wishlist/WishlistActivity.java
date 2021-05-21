@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.airbnb.lottie.LottieAnimationView;
@@ -32,8 +34,10 @@ import com.vientamthuong.eatsimple.loadData.LoadImageForView;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 public class WishlistActivity extends AppCompatActivity {
 
@@ -57,6 +61,14 @@ public class WishlistActivity extends AppCompatActivity {
     // Biến boolean để kiểm tra luồng volley có đang chạy hay chưa
     private boolean isRunningVolley;
 
+    private LinearLayout hidenDialog;
+    // wishlist
+    private ArrayList<Wishlist> products;
+    // adapter
+    private WishlistAdapter wishlistAdapter;
+    // list checked item
+    private Set<String> itemsChecked = new HashSet<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,30 +80,55 @@ public class WishlistActivity extends AppCompatActivity {
         init();
 
 
+
+
         RecyclerView recyclerView = findViewById(R.id.activity_wishlist_recylerview);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
 
 
-        ArrayList<Wishlist> products = new ArrayList<>();
+        products = new ArrayList<>();
         DatabaseReference database = FirebaseDatabase.getInstance().getReference("yeu_thich").child("001");
         database.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                clearAll();
                 for (DataSnapshot ds : snapshot.getChildren()) {
                     Wishlist w = ds.getValue(Wishlist.class);
                     products.add(w);
                 }
-                WishlistAdapter wishlistAdapter = new WishlistAdapter(WishlistActivity.this,products);
+                wishlistAdapter = new WishlistAdapter(WishlistActivity.this,products);
                 recyclerView.setAdapter(wishlistAdapter);
+
+                itemsChecked = wishlistAdapter.getCheckboxes();
+                for(String s: itemsChecked){
+                    Toast.makeText(WishlistActivity.this, s+"", Toast.LENGTH_SHORT).show();
+                }
+
                 wishlistAdapter.notifyDataSetChanged();
+
             }
+
+
 
             @Override
             public void onCancelled(@NonNull @NotNull DatabaseError error) {
 
             }
         });
+
+
+    }
+    // xoa view
+    public void clearAll(){
+        if (products != null){
+            products.clear();
+        }
+        products = new ArrayList<>();
+        if (wishlistAdapter != null){
+            wishlistAdapter.notifyDataSetChanged();
+        }
+
     }
 
     private void init() {
@@ -113,6 +150,9 @@ public class WishlistActivity extends AppCompatActivity {
         // Button avatar
         appCompatButtonAvatar = findViewById(R.id.activity_home_page_avatar_button);
         lottieAnimationViewAvatar = findViewById(R.id.activity_home_page_avatar_animation);
+
+        // hiden dialog
+        hidenDialog = findViewById(R.id.dialog_checkbox_item);
 
     }
     private void getData() {

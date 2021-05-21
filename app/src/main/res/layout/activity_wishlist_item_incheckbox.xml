@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="10dp"
+    android:elevation="20dp"
+    app:cardBackgroundColor="@color/white"
+    android:layout_margin="5dp"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout
+        android:id="@+id/item_wishlit_checkbox"
+        android:orientation="vertical"
+        xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/img_wishlit_checkbox"
+            android:layout_width="50dp"
+            android:layout_height="50dp"/>
+        <TextView
+            android:padding="5dp"
+            android:textAlignment="center"
+            android:textSize="10sp"
+            android:id="@+id/name_item_checkbox"
+            android:layout_width="50dp"
+            android:layout_height="40dp"
+            android:text="pizza seafood"/>
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

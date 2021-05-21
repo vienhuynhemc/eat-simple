@@ -5,6 +5,8 @@ import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
@@ -29,6 +31,7 @@ import java.util.Set;
 public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.WishlistViewHoler> {
 
     Set<String> checkboxes = new HashSet<>();
+    LinearLayout hidenDialog;
 
     private Context context;
     private ArrayList<Wishlist> products;
@@ -39,10 +42,27 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
         this.products = products;
     }
 
+    public WishlistAdapter(Set<String> checkboxes) {
+        this.checkboxes = checkboxes;
+    }
+
+    public Set<String> getCheckboxes() {
+        return checkboxes;
+    }
+
+    public void setCheckboxes(Set<String> checkboxes) {
+        this.checkboxes = checkboxes;
+    }
+
     @NonNull
     @Override
     public WishlistViewHoler onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.activity_wishlist_item,parent,false);
+
+
+        Animation animation = AnimationUtils.loadAnimation(context,R.anim.animation_item);
+        view.startAnimation(animation);
+
 
         return new WishlistViewHoler(view);
     }
@@ -111,6 +131,7 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
             txtPrice = itemView.findViewById(R.id.priceP);
 
 
+
 //            shimmer = itemView.findViewById(R.id.shimmer);
 //
 //
@@ -134,8 +155,7 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
 //            },5000);
 
 
-//            Animation animation = AnimationUtils.loadAnimation(context,R.anim.animation_item);
-//            itemView.startAnimation(animation);
+
 
            btnAdd.setOnClickListener(new View.OnClickListener() {
                @Override
@@ -166,6 +186,7 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
                            Toast.makeText(context, checkboxes.toString(), Toast.LENGTH_LONG).show();
                        }
                    }
+                   setCheckboxes(checkboxes);
                }
            });
 
