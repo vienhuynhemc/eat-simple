@@ -1,3 +1,4 @@
+
 package com.vientamthuong.eatsimple.wishlist;
 
 public class Wishlist {
@@ -57,5 +58,16 @@ public class Wishlist {
 
     public void setImg(String img) {
         this.img = img;
+    }
+
+    @Override
+    public String toString() {
+        return "Wishlist{" +
+                "name='" + name + '\'' +
+                ", desP='" + desP + '\'' +
+                ", priceP=" + priceP +
+                ", quantity=" + quantity +
+                ", img='" + img + '\'' +
+                '}';
     }
 }

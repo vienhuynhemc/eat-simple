@@ -25,21 +25,41 @@ import com.facebook.shimmer.ShimmerFrameLayout;
 import com.vientamthuong.eatsimple.R;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
 public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.WishlistViewHoler> {
 
     Set<String> checkboxes = new HashSet<>();
+    HashMap<String,Wishlist> chooseItem = new HashMap<>();
     LinearLayout hidenDialog;
 
     private Context context;
     private ArrayList<Wishlist> products;
     private ViewBinderHelper viewBinderHelper = new ViewBinderHelper();
 
+
     public WishlistAdapter(Context context, ArrayList<Wishlist> products) {
         this.context = context;
         this.products = products;
+    }
+
+//    public ArrayList<Wishlist> getChooseItem() {
+//        return chooseItem;
+//    }
+//
+//    public void setChooseItem(ArrayList<Wishlist> chooseItem) {
+//        this.chooseItem = chooseItem;
+//    }
+
+
+    public HashMap<String, Wishlist> getChooseItem() {
+        return chooseItem;
+    }
+
+    public void setChooseItem(HashMap<String, Wishlist> chooseItem) {
+        this.chooseItem = chooseItem;
     }
 
     public WishlistAdapter(Set<String> checkboxes) {
@@ -48,6 +68,29 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
 
     public Set<String> getCheckboxes() {
         return checkboxes;
+    }
+    public String print(ArrayList<Wishlist> chooseItem){
+        String rs = "";
+        for (int i = 0; i < chooseItem.size();i++){
+           if(checkExistItem(chooseItem.get(i).getName(),rs)){
+               if(i != chooseItem.size() - 1){
+                   rs += chooseItem.get(i).getName()+", ";
+               }
+               else{
+                   rs += chooseItem.get(i).getName()+"";
+               }
+           }
+        }
+        return rs;
+    }
+    public boolean checkExistItem(String s, String parent){
+        String[] list = parent.split(", ");
+        for (int i = 0; i <list.length ;i++){
+            if (s.equals(list[i])){
+                return false;
+            }
+        }
+        return true;
     }
 
     public void setCheckboxes(Set<String> checkboxes) {
@@ -177,16 +220,22 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
                    checkboxes.add(txtName.getText().toString());
                    if(isCheck) {
                        if (checkboxes.size() > 0) {
-                           Toast.makeText(context, checkboxes.toString(), Toast.LENGTH_LONG).show();
+                         //  Toast.makeText(context, checkboxes.toString(), Toast.LENGTH_LONG).show();
                        }
                    }
                    else{
                        checkboxes.remove(txtName.getText().toString());
                        if (checkboxes.size() > 0) {
-                           Toast.makeText(context, checkboxes.toString(), Toast.LENGTH_LONG).show();
+                          // Toast.makeText(context, checkboxes.toString(), Toast.LENGTH_LONG).show();
                        }
                    }
-                   setCheckboxes(checkboxes);
+                   for (Wishlist w : products){
+                       for(String s : checkboxes){
+                           if (s.equals(w.getName())){
+                               chooseItem.put(s,w);
+                           }
+                       }
+                   }
                }
            });
 

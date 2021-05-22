@@ -11,7 +11,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.airbnb.lottie.LottieAnimationView;
@@ -36,6 +38,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
@@ -70,6 +73,10 @@ public class WishlistActivity extends AppCompatActivity {
     private Set<String> itemsChecked = new HashSet<>();
 
 
+    //Button add to more cart
+    TextView btnAddMoreCart, btnDeleteMore;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,6 +89,7 @@ public class WishlistActivity extends AppCompatActivity {
 
 
 
+        // list view wishlist
         RecyclerView recyclerView = findViewById(R.id.activity_wishlist_recylerview);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -101,9 +109,7 @@ public class WishlistActivity extends AppCompatActivity {
                 recyclerView.setAdapter(wishlistAdapter);
 
                 itemsChecked = wishlistAdapter.getCheckboxes();
-                for(String s: itemsChecked){
-                    Toast.makeText(WishlistActivity.this, s+"", Toast.LENGTH_SHORT).show();
-                }
+
 
                 wishlistAdapter.notifyDataSetChanged();
 
@@ -117,8 +123,30 @@ public class WishlistActivity extends AppCompatActivity {
             }
         });
 
-
+        handlerAddCart();
     }
+    //
+    public void handlerAddCart(){
+        btnAddMoreCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(wishlistAdapter.getCheckboxes().size() <1){
+                    Log.d("AAA", "NO");
+                    Toast.makeText(WishlistActivity.this, "Vui lòng chọn món ăn!", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    Log.d("AAA","OK");
+                    String s ="";
+                    for(Map.Entry<String,Wishlist> w : wishlistAdapter.getChooseItem().entrySet()){
+                        Log.d("AAA" ,w+"");
+                    }
+                    Toast.makeText(WishlistActivity.this, "Đã thêm "+ s+" vào giỏ hàng!", Toast.LENGTH_SHORT).show();
+                    s= "";
+                }
+            }
+        });
+    }
+
     // xoa view
     public void clearAll(){
         if (products != null){
@@ -151,8 +179,9 @@ public class WishlistActivity extends AppCompatActivity {
         appCompatButtonAvatar = findViewById(R.id.activity_home_page_avatar_button);
         lottieAnimationViewAvatar = findViewById(R.id.activity_home_page_avatar_animation);
 
-        // hiden dialog
-        hidenDialog = findViewById(R.id.dialog_checkbox_item);
+        // button add more cart
+        btnAddMoreCart = findViewById(R.id.activity_wishlist_addMoreCart);
+        btnDeleteMore = findViewById(R.id.activity_wishlist_deleleMore);
 
     }
     private void getData() {
