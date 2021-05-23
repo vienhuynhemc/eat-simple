@@ -39,6 +39,8 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
     private ArrayList<Wishlist> products;
     private ViewBinderHelper viewBinderHelper = new ViewBinderHelper();
 
+    private WishlistDAO wishlistDAO = new WishlistDAO();
+
 
     public WishlistAdapter(Context context, ArrayList<Wishlist> products) {
         this.context = context;
@@ -132,6 +134,9 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
             @Override
             public void onClick(View v) {
                 products.remove(holder.getAdapterPosition());
+
+                // xoa khoi ds wishlist
+                wishlistDAO.deleteWishlist("001",w.getId());
                 notifyItemRemoved(holder.getAdapterPosition());
             }
         });

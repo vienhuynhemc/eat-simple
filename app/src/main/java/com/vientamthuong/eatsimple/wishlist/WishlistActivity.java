@@ -87,8 +87,6 @@ public class WishlistActivity extends AppCompatActivity {
         init();
 
 
-
-
         // list view wishlist
         RecyclerView recyclerView = findViewById(R.id.activity_wishlist_recylerview);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
@@ -115,33 +113,88 @@ public class WishlistActivity extends AppCompatActivity {
 
             }
 
-
-
             @Override
             public void onCancelled(@NonNull @NotNull DatabaseError error) {
 
             }
         });
 
-        handlerAddCart();
+
+
+        handlerAddCart("");
+        handlerRemove("001");
     }
-    //
-    public void handlerAddCart(){
+    // xóa khỏi wishlist
+    public void handlerRemove(String idCustomer){
+        btnDeleteMore.setOnClickListener(new View.OnClickListener() {
+         @Override
+         public void onClick(View v) {
+             ArrayList<Wishlist> chooseInCheckbox = new ArrayList<>();
+             for (Wishlist w : products) {
+                 for (String str : wishlistAdapter.getCheckboxes()) {
+                     if (str.equals(w.getName())) {
+                         chooseInCheckbox.add(w);
+                     }
+                 }
+             }
+             DatabaseReference database = FirebaseDatabase.getInstance().getReference().child("yeu_thich").child(idCustomer);
+             if(database.getKey()==null){
+                 Toast.makeText(WishlistActivity.this, "Không tồn tại khách hàng!", Toast.LENGTH_SHORT).show();
+             }else {
+                 if (chooseInCheckbox.size() < 1) {
+                     Toast.makeText(WishlistActivity.this, "Vui lòng chọn món ăn!", Toast.LENGTH_SHORT).show();
+                 } else {
+                     try {
+                         int count = 0;
+                         WishlistDAO wishlistDAO = new WishlistDAO();
+                         for (Wishlist w : chooseInCheckbox) {
+                             if (wishlistDAO.deleteWishlist(idCustomer, w.getId())) {
+                                 count++;
+                             }
+                         }
+                         wishlistAdapter.notifyDataSetChanged();
+                         Toast.makeText(WishlistActivity.this, "Đã xóa " + count + " món ăn!", Toast.LENGTH_SHORT).show();
+                     } catch (Exception e) {
+                         Toast.makeText(WishlistActivity.this, "Lỗi!", Toast.LENGTH_SHORT).show();
+                     }
+                 }
+             }
+         };
+    });
+    }
+
+
+
+
+
+    // thêm vào giỏ hàng
+    public void handlerAddCart(String idCustomer){
+
         btnAddMoreCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(wishlistAdapter.getCheckboxes().size() <1){
+                ArrayList<Wishlist> chooseInCheckbox = new ArrayList<>();
+                for(Wishlist w : products) {
+                    for (String str : wishlistAdapter.getCheckboxes()) {
+                        if (str.equals(w.getName())) {
+                            chooseInCheckbox.add(w);
+                            Log.d("WWW",chooseInCheckbox.size()+"");
+                        }
+                    }
+                }
+
+                if(chooseInCheckbox.size() <1){
                     Log.d("AAA", "NO");
                     Toast.makeText(WishlistActivity.this, "Vui lòng chọn món ăn!", Toast.LENGTH_SHORT).show();
                 }
                 else{
                     Log.d("AAA","OK");
                     String s ="";
-                    for(Map.Entry<String,Wishlist> w : wishlistAdapter.getChooseItem().entrySet()){
-                        Log.d("AAA" ,w+"");
+                        for (String str : wishlistAdapter.getCheckboxes()){
+                            s += str +", ";
                     }
-                    Toast.makeText(WishlistActivity.this, "Đã thêm "+ s+" vào giỏ hàng!", Toast.LENGTH_SHORT).show();
-                    s= "";
+                        String rs = s.substring(0,s.lastIndexOf(","));
+                    Toast.makeText(WishlistActivity.this, "Đã thêm "+ rs+" vào giỏ hàng!", Toast.LENGTH_SHORT).show();
                 }
             }
         });

@@ -2,17 +2,17 @@
 package com.vientamthuong.eatsimple.wishlist;
 
 public class Wishlist {
+    private String id;
     private String name;
     private String desP;
     private int priceP;
-    private int quantity;
     private String img;
 
-    public Wishlist(String name, String desP, int priceP, int quantity, String img) {
+    public Wishlist(String id, String name, String desP, int priceP, String img) {
+        this.id = id;
         this.name = name;
         this.desP = desP;
         this.priceP = priceP;
-        this.quantity = quantity;
         this.img = img;
     }
 
@@ -44,13 +44,7 @@ public class Wishlist {
         this.priceP = priceP;
     }
 
-    public int getQuantity() {
-        return quantity;
-    }
 
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
 
     public String getImg() {
         return img;
@@ -60,13 +54,22 @@ public class Wishlist {
         this.img = img;
     }
 
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     @Override
     public String toString() {
         return "Wishlist{" +
-                "name='" + name + '\'' +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
                 ", desP='" + desP + '\'' +
                 ", priceP=" + priceP +
-                ", quantity=" + quantity +
                 ", img='" + img + '\'' +
                 '}';
     }
