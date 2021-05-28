@@ -99,10 +99,7 @@ public class HomePageActivity extends AppCompatActivity {
         // Resource
         int[] resources = {R.layout.activity_home_page_custom_danh_muc_first,
                 R.layout.activity_home_page_custom_danh_muc,
-                R.layout.activity_home_page_custom_danh_muc_last,
-                R.layout.activity_home_page_custom_danh_muc_loading_first,
-                R.layout.activity_home_page_custom_danh_muc_loading,
-                R.layout.activity_home_page_custom_danh_muc_loading_last};
+                R.layout.activity_home_page_custom_danh_muc_last};
         // Tạo 4 object loader ban đầu
         // Cho full tam số là null
         // Khi nạp dữ liệu từ fire base thì trải qua các bước

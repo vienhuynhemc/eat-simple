@@ -32,6 +32,26 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:ignore="ContentDescription" />
 
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_view_loading"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_marginTop="7dp"
+                android:scaleType="fitCenter"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="0dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.airbnb.lottie.LottieAnimationView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:lottie_autoPlay="true"
+                    app:lottie_loop="true"
+                    app:lottie_rawRes="@raw/loader_rectangle" />
+            </androidx.cardview.widget.CardView>
+
             <TextView
                 android:id="@+id/activity_home_page_custom_danh_muc_text_view"
                 android:layout_width="wrap_content"
@@ -44,6 +64,28 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/activity_home_page_custom_danh_muc_image_view"
                 tools:ignore="HardcodedText" />
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="70dp"
+                android:layout_height="20dp"
+                android:id="@+id/card_view_loading_2"
+                android:layout_marginTop="2dp"
+                app:cardCornerRadius="7dp"
+                app:cardElevation="0dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/activity_home_page_custom_danh_muc_image_view">
+
+                <com.airbnb.lottie.LottieAnimationView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleX="4"
+                    android:scaleY="4"
+                    app:lottie_autoPlay="true"
+                    app:lottie_loop="true"
+                    app:lottie_rawRes="@raw/loader_rectangle" />
+            </androidx.cardview.widget.CardView>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>
