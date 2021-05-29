@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="75dp">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/activity_home_page_button_menu"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="35dp"
+        android:scaleType="fitXY"
+        app:cardCornerRadius="11dp"
+        app:cardElevation="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription,UnusedAttribute">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/activity_home_page_button_menu_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/activity_home_page_button_menu_animation"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/loader_rectangle" />
+    </androidx.cardview.widget.CardView>
+
+    <LinearLayout
+        android:id="@+id/activity_home_page_layout_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="@id/activity_home_page_avatar"
+        app:layout_constraintEnd_toStartOf="@id/activity_home_page_avatar"
+        app:layout_constraintStart_toEndOf="@id/activity_home_page_button_menu"
+        app:layout_constraintTop_toTopOf="@id/activity_home_page_avatar">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/activity_home_page_icon_location"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:id="@+id/activity_home_page_name_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:text="Thủ Đức, Hồ Chí Minh"
+            android:textColor="@color/color_text_main"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            tools:ignore="HardcodedText" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/activity_home_page_icon_arrow_down"
+            android:translationY="0.5dp"
+            tools:ignore="ContentDescription" />
+
+    </LinearLayout>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/activity_home_page_avatar"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="35dp"
+        android:layout_marginEnd="30dp"
+        android:scaleType="fitXY"
+        app:cardCornerRadius="11dp"
+        app:cardElevation="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription,UnusedAttribute">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/activity_home_page_avatar_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/activity_home_page_avatar_animation"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/loader_rectangle" />
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
