@@ -21,6 +21,7 @@ import com.vientamthuong.eatsimple.connection.CheckConnection;
 import com.vientamthuong.eatsimple.danhMuc.DanhMuc;
 import com.vientamthuong.eatsimple.diaLog.DiaLogLoader;
 import com.vientamthuong.eatsimple.diaLog.DiaLogLostConnection;
+import com.vientamthuong.eatsimple.footer.FooterPublicFragment;
 import com.vientamthuong.eatsimple.header.HeaderPublicFragment;
 import com.vientamthuong.eatsimple.loadData.LoadDataConfiguration;
 import com.vientamthuong.eatsimple.loadData.LoadImageForView;
@@ -39,6 +40,8 @@ public class HomePageActivity extends AppCompatActivity implements ActivityProto
     private DiaLogLoader diaLogLoader;
     // Header
     private HeaderPublicFragment headerPublicFragment;
+    // Footer
+    private FooterPublicFragment footerPublicFragment;
     // List danh muc
     private List<DanhMuc> danhMucs;
     private RecyclerView recyclerViewDanhMuc;
@@ -70,6 +73,8 @@ public class HomePageActivity extends AppCompatActivity implements ActivityProto
         initDialog();
         // Tạo header
         initHeader();
+        // Tạo footer
+        initFooter();
         // Tạo recyclerview danh mục
         initRecyclerViewDanhMuc();
         // Check connection
@@ -78,6 +83,13 @@ public class HomePageActivity extends AppCompatActivity implements ActivityProto
         } else {
             getData();
         }
+    }
+
+    private void initFooter() {
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        footerPublicFragment = new FooterPublicFragment();
+        fragmentTransaction.replace(R.id.activity_home_page_footer, footerPublicFragment, "footer");
+        fragmentTransaction.commit();
     }
 
     private void initHeader() {
