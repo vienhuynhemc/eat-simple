@@ -7,6 +7,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -25,6 +26,8 @@ import java.util.List;
 
 public class HomePageActivity extends AppCompatActivity implements ActivityProtocol {
 
+    // Layout để xử lý refresh
+    private SwipeRefreshLayout swipeRefreshLayout;
     // Thời gian thoát activity
     private long lastTimePressBack;
     // Dialog
@@ -51,9 +54,20 @@ public class HomePageActivity extends AppCompatActivity implements ActivityProto
         getView();
         // Thêm dữ liệu
         init();
+        // Hành động
+        action();
+    }
+
+    private void action(){
+        // refresh
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+           recreate();
+           swipeRefreshLayout.setRefreshing(false);
+        });
     }
 
     private void getView() {
+        swipeRefreshLayout = findViewById(R.id.activity_home_page_layout);
     }
 
     private void init() {
