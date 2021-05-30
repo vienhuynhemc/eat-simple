@@ -88,6 +88,10 @@ public class HomePageActivity extends AppCompatActivity implements ActivityProto
     private void initFooter() {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         footerPublicFragment = new FooterPublicFragment();
+        // Cho nó biết đang ở trang chủ
+        Bundle bundle = new Bundle();
+        bundle.putInt("data", HomePageConfiguration.HOME);
+        footerPublicFragment.setArguments(bundle);
         fragmentTransaction.replace(R.id.activity_home_page_footer, footerPublicFragment, "footer");
         fragmentTransaction.commit();
     }
