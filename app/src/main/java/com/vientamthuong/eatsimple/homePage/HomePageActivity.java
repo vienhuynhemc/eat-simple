@@ -4,23 +4,17 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.vientamthuong.eatsimple.R;
 import com.vientamthuong.eatsimple.connection.CheckConnection;
-import com.vientamthuong.eatsimple.danhMuc.DanhMuc;
 import com.vientamthuong.eatsimple.diaLog.DiaLogLoader;
 import com.vientamthuong.eatsimple.diaLog.DiaLogLostConnection;
+import com.vientamthuong.eatsimple.footer.FooterPublicFragment;
 import com.vientamthuong.eatsimple.header.HeaderPublicFragment;
 import com.vientamthuong.eatsimple.loadData.LoadDataConfiguration;
 import com.vientamthuong.eatsimple.loadData.LoadImageForView;
@@ -28,7 +22,6 @@ import com.vientamthuong.eatsimple.protocol.ActivityProtocol;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class HomePageActivity extends AppCompatActivity implements ActivityProtocol {
 
@@ -39,10 +32,10 @@ public class HomePageActivity extends AppCompatActivity implements ActivityProto
     private DiaLogLoader diaLogLoader;
     // Header
     private HeaderPublicFragment headerPublicFragment;
-    // List danh muc
-    private List<DanhMuc> danhMucs;
-    private RecyclerView recyclerViewDanhMuc;
-    private CustomDanhMucAdapter customDanhMucAdapter;
+    // Footer
+    private FooterPublicFragment footerPublicFragment;
+    // Fragment danh mục
+    private HomePageDanhMucFragment homePageDanhMucFragment;
     // List image cần tải hình
     private List<LoadImageForView> imagesNeedLoad;
     // Biến boolean để kiểm tra luồng volley có đang chạy hay chưa
@@ -61,8 +54,6 @@ public class HomePageActivity extends AppCompatActivity implements ActivityProto
     }
 
     private void getView() {
-        // recyclerview danh mục
-        recyclerViewDanhMuc = findViewById(R.id.activity_home_page_list_danh_muc);
     }
 
     private void init() {
@@ -70,14 +61,27 @@ public class HomePageActivity extends AppCompatActivity implements ActivityProto
         initDialog();
         // Tạo header
         initHeader();
-        // Tạo recyclerview danh mục
-        initRecyclerViewDanhMuc();
+        // Tạo footer
+        initFooter();
+        // Tạo fragment danh mục
+        initFragmentDanhMuc();
         // Check connection
         if (!CheckConnection.getInstance().isConnected(HomePageActivity.this)) {
             diaLogLostConnection.show();
         } else {
             getData();
         }
+    }
+
+    private void initFooter() {
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        footerPublicFragment = new FooterPublicFragment();
+        // Cho nó biết đang ở trang chủ
+        Bundle bundle = new Bundle();
+        bundle.putInt("data", HomePageConfiguration.HOME);
+        footerPublicFragment.setArguments(bundle);
+        fragmentTransaction.replace(R.id.activity_home_page_footer, footerPublicFragment, "footer");
+        fragmentTransaction.commit();
     }
 
     private void initHeader() {
@@ -87,32 +91,11 @@ public class HomePageActivity extends AppCompatActivity implements ActivityProto
         fragmentTransaction.commit();
     }
 
-    private void initRecyclerViewDanhMuc() {
-        danhMucs = new ArrayList<>();
-        // Layout manager
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(HomePageActivity.this);
-        linearLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
-        linearLayoutManager.setSmoothScrollbarEnabled(true);
-        recyclerViewDanhMuc.setLayoutManager(linearLayoutManager);
-        recyclerViewDanhMuc.setHasFixedSize(true);
-        // adapter
-        // Resource
-        int[] resources = {R.layout.activity_home_page_custom_danh_muc_first,
-                R.layout.activity_home_page_custom_danh_muc,
-                R.layout.activity_home_page_custom_danh_muc_last};
-        // Tạo 4 object loader ban đầu
-        // Cho full tam số là null
-        // Khi nạp dữ liệu từ fire base thì trải qua các bước
-        // 1. Thay vì clear ta xóa hết để lại 4 thằng đầu xong cho full thuộc tính nó là null
-        for (int i = 0; i < 4; i++) {
-            danhMucs.add(new DanhMuc(null, null, null));
-        }
-        // 2. Sau đó cứ có dữ liệu thì lần lượt thay thế 4 ông này , nếu như có ít hơn 4 thì ta xóa
-        // Ngược lại nhiều hơn 4 thì thêm vào
-        // Nhưng ở trường hợp thiếu khi xóa đi thì lúc nạp vào ta vẫn phải làm sao để có được 4 thằng
-        customDanhMucAdapter = new CustomDanhMucAdapter(resources, danhMucs);
-        recyclerViewDanhMuc.setAdapter(customDanhMucAdapter);
-        customDanhMucAdapter.notifyDataSetChanged();
+    private void initFragmentDanhMuc() {
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        homePageDanhMucFragment = new HomePageDanhMucFragment();
+        fragmentTransaction.replace(R.id.activity_home_page_list_danh_muc, homePageDanhMucFragment, "home-page-danh-muc-fragment");
+        fragmentTransaction.commit();
     }
 
     private void getData() {
@@ -122,66 +105,8 @@ public class HomePageActivity extends AppCompatActivity implements ActivityProto
         imagesNeedLoad = new ArrayList<>();
         // Load dữ liệu header
         headerPublicFragment.getData(root, diaLogLoader, imagesNeedLoad, HomePageActivity.this);
-        // Load danh mục cho activit
-        DatabaseReference databaseReferenceDanhMuc = root.child("danh_muc");
-        databaseReferenceDanhMuc.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                // Hiện màn hình chờ
-                diaLogLoader.show();
-                // Làm cho 4 thằng đầu tiền full null
-                danhMucs.clear();
-                for (int i = 0; i < 4; i++) {
-                    danhMucs.add(new DanhMuc(null, null, null));
-                }
-                customDanhMucAdapter.notifyDataSetChanged();
-                // Biến count để biết có bao nhiêu thằng
-                int countDanhMuc = 0;
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    countDanhMuc++;
-                    DanhMuc danhMuc = new DanhMuc(dataSnapshot.getKey());
-                    danhMuc.setHinh(Objects.requireNonNull(dataSnapshot.child("hinh").getValue()).toString());
-                    danhMuc.setTen_danh_muc(Objects.requireNonNull(dataSnapshot.child("ten").getValue()).toString());
-                    // Nếu như chưa lớn hơn thì thay vì add vào ta thay đổi thuộc tính của nó
-                    if (countDanhMuc < 5) {
-                        danhMucs.get(countDanhMuc - 1).setTen_danh_muc(danhMuc.getTen_danh_muc());
-                        danhMucs.get(countDanhMuc - 1).setHinh(danhMuc.getHinh());
-                        danhMucs.get(countDanhMuc - 1).setMa_danh_muc(danhMuc.getMa_danh_muc());
-                    } else {
-                        danhMucs.add(danhMuc);
-                    }
-                    customDanhMucAdapter.notifyDataSetChanged();
-                }
-                // Nếu như số danh mục < 4 (mặc định )thì xóa bớt
-                if (countDanhMuc < 4) {
-                    int count = 0;
-                    while (count < danhMucs.size()) {
-                        if (!danhMucs.get(count).isLoaded()) {
-                            danhMucs.remove(count);
-                        } else {
-                            count++;
-                        }
-                    }
-                }
-                // Tải dữ liệu từ firebase về thành công
-                // Đưa vô imageNeedLoad
-                for (DanhMuc danhMuc : danhMucs) {
-                    imagesNeedLoad.add(new LoadImageForView(HomePageActivity.this, danhMuc, LoadDataConfiguration.IMAGE_DANH_MUC));
-                }
-                // Và giờ tải hình từ các link hình
-                if (!isRunningVolley) {
-                    isRunningVolley = true;
-                    loadImageFromIntenet();
-                }
-                // Tắt màn hình chờ
-                diaLogLoader.dismiss();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(HomePageActivity.this, "Lỗi tải dữ liệu từ firebase !", Toast.LENGTH_SHORT).show();
-            }
-        });
+        // Load danh mục fragment
+        homePageDanhMucFragment.getData(root,diaLogLoader,imagesNeedLoad,HomePageActivity.this);
     }
 
     @Override
@@ -212,7 +137,7 @@ public class HomePageActivity extends AppCompatActivity implements ActivityProto
                             if (loadImageForView.isComplete()) {
                                 // Kiểm tra nếu thằng xong này type là danh mục thì thôgn báo cho adpater danh mục
                                 if (imagesNeedLoad.get(count).getType() == LoadDataConfiguration.IMAGE_DANH_MUC) {
-                                    runOnUiThread(() -> customDanhMucAdapter.notifyDataSetChanged());
+                                    runOnUiThread(() -> homePageDanhMucFragment.update());
                                 }
                                 imagesNeedLoad.remove(count);
                             } else if (loadImageForView.isError()) {
