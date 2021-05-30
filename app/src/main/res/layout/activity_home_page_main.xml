@@ -120,7 +120,7 @@
             <!-- Kết thúc banner -->
 
             <!-- List danh mục -->
-            <androidx.recyclerview.widget.RecyclerView
+            <FrameLayout
                 android:id="@+id/activity_home_page_list_danh_muc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
