@@ -1,5 +1,6 @@
 package com.vientamthuong.eatsimple.admin.header;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,7 @@ import androidx.fragment.app.Fragment;
 import com.vientamthuong.eatsimple.R;
 import com.vientamthuong.eatsimple.admin.Configuration;
 import com.vientamthuong.eatsimple.fontAwesome.FontAwesomeManager;
+import com.vientamthuong.eatsimple.login.activity_login;
 
 public class HeaderFragment extends Fragment {
 
@@ -20,6 +22,7 @@ public class HeaderFragment extends Fragment {
     private TextView iconHome;
     private TextView iconDanhMuc;
     private TextView iconMaGiamGia;
+    private TextView iconLogout;
     private int nowSelect;
 
     @Nullable
@@ -37,6 +40,12 @@ public class HeaderFragment extends Fragment {
         iconHome.setOnClickListener(v -> moveTo(iconHome));
         iconDanhMuc.setOnClickListener(v -> moveTo(iconDanhMuc));
         iconMaGiamGia.setOnClickListener(v -> moveTo(iconMaGiamGia));
+        iconLogout.setOnClickListener(v -> {
+            Intent intent = new Intent();
+            intent.setClass(getActivity(), activity_login.class);
+            getActivity().finish();
+            startActivity(intent);
+        });
     }
 
     private void init() {
@@ -44,6 +53,7 @@ public class HeaderFragment extends Fragment {
         FontAwesomeManager.getInstance().addIcon(iconHome, "fas", "\uf815", getActivity());
         FontAwesomeManager.getInstance().addIcon(iconDanhMuc, "fas", "\uf1b3", getActivity());
         FontAwesomeManager.getInstance().addIcon(iconMaGiamGia, "fas", "\uf02a", getActivity());
+        FontAwesomeManager.getInstance().addIcon(iconLogout, "fas", "\uf2f5", getActivity());
     }
 
     private void moveTo(View view) {
@@ -103,5 +113,6 @@ public class HeaderFragment extends Fragment {
         iconHome = view.findViewById(R.id.icon_home);
         iconDanhMuc = view.findViewById(R.id.icon_danhMuc);
         iconMaGiamGia = view.findViewById(R.id.icon_MaGiamGia);
+        iconLogout = view.findViewById(R.id.icon_logout);
     }
 }
