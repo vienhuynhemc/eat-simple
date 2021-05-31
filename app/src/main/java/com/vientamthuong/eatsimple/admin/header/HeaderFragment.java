@@ -62,6 +62,7 @@ public class HeaderFragment extends Fragment {
         diaLogConfirm.getBtIgnore().setText("Có");
         diaLogConfirm.getBtTry().setOnClickListener(v -> diaLogConfirm.dismiss());
         diaLogConfirm.getBtIgnore().setOnClickListener(v -> {
+            diaLogConfirm.dismiss();
             Intent intent = new Intent();
             intent.setClass(getActivity(), activity_login.class);
             getActivity().finish();
