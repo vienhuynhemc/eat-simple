@@ -1,6 +1,6 @@
 package com.vientamthuong.eatsimple.loadData;
 
-import androidx.appcompat.app.AppCompatActivity;
+import android.content.Context;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -11,13 +11,13 @@ public class VolleyPool {
     private static VolleyPool volleyPool;
     private final RequestQueue requestQueue;
 
-    private VolleyPool(AppCompatActivity appCompatActivity) {
-        requestQueue = Volley.newRequestQueue(appCompatActivity);
+    private VolleyPool(Context context) {
+        requestQueue = Volley.newRequestQueue(context);
     }
 
-    public static VolleyPool getInstance(AppCompatActivity appCompatActivity) {
+    public static VolleyPool getInstance(Context context) {
         if (volleyPool == null) {
-            volleyPool = new VolleyPool(appCompatActivity);
+            volleyPool = new VolleyPool(context);
         }
         return volleyPool;
     }

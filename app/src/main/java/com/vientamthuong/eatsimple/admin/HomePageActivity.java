@@ -2,6 +2,7 @@ package com.vientamthuong.eatsimple.admin;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,6 +18,8 @@ public class HomePageActivity extends AppCompatActivity {
     private SwipeRefreshLayout swipeRefreshLayout;
     // Header
     private HeaderFragment headerFragment;
+    // Thời gian thoát activity
+    private long lastTimePressBack;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -57,5 +60,15 @@ public class HomePageActivity extends AppCompatActivity {
             recreate();
             swipeRefreshLayout.setRefreshing(false);
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (lastTimePressBack == 0 || System.currentTimeMillis() - lastTimePressBack > 2000) {
+            lastTimePressBack = System.currentTimeMillis();
+            Toast.makeText(HomePageActivity.this, getString(R.string.exit_app), Toast.LENGTH_SHORT).show();
+        } else {
+            finish();
+        }
     }
 }
