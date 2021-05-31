@@ -11,6 +11,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.vientamthuong.eatsimple.R;
 import com.vientamthuong.eatsimple.admin.header.HeaderFragment;
+import com.vientamthuong.eatsimple.admin.header.TopHeaderFragment;
 
 public class HomePageActivity extends AppCompatActivity {
 
@@ -18,6 +19,7 @@ public class HomePageActivity extends AppCompatActivity {
     private SwipeRefreshLayout swipeRefreshLayout;
     // Header
     private HeaderFragment headerFragment;
+    private TopHeaderFragment topHeaderFragment;
     // Thời gian thoát activity
     private long lastTimePressBack;
 
@@ -42,6 +44,8 @@ public class HomePageActivity extends AppCompatActivity {
     private void init() {
         // Tạo header
         initHeader();
+        // Tạo top header
+        initTopHeader();
     }
 
     private void initHeader() {
@@ -51,6 +55,13 @@ public class HomePageActivity extends AppCompatActivity {
         bundle.putInt("data", Configuration.HOME);
         headerFragment.setArguments(bundle);
         fragmentTransaction.replace(R.id.header, headerFragment);
+        fragmentTransaction.commit();
+    }
+
+    private void initTopHeader() {
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        topHeaderFragment = new TopHeaderFragment();
+        fragmentTransaction.replace(R.id.f1, topHeaderFragment);
         fragmentTransaction.commit();
     }
 
