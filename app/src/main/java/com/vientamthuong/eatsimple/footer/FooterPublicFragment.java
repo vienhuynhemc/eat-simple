@@ -33,13 +33,12 @@ public class FooterPublicFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_footer_public, container, false);
         getView(view);
         // Xử lý giao diện
-        handleView();
+        handleView(getArguments().getInt("data"));
         return view;
     }
 
-    private void handleView() {
-        Bundle bundle = getArguments();
-        int data = bundle.getInt("data");
+    private void handleView(int data) {
+        resetView();
         switch (data) {
             case HomePageConfiguration.HOME:
                 imageButtonHome.setBackground(getActivity().getDrawable(R.drawable.activity_home_page_icon_home_select));
@@ -58,6 +57,17 @@ public class FooterPublicFragment extends Fragment {
                 cardViewCart.setVisibility(View.VISIBLE);
                 break;
         }
+    }
+
+    private void resetView() {
+        imageButtonHome.setBackground(getActivity().getDrawable(R.drawable.activity_home_page_icon_home_done_select));
+        cardViewHome.setVisibility(View.INVISIBLE);
+        imageButtonHeart.setBackground(getActivity().getDrawable(R.drawable.activity_home_page_icon_heart_done_select));
+        cardViewHeart.setVisibility(View.INVISIBLE);
+        imageButtonRing.setBackground(getActivity().getDrawable(R.drawable.activity_home_page_icon_ring_done_select));
+        cardViewRing.setVisibility(View.INVISIBLE);
+        imageButtonCart.setBackground(getActivity().getDrawable(R.drawable.activity_home_page_icon_cart_done_select));
+        cardViewCart.setVisibility(View.INVISIBLE);
     }
 
     private void getView(View view) {
