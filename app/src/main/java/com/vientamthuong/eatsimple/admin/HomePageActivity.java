@@ -9,11 +9,21 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.vientamthuong.eatsimple.R;
 import com.vientamthuong.eatsimple.admin.header.HeaderFragment;
 import com.vientamthuong.eatsimple.admin.header.TopHeaderFragment;
+import com.vientamthuong.eatsimple.connection.CheckConnection;
+import com.vientamthuong.eatsimple.diaLog.DiaLogLoader;
+import com.vientamthuong.eatsimple.diaLog.DiaLogLostConnection;
+import com.vientamthuong.eatsimple.loadData.LoadImageForView;
+import com.vientamthuong.eatsimple.protocol.ActivityProtocol;
 
-public class HomePageActivity extends AppCompatActivity {
+import java.util.ArrayList;
+import java.util.List;
+
+public class HomePageActivity extends AppCompatActivity implements ActivityProtocol {
 
     // Swipe layout
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -22,6 +32,13 @@ public class HomePageActivity extends AppCompatActivity {
     private TopHeaderFragment topHeaderFragment;
     // Thời gian thoát activity
     private long lastTimePressBack;
+    // List image cần tải hình
+    private List<LoadImageForView> imagesNeedLoad;
+    // Biến boolean để kiểm tra luồng volley có đang chạy hay chưa
+    private boolean isRunningVolley;
+    // Dialog
+    private DiaLogLostConnection diaLogLostConnection;
+    private DiaLogLoader diaLogLoader;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -35,6 +52,90 @@ public class HomePageActivity extends AppCompatActivity {
         init();
         // Hành động
         action();
+        // Check connection
+        if (!CheckConnection.getInstance().isConnected(HomePageActivity.this)) {
+            diaLogLostConnection.show();
+        } else {
+            getData();
+        }
+    }
+
+    private void getData() {
+        // Không mất kết nối thì lấy dữ liêu  fire base về của activity này
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference root = firebaseDatabase.getReference();
+        imagesNeedLoad = new ArrayList<>();
+        // Load dữ liệu top header
+        topHeaderFragment.getData(root, diaLogLoader, imagesNeedLoad, HomePageActivity.this);
+    }
+
+    @Override
+    public boolean isRunningVolley() {
+        return isRunningVolley;
+    }
+
+    @Override
+    public void setRunningVolley(boolean isRunningVolley) {
+        this.isRunningVolley = isRunningVolley;
+    }
+
+    @Override
+    public void loadImageFromIntenet() {
+        // Tải hình về
+        if (imagesNeedLoad.size() > 0) {
+            Thread thread = new Thread(() -> {
+                boolean isError = false;
+                do {
+                    int count = 0;
+                    while (count < imagesNeedLoad.size()) {
+                        LoadImageForView loadImageForView = imagesNeedLoad.get(count);
+                        if (!loadImageForView.isStart()) {
+                            loadImageForView.setStart(true);
+                            loadImageForView.run();
+                            count++;
+                        } else {
+                            if (loadImageForView.isComplete()) {
+                                imagesNeedLoad.remove(count);
+                            } else if (loadImageForView.isError()) {
+                                isError = true;
+                                break;
+                            } else {
+                                count++;
+                            }
+                        }
+                    }
+                } while (!isError && imagesNeedLoad.size() != 0);
+                // Cho biến là hết chạy volley
+                isRunningVolley = false;
+                // Lỗi mạng
+                if (isError) {
+                    runOnUiThread(() -> {
+                        diaLogLostConnection.show();
+                        diaLogLostConnection.getBtTry().setOnClickListener(v -> {
+                            if (CheckConnection.getInstance().isConnected(HomePageActivity.this)) {
+                                diaLogLostConnection.dismiss();
+                                // Cho các đối tượng hiện tại trong list về trạng thái ban đầu
+                                for (LoadImageForView loadImageForView : imagesNeedLoad) {
+                                    if (loadImageForView.isStart()) {
+                                        loadImageForView.setStart(false);
+                                    }
+                                    if (loadImageForView.isError()) {
+                                        loadImageForView.setError(false);
+                                    }
+                                }
+                                if (!isRunningVolley) {
+                                    isRunningVolley = true;
+                                    loadImageFromIntenet();
+                                }
+                            } else {
+                                Toast.makeText(HomePageActivity.this, "Không tìm thấy kết nối!", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    });
+                }
+            });
+            thread.start();
+        }
     }
 
     private void getView() {
@@ -42,6 +143,8 @@ public class HomePageActivity extends AppCompatActivity {
     }
 
     private void init() {
+        // Tạo dialog
+        initDialog();
         // Tạo header
         initHeader();
         // Tạo top header
@@ -81,5 +184,24 @@ public class HomePageActivity extends AppCompatActivity {
         } else {
             finish();
         }
+    }
+
+    private void initDialog() {
+        // lost connection
+        diaLogLostConnection = new DiaLogLostConnection(HomePageActivity.this);
+        diaLogLostConnection.getBtIgnore().setOnClickListener(v -> {
+            finish();
+            android.os.Process.killProcess(android.os.Process.myPid());
+        });
+        diaLogLostConnection.getBtTry().setOnClickListener(v -> {
+            if (CheckConnection.getInstance().isConnected(HomePageActivity.this)) {
+                diaLogLostConnection.dismiss();
+                getData();
+            } else {
+                Toast.makeText(HomePageActivity.this, "Không tìm thấy kết nối!", Toast.LENGTH_SHORT).show();
+            }
+        });
+        // loader
+        diaLogLoader = new DiaLogLoader(HomePageActivity.this);
     }
 }

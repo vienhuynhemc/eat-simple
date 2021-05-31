@@ -26,4 +26,11 @@ public class DataSession {
         this.cap_do = cap_do;
     }
 
+    public String getMa_tai_khoan() {
+        return ma_tai_khoan;
+    }
+
+    public int getCap_do() {
+        return cap_do;
+    }
 }
