@@ -12,6 +12,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.fragment.app.Fragment;
 
 import com.google.firebase.database.DataSnapshot;
@@ -37,6 +39,7 @@ public class TopHeaderFragment extends Fragment {
     private TextView tenHienThi;
     private TextView capDo;
     private ImageView hinhDaiDien;
+    private ConstraintLayout constraintLayout;
 
     @Nullable
     @Override
@@ -55,6 +58,7 @@ public class TopHeaderFragment extends Fragment {
         capDo = view.findViewById(R.id.cap_do);
         hinhDaiDienLottie = view.findViewById(R.id.hinh_dai_dien_lottie);
         hinhDaiDien = view.findViewById(R.id.hinh_dai_dien);
+        constraintLayout = view.findViewById(R.id.layout);
     }
 
     public void getData(DatabaseReference root, DiaLogLoader diaLogLoader, List<LoadImageForView> imagesNeedLoad, AppCompatActivity appCompatActivity) {
@@ -74,6 +78,11 @@ public class TopHeaderFragment extends Fragment {
                         LoadImageForView loadImageForView = new LoadImageForView(url, appCompatActivity, hinhDaiDien, LoadDataConfiguration.TOP_HEADER_ADMIN, hinhDaiDienLottie);
                         imagesNeedLoad.add(loadImageForView);
                     } else if (dataSnapshot.getKey().equals("ten_hien_thi")) {
+                        ConstraintSet constraintSet = new ConstraintSet();
+                        constraintSet.clone(constraintLayout);
+                        constraintSet.clear(R.id.hinh_dai_dien_lottie,ConstraintSet.END);
+                        constraintSet.connect(R.id.hinh_dai_dien_lottie, ConstraintSet.END, R.id.ten_hien_thi, ConstraintSet.START,10);
+                        constraintSet.applyTo(constraintLayout);
                         tenHienThi.setVisibility(View.VISIBLE);
                         tenHienThi.setText(dataSnapshot.getValue().toString());
                         tenHienThiLottie.setVisibility(View.GONE);
