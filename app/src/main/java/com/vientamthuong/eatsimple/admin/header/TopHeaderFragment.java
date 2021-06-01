@@ -15,12 +15,14 @@ import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import com.vientamthuong.eatsimple.R;
+import com.vientamthuong.eatsimple.admin.notification.ThongBaoNoiFragment;
 import com.vientamthuong.eatsimple.admin.session.DataSession;
 import com.vientamthuong.eatsimple.diaLog.DiaLogLoader;
 import com.vientamthuong.eatsimple.fontAwesome.FontAwesomeManager;
@@ -33,6 +35,7 @@ import java.util.List;
 public class TopHeaderFragment extends Fragment {
 
     private TextView icon;
+    private CardView cardViewIcon;
     private CardView tenHienThiLottie;
     private CardView capDoLottie;
     private CardView hinhDaiDienLottie;
@@ -40,6 +43,8 @@ public class TopHeaderFragment extends Fragment {
     private TextView capDo;
     private ImageView hinhDaiDien;
     private ConstraintLayout constraintLayout;
+    // Thông báo nổi
+    private ThongBaoNoiFragment thongBaoNoiFragment;
 
     @Nullable
     @Override
@@ -47,11 +52,13 @@ public class TopHeaderFragment extends Fragment {
         View view = inflater.inflate(R.layout.admin_fragment_top_header, container, false);
         getView(view);
         init();
+        action();
         return view;
     }
 
     private void getView(View view) {
         icon = view.findViewById(R.id.icon);
+        cardViewIcon = view.findViewById(R.id.cardViewIcon);
         tenHienThiLottie = view.findViewById(R.id.ten_hien_thi_lottie);
         tenHienThi = view.findViewById(R.id.ten_hien_thi);
         capDoLottie = view.findViewById(R.id.cap_do_lottie);
@@ -80,8 +87,8 @@ public class TopHeaderFragment extends Fragment {
                     } else if (dataSnapshot.getKey().equals("ten_hien_thi")) {
                         ConstraintSet constraintSet = new ConstraintSet();
                         constraintSet.clone(constraintLayout);
-                        constraintSet.clear(R.id.hinh_dai_dien_lottie,ConstraintSet.END);
-                        constraintSet.connect(R.id.hinh_dai_dien_lottie, ConstraintSet.END, R.id.ten_hien_thi, ConstraintSet.START,10);
+                        constraintSet.clear(R.id.hinh_dai_dien_lottie, ConstraintSet.END);
+                        constraintSet.connect(R.id.hinh_dai_dien_lottie, ConstraintSet.END, R.id.ten_hien_thi, ConstraintSet.START, 10);
                         constraintSet.applyTo(constraintLayout);
                         tenHienThi.setVisibility(View.VISIBLE);
                         tenHienThi.setText(dataSnapshot.getValue().toString());
@@ -126,5 +133,20 @@ public class TopHeaderFragment extends Fragment {
 
     private void init() {
         FontAwesomeManager.getInstance().addIcon(icon, "far", "\uf0f3", getActivity());
+        // Tạo thông báo nổi fragment
+        initThongBaoNoi();
     }
+
+    private void initThongBaoNoi() {
+        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+        thongBaoNoiFragment = new ThongBaoNoiFragment(getActivity().findViewById(R.id.thong_bao_mui_ten),
+                getActivity().findViewById(R.id.thong_bao_cardView));
+        fragmentTransaction.replace(R.id.thong_bao_frame, thongBaoNoiFragment, "thong-bao-noi");
+        fragmentTransaction.commit();
+    }
+
+    private void action(){
+        cardViewIcon.setOnClickListener(v -> thongBaoNoiFragment.handleShowHide());
+    }
+
 }
