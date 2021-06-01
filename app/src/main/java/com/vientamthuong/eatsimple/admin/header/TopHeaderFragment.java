@@ -139,8 +139,7 @@ public class TopHeaderFragment extends Fragment {
 
     private void initThongBaoNoi() {
         FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-        thongBaoNoiFragment = new ThongBaoNoiFragment(getActivity().findViewById(R.id.thong_bao_mui_ten),
-                getActivity().findViewById(R.id.thong_bao_cardView));
+        thongBaoNoiFragment = new ThongBaoNoiFragment();
         fragmentTransaction.replace(R.id.thong_bao_frame, thongBaoNoiFragment, "thong-bao-noi");
         fragmentTransaction.commit();
     }

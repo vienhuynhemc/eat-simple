@@ -19,17 +19,17 @@ public class ThongBaoNoiFragment extends Fragment {
     private CardView thong_bao_noi_card_view;
     private boolean isShow;
 
-    public ThongBaoNoiFragment(TextView textView, CardView cardView) {
-        this.thong_bao_noi_mui_ten = textView;
-        this.thong_bao_noi_card_view = cardView;
-        isShow = false;
-    }
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.admin_fragment_thong_bao_noi, container, false);
+        getView(view);
         return view;
+    }
+
+    private void getView(View view) {
+        thong_bao_noi_mui_ten = getActivity().findViewById(R.id.thong_bao_mui_ten);
+        thong_bao_noi_card_view = getActivity().findViewById(R.id.thong_bao_cardView);
     }
 
     public void handleShowHide() {
