@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.vientamthuong.eatsimple.R;
 
@@ -18,18 +19,25 @@ public class ThongBaoNoiFragment extends Fragment {
     private TextView thong_bao_noi_mui_ten;
     private CardView thong_bao_noi_card_view;
     private boolean isShow;
+    private RecyclerView recyclerView;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.admin_fragment_thong_bao_noi, container, false);
         getView(view);
+        init();
         return view;
     }
 
     private void getView(View view) {
         thong_bao_noi_mui_ten = getActivity().findViewById(R.id.thong_bao_mui_ten);
         thong_bao_noi_card_view = getActivity().findViewById(R.id.thong_bao_cardView);
+        recyclerView = view.findViewById(R.id.views);
+    }
+
+    private void init() {
+
     }
 
     public void handleShowHide() {
@@ -43,4 +51,6 @@ public class ThongBaoNoiFragment extends Fragment {
             thong_bao_noi_mui_ten.setVisibility(View.VISIBLE);
         }
     }
+
+
 }

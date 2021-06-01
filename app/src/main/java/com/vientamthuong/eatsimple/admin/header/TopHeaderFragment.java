@@ -41,6 +41,7 @@ public class TopHeaderFragment extends Fragment {
     private CardView hinhDaiDienLottie;
     private TextView tenHienThi;
     private TextView capDo;
+    private ConstraintLayout constraintLayoutTenVaCapDo;
     private ImageView hinhDaiDien;
     private ConstraintLayout constraintLayout;
     // Thông báo nổi
@@ -66,6 +67,7 @@ public class TopHeaderFragment extends Fragment {
         hinhDaiDienLottie = view.findViewById(R.id.hinh_dai_dien_lottie);
         hinhDaiDien = view.findViewById(R.id.hinh_dai_dien);
         constraintLayout = view.findViewById(R.id.layout);
+        constraintLayoutTenVaCapDo = view.findViewById(R.id.layout_hien_thi_thong_tin);
     }
 
     public void getData(DatabaseReference root, DiaLogLoader diaLogLoader, List<LoadImageForView> imagesNeedLoad, AppCompatActivity appCompatActivity) {
@@ -85,12 +87,12 @@ public class TopHeaderFragment extends Fragment {
                         LoadImageForView loadImageForView = new LoadImageForView(url, appCompatActivity, hinhDaiDien, LoadDataConfiguration.TOP_HEADER_ADMIN, hinhDaiDienLottie);
                         imagesNeedLoad.add(loadImageForView);
                     } else if (dataSnapshot.getKey().equals("ten_hien_thi")) {
+                        constraintLayoutTenVaCapDo.setVisibility(View.VISIBLE);
                         ConstraintSet constraintSet = new ConstraintSet();
                         constraintSet.clone(constraintLayout);
                         constraintSet.clear(R.id.hinh_dai_dien_lottie, ConstraintSet.END);
-                        constraintSet.connect(R.id.hinh_dai_dien_lottie, ConstraintSet.END, R.id.ten_hien_thi, ConstraintSet.START, 10);
+                        constraintSet.connect(R.id.hinh_dai_dien_lottie, ConstraintSet.END, R.id.layout_hien_thi_thong_tin, ConstraintSet.START, 30);
                         constraintSet.applyTo(constraintLayout);
-                        tenHienThi.setVisibility(View.VISIBLE);
                         tenHienThi.setText(dataSnapshot.getValue().toString());
                         tenHienThiLottie.setVisibility(View.GONE);
                         setNameCapDo();
@@ -114,7 +116,6 @@ public class TopHeaderFragment extends Fragment {
     }
 
     private void setNameCapDo() {
-        capDo.setVisibility(View.VISIBLE);
         capDoLottie.setVisibility(View.GONE);
         String sCapDo = "";
         switch (DataSession.getInstance().getCap_do()) {
@@ -144,7 +145,7 @@ public class TopHeaderFragment extends Fragment {
         fragmentTransaction.commit();
     }
 
-    private void action(){
+    private void action() {
         cardViewIcon.setOnClickListener(v -> thongBaoNoiFragment.handleShowHide());
     }
 

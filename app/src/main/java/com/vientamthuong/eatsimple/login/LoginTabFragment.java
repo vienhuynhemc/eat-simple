@@ -61,7 +61,7 @@ public class LoginTabFragment extends Fragment {
                                 result.put("cap_do", jsonObject.getString("cap_do"));
                             }
                             if (result.size() == 0) {
-                                System.out.println("Sai tai khoan - hay nhap tai khoan:admin");
+                                System.out.println("Sai tai khoan");
                             } else {
                                 if (BCrypt.checkpw(mat_khau, result.get("mat_khau"))) {
                                     System.out.println("dang nhap thanh cong");
@@ -73,7 +73,7 @@ public class LoginTabFragment extends Fragment {
                                     getActivity().finish();
                                     startActivity(intent);
                                 } else {
-                                    System.out.println("Sai mat khau - hay nhap mat khau:admin");
+                                    System.out.println("Sai mat khau");
                                 }
                             }
                         } catch (JSONException e) {

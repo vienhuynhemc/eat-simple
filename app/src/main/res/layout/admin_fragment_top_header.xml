@@ -28,34 +28,40 @@
 
     </androidx.cardview.widget.CardView>
 
-    <TextView
-        android:id="@+id/ten_hien_thi"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="20dp"
-        android:text="Nguyễn Thị Hoa Hồng"
-        android:textColor="#2a2935"
-        android:textSize="12sp"
-        android:textStyle="bold"
-        android:visibility="invisible"
+        android:layout_height="match_parent"
+        android:id="@+id/layout_hien_thi_thong_tin"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="HardcodedText" />
-
-    <TextView
-        android:id="@+id/cap_do"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="22dp"
-        android:text="Admin"
-        android:textColor="#d5d7e9"
-        android:textSize="11sp"
-        android:textStyle="bold"
+        android:layout_marginEnd="20dp"
         android:visibility="invisible"
-        app:layout_constraintStart_toStartOf="@id/ten_hien_thi"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="HardcodedText,SmallSp" />
+        >
+        <TextView
+            android:id="@+id/ten_hien_thi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="Nguyễn Thị Hoa Hồng"
+            android:textColor="#2a2935"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="HardcodedText" />
+
+        <TextView
+            android:id="@+id/cap_do"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Admin"
+            android:textColor="#d5d7e9"
+            android:textSize="11sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="HardcodedText,SmallSp" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cap_do_lottie"
@@ -108,7 +114,7 @@
         app:cardCornerRadius="15dp"
         app:cardElevation="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/ten_hien_thi"
+        app:layout_constraintEnd_toStartOf="@id/layout_hien_thi_thong_tin"
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
