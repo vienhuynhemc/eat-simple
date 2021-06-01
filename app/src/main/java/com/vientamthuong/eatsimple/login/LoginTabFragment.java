@@ -58,19 +58,22 @@ public class LoginTabFragment extends Fragment {
                                 JSONObject jsonObject = jsonArray.getJSONObject(i);
                                 result.put("mat_khau", jsonObject.getString("mat_khau"));
                                 result.put("ma_tai_khoan", jsonObject.getString("ma_tai_khoan"));
+                                result.put("cap_do", jsonObject.getString("cap_do"));
                             }
                             if (result.size() == 0) {
-                                System.out.println("Sai tai khoan - hay nhap tai khoan:admin");
+                                System.out.println("Sai tai khoan");
                             } else {
                                 if (BCrypt.checkpw(mat_khau, result.get("mat_khau"))) {
                                     System.out.println("dang nhap thanh cong");
+                                    System.out.println(result);
                                     DataSession.getInstance().setMaTaiKhoan(result.get("ma_tai_khoan"));
+                                    DataSession.getInstance().setCap_do(Integer.parseInt(result.get("cap_do")));
                                     Intent intent = new Intent();
                                     intent.setClass(getActivity(), HomePageActivity.class);
                                     getActivity().finish();
                                     startActivity(intent);
                                 } else {
-                                    System.out.println("Sai mat khau - hay nhap mat khau:admin");
+                                    System.out.println("Sai mat khau");
                                 }
                             }
                         } catch (JSONException e) {

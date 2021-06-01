@@ -6,6 +6,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.android.volley.toolbox.ImageRequest;
@@ -31,6 +32,8 @@ public class LoadImageForView {
     // Các object có hình ảnh -----------------------------------
     //  Danh mục
     private DanhMuc danhMuc;
+    // Top header admin
+    private CardView cardView;
     //-----------------------------------------------------------
 
     public LoadImageForView(ImageView imageView, AppCompatActivity appCompatActivity, LottieAnimationView lottieAnimationView, int type, String url) {
@@ -49,12 +52,22 @@ public class LoadImageForView {
         this.url = url;
     }
 
+    // Danh mục
     public LoadImageForView(AppCompatActivity appCompatActivity, DanhMuc danhMuc, int type) {
         this.danhMuc = danhMuc;
         this.appCompatActivity = appCompatActivity;
         this.type = type;
         // Lấy url
         this.url = danhMuc.getHinh();
+    }
+
+    // Hình đại diện top header admin
+    public LoadImageForView(String url, AppCompatActivity appCompatActivity, ImageView imageView, int type, CardView cardView) {
+        this.imageView = imageView;
+        this.appCompatActivity = appCompatActivity;
+        this.type = type;
+        this.url = url;
+        this.cardView = cardView;
     }
 
     public void run() {
@@ -72,6 +85,10 @@ public class LoadImageForView {
                     break;
                 case LoadDataConfiguration.IMAGE_DANH_MUC:
                     danhMuc.setBitmap(response);
+                    break;
+                case LoadDataConfiguration.TOP_HEADER_ADMIN:
+                    imageView.setImageBitmap(response);
+                    cardView.setVisibility(View.INVISIBLE);
                     break;
             }
             isComplete = true;

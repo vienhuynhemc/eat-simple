@@ -8,4 +8,7 @@ public class LoadDataConfiguration {
     // Danh mục
     public static final int IMAGE_DANH_MUC = 2;
 
+    // Top header admin
+    public static final int TOP_HEADER_ADMIN = 3;
+
 }
