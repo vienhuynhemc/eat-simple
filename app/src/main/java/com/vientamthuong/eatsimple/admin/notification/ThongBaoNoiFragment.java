@@ -120,7 +120,6 @@ public class ThongBaoNoiFragment extends Fragment {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     String ma_thong_bao_chuong = dataSnapshot.getKey();
                     for (DataSnapshot child : dataSnapshot.getChildren()) {
-                        System.out.println(child.getValue().toString() + " " + DataSession.getInstance().getMa_tai_khoan());
                         if (child.getValue().toString().equals(DataSession.getInstance().getMa_tai_khoan())) {
                             // Điền các thông tin trong bảng chi_tiet_thong_bao_chuong
                             count++;

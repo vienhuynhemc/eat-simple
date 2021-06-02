@@ -7,7 +7,6 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -27,8 +26,6 @@ import java.util.List;
 
 public class HomePageActivity extends AppCompatActivity implements ActivityProtocol {
 
-    // Swipe layout
-    private SwipeRefreshLayout swipeRefreshLayout;
     // Header
     private HeaderFragment headerFragment;
     private TopHeaderFragment topHeaderFragment;
@@ -148,7 +145,6 @@ public class HomePageActivity extends AppCompatActivity implements ActivityProto
     }
 
     private void getView() {
-        swipeRefreshLayout = findViewById(R.id.layout);
     }
 
     private void init() {
@@ -178,12 +174,6 @@ public class HomePageActivity extends AppCompatActivity implements ActivityProto
     }
 
     private void action() {
-        // Swipe
-        swipeRefreshLayout.setOnRefreshListener(() -> {
-            LoadData.getInstance().reset();
-            recreate();
-            swipeRefreshLayout.setRefreshing(false);
-        });
     }
 
     @Override
