@@ -55,6 +55,11 @@ public class DateTime {
         return date.getTime() + DateTimeConfiguration.ONE_MINUTE_IN_MILLIS * 60 * 24 * day;
     }
 
+    public long getTime(){
+        Date date = new Date(year - 1900, month - 1, this.day, hour, minute, second);
+        return date.getTime();
+    }
+
     //  To string dạng 26 Tháng Tám 2020
     public String toStringDateTypeNumberStringNumber() {
         //  Chuyển tháng từ số sang dạng chuỗi

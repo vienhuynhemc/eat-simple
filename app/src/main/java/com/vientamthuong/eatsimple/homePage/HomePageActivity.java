@@ -143,11 +143,11 @@ public class HomePageActivity extends AppCompatActivity implements ActivityProto
                     int count = 0;
                     while (count < imagesNeedLoad.size()) {
                         LoadImageForView loadImageForView = imagesNeedLoad.get(count);
-                        if (!loadImageForView.isStart()) {
+                        if (loadImageForView!= null &&!loadImageForView.isStart()) {
                             loadImageForView.setStart(true);
                             loadImageForView.run();
                             count++;
-                        } else {
+                        } else if(loadImageForView!= null)  {
                             if (loadImageForView.isComplete()) {
                                 // Kiểm tra nếu thằng xong này type là danh mục thì thôgn báo cho adpater danh mục
                                 if (imagesNeedLoad.get(count).getType() == LoadDataConfiguration.IMAGE_DANH_MUC) {

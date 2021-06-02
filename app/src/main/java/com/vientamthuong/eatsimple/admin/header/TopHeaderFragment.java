@@ -113,6 +113,8 @@ public class TopHeaderFragment extends Fragment {
                 Toast.makeText(appCompatActivity, "Lỗi tải dữ liệu từ firebase !", Toast.LENGTH_SHORT).show();
             }
         });
+        // thông báo nổi
+        thongBaoNoiFragment.getData(root, diaLogLoader, imagesNeedLoad, appCompatActivity);
     }
 
     private void setNameCapDo() {
@@ -134,7 +136,6 @@ public class TopHeaderFragment extends Fragment {
 
     private void init() {
         FontAwesomeManager.getInstance().addIcon(icon, "far", "\uf0f3", getActivity());
-        // Tạo thông báo nổi fragment
         initThongBaoNoi();
     }
 
@@ -149,4 +150,7 @@ public class TopHeaderFragment extends Fragment {
         cardViewIcon.setOnClickListener(v -> thongBaoNoiFragment.handleShowHide());
     }
 
+    public void update() {
+        thongBaoNoiFragment.update();
+    }
 }

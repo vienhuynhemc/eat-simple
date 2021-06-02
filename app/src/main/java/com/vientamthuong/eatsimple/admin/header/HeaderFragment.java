@@ -9,11 +9,13 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
 import com.vientamthuong.eatsimple.R;
 import com.vientamthuong.eatsimple.admin.Configuration;
 import com.vientamthuong.eatsimple.admin.dialog.DiaLogConfirm;
+import com.vientamthuong.eatsimple.admin.loadData.LoadData;
 import com.vientamthuong.eatsimple.fontAwesome.FontAwesomeManager;
 import com.vientamthuong.eatsimple.login.activity_login;
 
@@ -24,6 +26,7 @@ public class HeaderFragment extends Fragment {
     private TextView iconDanhMuc;
     private TextView iconMaGiamGia;
     private TextView iconLogout;
+    private CardView cardViewLogout;
     private int nowSelect;
 
     @Nullable
@@ -41,7 +44,7 @@ public class HeaderFragment extends Fragment {
         iconHome.setOnClickListener(v -> moveTo(iconHome));
         iconDanhMuc.setOnClickListener(v -> moveTo(iconDanhMuc));
         iconMaGiamGia.setOnClickListener(v -> moveTo(iconMaGiamGia));
-        iconLogout.setOnClickListener(v -> {
+        cardViewLogout.setOnClickListener(v -> {
             actionLogout();
         });
     }
@@ -63,6 +66,7 @@ public class HeaderFragment extends Fragment {
         diaLogConfirm.getBtTry().setOnClickListener(v -> diaLogConfirm.dismiss());
         diaLogConfirm.getBtIgnore().setOnClickListener(v -> {
             diaLogConfirm.dismiss();
+            LoadData.getInstance().reset();
             Intent intent = new Intent();
             intent.setClass(getActivity(), activity_login.class);
             getActivity().finish();
@@ -129,5 +133,6 @@ public class HeaderFragment extends Fragment {
         iconDanhMuc = view.findViewById(R.id.icon_danhMuc);
         iconMaGiamGia = view.findViewById(R.id.icon_MaGiamGia);
         iconLogout = view.findViewById(R.id.icon_logout);
+        cardViewLogout = view.findViewById(R.id.log_out);
     }
 }

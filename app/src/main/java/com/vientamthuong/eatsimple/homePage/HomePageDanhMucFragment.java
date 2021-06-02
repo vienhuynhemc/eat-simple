@@ -101,7 +101,6 @@ public class HomePageDanhMucFragment extends Fragment {
                 if (!activityProtocol.isRunningVolley()) {
                     activityProtocol.setRunningVolley(true);
                     activityProtocol.loadImageFromIntenet();
-                    ;
                 }
                 // Tắt màn hình chờ
                 diaLogLoader.dismiss();

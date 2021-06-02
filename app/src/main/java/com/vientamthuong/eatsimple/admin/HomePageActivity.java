@@ -7,16 +7,17 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.vientamthuong.eatsimple.R;
 import com.vientamthuong.eatsimple.admin.header.HeaderFragment;
 import com.vientamthuong.eatsimple.admin.header.TopHeaderFragment;
+import com.vientamthuong.eatsimple.admin.loadData.LoadData;
 import com.vientamthuong.eatsimple.connection.CheckConnection;
 import com.vientamthuong.eatsimple.diaLog.DiaLogLoader;
 import com.vientamthuong.eatsimple.diaLog.DiaLogLostConnection;
+import com.vientamthuong.eatsimple.loadData.LoadDataConfiguration;
 import com.vientamthuong.eatsimple.loadData.LoadImageForView;
 import com.vientamthuong.eatsimple.protocol.ActivityProtocol;
 
@@ -25,8 +26,6 @@ import java.util.List;
 
 public class HomePageActivity extends AppCompatActivity implements ActivityProtocol {
 
-    // Swipe layout
-    private SwipeRefreshLayout swipeRefreshLayout;
     // Header
     private HeaderFragment headerFragment;
     private TopHeaderFragment topHeaderFragment;
@@ -56,17 +55,20 @@ public class HomePageActivity extends AppCompatActivity implements ActivityProto
         if (!CheckConnection.getInstance().isConnected(HomePageActivity.this)) {
             diaLogLostConnection.show();
         } else {
-            getData();
+            getDataHeader();
         }
     }
 
-    private void getData() {
-        // Không mất kết nối thì lấy dữ liêu  fire base về của activity này
-        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-        DatabaseReference root = firebaseDatabase.getReference();
-        imagesNeedLoad = new ArrayList<>();
-        // Load dữ liệu top header
-        topHeaderFragment.getData(root, diaLogLoader, imagesNeedLoad, HomePageActivity.this);
+    public void getDataHeader() {
+        // Các fragment sẵn sàng hết thì mới chạy
+        if (LoadData.getInstance().isReadyFromThongBaoNoi()) {
+            // Không mất kết nối thì lấy dữ liêu  fire base về của activity này
+            FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+            DatabaseReference root = firebaseDatabase.getReference();
+            imagesNeedLoad = new ArrayList<>();
+            // Load dữ liệu top header
+            topHeaderFragment.getData(root, diaLogLoader, imagesNeedLoad, HomePageActivity.this);
+        }
     }
 
     @Override
@@ -80,7 +82,7 @@ public class HomePageActivity extends AppCompatActivity implements ActivityProto
     }
 
     @Override
-    public void loadImageFromIntenet() {
+    public synchronized void loadImageFromIntenet() {
         // Tải hình về
         if (imagesNeedLoad.size() > 0) {
             Thread thread = new Thread(() -> {
@@ -89,12 +91,16 @@ public class HomePageActivity extends AppCompatActivity implements ActivityProto
                     int count = 0;
                     while (count < imagesNeedLoad.size()) {
                         LoadImageForView loadImageForView = imagesNeedLoad.get(count);
-                        if (!loadImageForView.isStart()) {
+                        if (loadImageForView!= null && !loadImageForView.isStart()) {
                             loadImageForView.setStart(true);
                             loadImageForView.run();
                             count++;
-                        } else {
+                        } else if(loadImageForView!= null) {
                             if (loadImageForView.isComplete()) {
+                                // Kiểm tra nếu thằng xong này type thông báo chuông thì thông báo
+                                if (imagesNeedLoad.get(count).getType() == LoadDataConfiguration.IMAGE_THONG_BAO_CHUONG) {
+                                    runOnUiThread(() -> topHeaderFragment.update());
+                                }
                                 imagesNeedLoad.remove(count);
                             } else if (loadImageForView.isError()) {
                                 isError = true;
@@ -139,7 +145,6 @@ public class HomePageActivity extends AppCompatActivity implements ActivityProto
     }
 
     private void getView() {
-        swipeRefreshLayout = findViewById(R.id.layout);
     }
 
     private void init() {
@@ -169,11 +174,6 @@ public class HomePageActivity extends AppCompatActivity implements ActivityProto
     }
 
     private void action() {
-        // Swipe
-        swipeRefreshLayout.setOnRefreshListener(() -> {
-            recreate();
-            swipeRefreshLayout.setRefreshing(false);
-        });
     }
 
     @Override
@@ -196,7 +196,7 @@ public class HomePageActivity extends AppCompatActivity implements ActivityProto
         diaLogLostConnection.getBtTry().setOnClickListener(v -> {
             if (CheckConnection.getInstance().isConnected(HomePageActivity.this)) {
                 diaLogLostConnection.dismiss();
-                getData();
+                getDataHeader();
             } else {
                 Toast.makeText(HomePageActivity.this, "Không tìm thấy kết nối!", Toast.LENGTH_SHORT).show();
             }

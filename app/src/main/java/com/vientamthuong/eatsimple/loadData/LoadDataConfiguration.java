@@ -11,4 +11,7 @@ public class LoadDataConfiguration {
     // Top header admin
     public static final int TOP_HEADER_ADMIN = 3;
 
+    // THông báo chuông
+    public static final int IMAGE_THONG_BAO_CHUONG = 4;
+
 }
