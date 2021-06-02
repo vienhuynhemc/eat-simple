@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment;
 import com.vientamthuong.eatsimple.R;
 import com.vientamthuong.eatsimple.admin.Configuration;
 import com.vientamthuong.eatsimple.admin.dialog.DiaLogConfirm;
+import com.vientamthuong.eatsimple.admin.loadData.LoadData;
 import com.vientamthuong.eatsimple.fontAwesome.FontAwesomeManager;
 import com.vientamthuong.eatsimple.login.activity_login;
 
@@ -63,6 +64,7 @@ public class HeaderFragment extends Fragment {
         diaLogConfirm.getBtTry().setOnClickListener(v -> diaLogConfirm.dismiss());
         diaLogConfirm.getBtIgnore().setOnClickListener(v -> {
             diaLogConfirm.dismiss();
+            LoadData.getInstance().reset();
             Intent intent = new Intent();
             intent.setClass(getActivity(), activity_login.class);
             getActivity().finish();

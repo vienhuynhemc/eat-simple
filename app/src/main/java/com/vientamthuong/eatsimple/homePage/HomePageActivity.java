@@ -143,7 +143,7 @@ public class HomePageActivity extends AppCompatActivity implements ActivityProto
                     int count = 0;
                     while (count < imagesNeedLoad.size()) {
                         LoadImageForView loadImageForView = imagesNeedLoad.get(count);
-                        if (!loadImageForView.isStart()) {
+                        if (loadImageForView!= null &&!loadImageForView.isStart()) {
                             loadImageForView.setStart(true);
                             loadImageForView.run();
                             count++;

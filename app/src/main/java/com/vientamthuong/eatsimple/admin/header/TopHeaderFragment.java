@@ -150,4 +150,7 @@ public class TopHeaderFragment extends Fragment {
         cardViewIcon.setOnClickListener(v -> thongBaoNoiFragment.handleShowHide());
     }
 
+    public void update() {
+        thongBaoNoiFragment.update();
+    }
 }

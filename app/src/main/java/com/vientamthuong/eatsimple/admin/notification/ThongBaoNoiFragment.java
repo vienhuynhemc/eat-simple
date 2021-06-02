@@ -118,10 +118,22 @@ public class ThongBaoNoiFragment extends Fragment {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     String ma_thong_bao_chuong = dataSnapshot.getKey();
                     for (DataSnapshot child : dataSnapshot.getChildren()) {
-                        if (child.getValue().equals(DataSession.getInstance().getMa_tai_khoan())) {
+                        System.out.println(child.getValue().toString()+" "+DataSession.getInstance().getMa_tai_khoan());
+                        if (child.getValue().toString().equals(DataSession.getInstance().getMa_tai_khoan())) {
                             // Điền các thông tin trong bảng chi_tiet_thong_bao_chuong
                             count++;
-                            fillDataChi_tiet_thong_bao_chuong(root, diaLogLoader, imagesNeedLoad, appCompatActivity, ma_thong_bao_chuong);
+                            int index = 0;
+                            for (ThongBaoChuong thongBaoChuong : thongBaoChuongs) {
+                                if (thongBaoChuong.getMa_thong_bao_chuong() == null) {
+                                    break;
+                                } else {
+                                    index++;
+                                }
+                            }
+                            if (index == thongBaoChuongs.size()) {
+                                thongBaoChuongs.add(new ThongBaoChuong(null, null, null, null));
+                            }
+                            thongBaoChuongs.get(index).setMa_thong_bao_chuong(ma_thong_bao_chuong);
                             break;
                         }
                     }
@@ -129,6 +141,25 @@ public class ThongBaoNoiFragment extends Fragment {
                 // Nếu ko có 1 thằng thì dừng
                 if (count == 0) {
                     diaLogLoader.dismiss();
+                    thongBaoChuongs.clear();
+                    thongBaoNoiFragmentCustomAdapter.notifyDataSetChanged();
+                } else {
+                    // Nếu ít hơn 10 thì xóa
+                    if (count < 10) {
+                        int c = 0;
+                        while (c < thongBaoChuongs.size()) {
+                            if (thongBaoChuongs.get(c).getMa_thong_bao_chuong() == null) {
+                                thongBaoChuongs.remove(c);
+                            } else {
+                                c++;
+                            }
+                        }
+                    }
+                    thongBaoNoiFragmentCustomAdapter.notifyDataSetChanged();
+                    // Xóa xong thì duyệt qua và tải dữ liệu cho nó
+                    for (ThongBaoChuong thongBaoChuong : thongBaoChuongs) {
+                        fillDataChi_tiet_thong_bao_chuong(root, diaLogLoader, imagesNeedLoad, appCompatActivity, thongBaoChuong);
+                    }
                 }
             }
 
@@ -143,29 +174,17 @@ public class ThongBaoNoiFragment extends Fragment {
                                                   DiaLogLoader diaLogLoader,
                                                   List<LoadImageForView> imagesNeedLoad,
                                                   AppCompatActivity appCompatActivity,
-                                                  String ma_thong_bao_chuong) {
+                                                  ThongBaoChuong thongBaoChuong) {
         DatabaseReference chi_tiet_thong_bao_chuong = root.child("chi_tiet_thong_bao_chuong");
-        chi_tiet_thong_bao_chuong.child(ma_thong_bao_chuong).addValueEventListener(new ValueEventListener() {
+        chi_tiet_thong_bao_chuong.child(thongBaoChuong.getMa_thong_bao_chuong()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                int index = 0;
-                for (ThongBaoChuong thongBaoChuong : thongBaoChuongs) {
-                    if (thongBaoChuong.getMa_thong_bao_chuong() == null) {
-                        break;
-                    } else {
-                        index++;
-                    }
-                }
-                if (index == thongBaoChuongs.size()) {
-                    thongBaoChuongs.add(new ThongBaoChuong(null, null, null, null));
-                }
-                thongBaoChuongs.get(index).setMa_thong_bao_chuong(ma_thong_bao_chuong);
-                thongBaoChuongs.get(index).setKieu_nguoi_gui(Integer.parseInt(snapshot.child("kieu_nguoi_gui").getValue().toString()));
-                thongBaoChuongs.get(index).setMa_nguoi_gui(snapshot.child("ma_nguoi_gui").getValue().toString());
-                thongBaoChuongs.get(index).setNgay_tao(new DateTime(snapshot.child("ngay_tao").getValue().toString()));
-                thongBaoChuongs.get(index).setNoi_dung(snapshot.child("noi_dung").getValue().toString());
+                thongBaoChuong.setKieu_nguoi_gui(Integer.parseInt(snapshot.child("kieu_nguoi_gui").getValue().toString()));
+                thongBaoChuong.setMa_nguoi_gui(snapshot.child("ma_nguoi_gui").getValue().toString());
+                thongBaoChuong.setNgay_tao(new DateTime(snapshot.child("ngay_tao").getValue().toString()));
+                thongBaoChuong.setNoi_dung(snapshot.child("noi_dung").getValue().toString());
                 thongBaoNoiFragmentCustomAdapter.notifyDataSetChanged();
-                fillDataKhachHang(root, diaLogLoader, imagesNeedLoad, appCompatActivity, index);
+                fillDataKhachHang(root, diaLogLoader, imagesNeedLoad, appCompatActivity, thongBaoChuong);
             }
 
             @Override
@@ -179,15 +198,15 @@ public class ThongBaoNoiFragment extends Fragment {
                                   DiaLogLoader diaLogLoader,
                                   List<LoadImageForView> imagesNeedLoad,
                                   AppCompatActivity appCompatActivity,
-                                  int positon) {
+                                  ThongBaoChuong thongBaoChuong) {
         DatabaseReference tai_khoan = root.child("tai_khoan");
-        tai_khoan.child(thongBaoChuongs.get(positon).getMa_nguoi_gui()).addValueEventListener(new ValueEventListener() {
+        tai_khoan.child(thongBaoChuong.getMa_nguoi_gui()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
                 String url = snapshot.child("link_hinh_dai_dien").getValue().toString();
                 String ten_hien_thi = snapshot.child("ten_hien_thi").getValue().toString();
-                thongBaoChuongs.get(positon).setUrl(url);
-                thongBaoChuongs.get(positon).setTen_nguoi_gui(ten_hien_thi);
+                thongBaoChuong.setUrl(url);
+                thongBaoChuong.setTen_nguoi_gui(ten_hien_thi);
                 thongBaoNoiFragmentCustomAdapter.notifyDataSetChanged();
                 // Tắt màn hình chờ nếu đủ điều kiện
                 int valueDiffNull = 0;
@@ -198,22 +217,11 @@ public class ThongBaoNoiFragment extends Fragment {
                 }
                 if (valueDiffNull == count) {
                     diaLogLoader.dismiss();
-                    // Nếu ít hơn 10 thì xóa
-                    if (count < 10) {
-                        int c = 0;
-                        while (c < thongBaoChuongs.size()) {
-                            if (thongBaoChuongs.get(c).getMa_thong_bao_chuong() != null) {
-                                thongBaoChuongs.remove(c);
-                            } else {
-                                c++;
-                            }
-                        }
-                    }
                     // Sắp xếp lại theo giảm dần ngày
                     Collections.sort(thongBaoChuongs, new Comparator<ThongBaoChuong>() {
                         @Override
                         public int compare(ThongBaoChuong o1, ThongBaoChuong o2) {
-                            return (int) (o2.getNgay_tao().getTime() -o1.getNgay_tao().getTime());
+                            return (int) (o2.getNgay_tao().getTime() - o1.getNgay_tao().getTime());
                         }
                     });
                     // Xong từ firebase thì h tải hình từ internet về nào :v
@@ -237,4 +245,7 @@ public class ThongBaoNoiFragment extends Fragment {
     }
 
 
+    public void update() {
+        thongBaoNoiFragmentCustomAdapter.notifyDataSetChanged();
+    }
 }

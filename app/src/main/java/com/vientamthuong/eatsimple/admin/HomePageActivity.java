@@ -18,6 +18,7 @@ import com.vientamthuong.eatsimple.admin.loadData.LoadData;
 import com.vientamthuong.eatsimple.connection.CheckConnection;
 import com.vientamthuong.eatsimple.diaLog.DiaLogLoader;
 import com.vientamthuong.eatsimple.diaLog.DiaLogLostConnection;
+import com.vientamthuong.eatsimple.loadData.LoadDataConfiguration;
 import com.vientamthuong.eatsimple.loadData.LoadImageForView;
 import com.vientamthuong.eatsimple.protocol.ActivityProtocol;
 
@@ -93,12 +94,16 @@ public class HomePageActivity extends AppCompatActivity implements ActivityProto
                     int count = 0;
                     while (count < imagesNeedLoad.size()) {
                         LoadImageForView loadImageForView = imagesNeedLoad.get(count);
-                        if (!loadImageForView.isStart()) {
+                        if (loadImageForView!= null && !loadImageForView.isStart()) {
                             loadImageForView.setStart(true);
                             loadImageForView.run();
                             count++;
                         } else {
                             if (loadImageForView.isComplete()) {
+                                // Kiểm tra nếu thằng xong này type thông báo chuông thì thông báo
+                                if (imagesNeedLoad.get(count).getType() == LoadDataConfiguration.IMAGE_THONG_BAO_CHUONG) {
+                                    runOnUiThread(() -> topHeaderFragment.update());
+                                }
                                 imagesNeedLoad.remove(count);
                             } else if (loadImageForView.isError()) {
                                 isError = true;

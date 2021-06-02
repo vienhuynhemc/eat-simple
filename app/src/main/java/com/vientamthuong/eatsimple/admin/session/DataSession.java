@@ -7,8 +7,8 @@ public class DataSession {
     private int cap_do;
 
     private DataSession() {
-        ma_tai_khoan = "nv_1";
-        cap_do = 0;
+        ma_tai_khoan = "nv_6";
+        cap_do = 1;
     }
 
     public static DataSession getInstance() {
