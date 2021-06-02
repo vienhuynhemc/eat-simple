@@ -98,7 +98,7 @@ public class HomePageActivity extends AppCompatActivity implements ActivityProto
                             loadImageForView.setStart(true);
                             loadImageForView.run();
                             count++;
-                        } else {
+                        } else if(loadImageForView!= null) {
                             if (loadImageForView.isComplete()) {
                                 // Kiểm tra nếu thằng xong này type thông báo chuông thì thông báo
                                 if (imagesNeedLoad.get(count).getType() == LoadDataConfiguration.IMAGE_THONG_BAO_CHUONG) {

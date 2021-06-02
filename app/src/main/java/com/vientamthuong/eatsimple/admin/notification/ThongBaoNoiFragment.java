@@ -41,6 +41,7 @@ public class ThongBaoNoiFragment extends Fragment {
 
     private TextView thong_bao_noi_mui_ten;
     private CardView thong_bao_noi_card_view;
+    private TextView textViewNotFound;
     private boolean isShow;
     private RecyclerView recyclerView;
     private List<ThongBaoChuong> thongBaoChuongs;
@@ -60,6 +61,7 @@ public class ThongBaoNoiFragment extends Fragment {
     private void getView(View view) {
         thong_bao_noi_mui_ten = getActivity().findViewById(R.id.thong_bao_mui_ten);
         thong_bao_noi_card_view = getActivity().findViewById(R.id.thong_bao_cardView);
+        textViewNotFound = view.findViewById(R.id.textView_not_found);
         recyclerView = view.findViewById(R.id.views);
     }
 
@@ -118,7 +120,7 @@ public class ThongBaoNoiFragment extends Fragment {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     String ma_thong_bao_chuong = dataSnapshot.getKey();
                     for (DataSnapshot child : dataSnapshot.getChildren()) {
-                        System.out.println(child.getValue().toString()+" "+DataSession.getInstance().getMa_tai_khoan());
+                        System.out.println(child.getValue().toString() + " " + DataSession.getInstance().getMa_tai_khoan());
                         if (child.getValue().toString().equals(DataSession.getInstance().getMa_tai_khoan())) {
                             // Điền các thông tin trong bảng chi_tiet_thong_bao_chuong
                             count++;
@@ -143,7 +145,9 @@ public class ThongBaoNoiFragment extends Fragment {
                     diaLogLoader.dismiss();
                     thongBaoChuongs.clear();
                     thongBaoNoiFragmentCustomAdapter.notifyDataSetChanged();
+                    notFound();
                 } else {
+                    found();
                     // Nếu ít hơn 10 thì xóa
                     if (count < 10) {
                         int c = 0;
@@ -242,6 +246,16 @@ public class ThongBaoNoiFragment extends Fragment {
             }
         });
 
+    }
+
+    private void found() {
+        textViewNotFound.setVisibility(View.INVISIBLE);
+        recyclerView.setVisibility(View.VISIBLE);
+    }
+
+    private void notFound() {
+        recyclerView.setVisibility(View.INVISIBLE);
+        textViewNotFound.setVisibility(View.VISIBLE);
     }
 
 

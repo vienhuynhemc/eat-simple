@@ -12,7 +12,7 @@
         android:layout_marginTop="25dp"
         android:text="Thông báo"
         android:textColor="#b1b1b1"
-        android:textSize="20sp"
+        android:textSize="17sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -26,5 +26,19 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="60dp"
         android:layout_marginBottom="20dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="60dp"
+        android:textSize="12sp"
+        android:id="@+id/textView_not_found"
+        android:textColor="#2a2935"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="20dp"
+        android:text="Không có thông báo nào"
+        tools:ignore="HardcodedText" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
