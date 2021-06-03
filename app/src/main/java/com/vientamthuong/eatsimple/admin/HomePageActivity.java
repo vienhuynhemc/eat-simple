@@ -160,7 +160,7 @@ public class HomePageActivity extends AppCompatActivity implements ActivityProto
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         headerFragment = new HeaderFragment();
         Bundle bundle = new Bundle();
-        bundle.putInt("data", Configuration.HOME);
+        bundle.putInt("data", Configuration.DANH_MUC);
         headerFragment.setArguments(bundle);
         fragmentTransaction.replace(R.id.header, headerFragment);
         fragmentTransaction.commit();
