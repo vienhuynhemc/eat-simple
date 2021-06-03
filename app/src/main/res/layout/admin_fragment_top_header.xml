@@ -12,7 +12,7 @@
         android:layout_height="26dp"
         android:layout_marginStart="10dp"
         app:cardCornerRadius="15dp"
-        app:cardElevation="10dp"
+        app:cardElevation="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -36,7 +36,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:cardCornerRadius="8dp"
-        app:cardElevation="10dp"
+        app:cardElevation="5dp"
         android:layout_marginStart="25dp"
         app:cardBackgroundColor="#f9cdd4">
         <androidx.cardview.widget.CardView
