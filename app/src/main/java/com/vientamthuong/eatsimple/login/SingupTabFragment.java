@@ -21,6 +21,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class SingupTabFragment extends Fragment {
+    // test commit
     EditText email, pass, repass;
     TextView notify;
     Button btnSignUp;
