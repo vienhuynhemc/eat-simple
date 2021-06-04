@@ -4,6 +4,7 @@
     xmlns:app1="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="65dp"
+    android:background="@color/white"
     android:layout_height="match_parent">
 
     <TextView
@@ -89,7 +90,7 @@
         android:layout_marginBottom="30dp"
         android:id="@+id/log_out"
         app1:cardBackgroundColor="@color/color_admin_main"
-        app1:cardCornerRadius="40dp"
+        app1:cardCornerRadius="21dp"
         app1:cardElevation="0dp"
         android:translationY="-32dp"
         app1:layout_constraintTop_toBottomOf="@id/icon_MaGiamGia"
