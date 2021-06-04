@@ -43,6 +43,7 @@ public class TopHeaderFragment extends Fragment {
     private TextView capDo;
     private ConstraintLayout constraintLayoutTenVaCapDo;
     private ImageView hinhDaiDien;
+    private CardView cardViewHinhDaiDien;
     private ConstraintLayout constraintLayout;
     // Thông báo nổi
     private ThongBaoNoiFragment thongBaoNoiFragment;
@@ -66,6 +67,7 @@ public class TopHeaderFragment extends Fragment {
         capDo = view.findViewById(R.id.cap_do);
         hinhDaiDienLottie = view.findViewById(R.id.hinh_dai_dien_lottie);
         hinhDaiDien = view.findViewById(R.id.hinh_dai_dien);
+        cardViewHinhDaiDien = view.findViewById(R.id.set4);
         constraintLayout = view.findViewById(R.id.layout);
         constraintLayoutTenVaCapDo = view.findViewById(R.id.layout_hien_thi_thong_tin);
     }
@@ -81,10 +83,14 @@ public class TopHeaderFragment extends Fragment {
                 // Hiện màn hình chờ
                 diaLogLoader.show();
                 imagesNeedLoad.clear();
+                System.out.println("Vô data");
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     if (dataSnapshot.getKey().equals("link_hinh_dai_dien")) {
                         String url = dataSnapshot.getValue().toString();
-                        LoadImageForView loadImageForView = new LoadImageForView(url, appCompatActivity, hinhDaiDien, LoadDataConfiguration.TOP_HEADER_ADMIN, hinhDaiDienLottie);
+                        LoadImageForView loadImageForView = new LoadImageForView(url, appCompatActivity,
+                                hinhDaiDien, LoadDataConfiguration.TOP_HEADER_ADMIN, hinhDaiDienLottie,
+                                cardViewHinhDaiDien
+                        );
                         imagesNeedLoad.add(loadImageForView);
                     } else if (dataSnapshot.getKey().equals("ten_hien_thi")) {
                         constraintLayoutTenVaCapDo.setVisibility(View.VISIBLE);

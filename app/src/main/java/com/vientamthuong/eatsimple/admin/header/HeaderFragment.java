@@ -17,7 +17,9 @@ import com.vientamthuong.eatsimple.R;
 import com.vientamthuong.eatsimple.admin.Configuration;
 import com.vientamthuong.eatsimple.admin.danhMuc.DanhMucFragment;
 import com.vientamthuong.eatsimple.admin.dialog.DiaLogConfirm;
+import com.vientamthuong.eatsimple.admin.homePage.HomePageFragment;
 import com.vientamthuong.eatsimple.admin.loadData.LoadData;
+import com.vientamthuong.eatsimple.admin.maGiamGia.MaGiamGiaFragment;
 import com.vientamthuong.eatsimple.fontAwesome.FontAwesomeManager;
 import com.vientamthuong.eatsimple.login.activity_login;
 
@@ -108,6 +110,7 @@ public class HeaderFragment extends Fragment {
             case Configuration.HOME:
                 iconHome.setTextColor(getActivity().getColor(R.color.white));
                 iconHome.setBackgroundResource(R.drawable.admin_background_select);
+                replaceFragment(new HomePageFragment());
                 break;
             case Configuration.DANH_MUC:
                 iconDanhMuc.setTextColor(getActivity().getColor(R.color.white));
@@ -117,6 +120,7 @@ public class HeaderFragment extends Fragment {
             case Configuration.MA_GIAM_GIA:
                 iconMaGiamGia.setTextColor(getActivity().getColor(R.color.white));
                 iconMaGiamGia.setBackgroundResource(R.drawable.admin_background_select);
+                replaceFragment(new MaGiamGiaFragment());
                 break;
         }
     }

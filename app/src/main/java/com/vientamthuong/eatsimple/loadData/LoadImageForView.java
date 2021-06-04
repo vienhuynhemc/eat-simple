@@ -35,6 +35,7 @@ public class LoadImageForView {
     private DanhMuc danhMuc;
     // Top header admin
     private CardView cardView;
+    private CardView cardViewIm;
     // Thông báo chuông
     private ThongBaoChuong thongBaoChuong;
     //-----------------------------------------------------------
@@ -74,11 +75,12 @@ public class LoadImageForView {
     }
 
     // Hình đại diện top header admin
-    public LoadImageForView(String url, AppCompatActivity appCompatActivity, ImageView imageView, int type, CardView cardView) {
+    public LoadImageForView(String url, AppCompatActivity appCompatActivity, ImageView imageView, int type, CardView cardView,CardView cardViewIm) {
         this.imageView = imageView;
         this.appCompatActivity = appCompatActivity;
         this.type = type;
         this.url = url;
+        this.cardViewIm = cardViewIm;
         this.cardView = cardView;
     }
 
@@ -104,6 +106,7 @@ public class LoadImageForView {
                 case LoadDataConfiguration.TOP_HEADER_ADMIN:
                     imageView.setImageBitmap(response);
                     cardView.setVisibility(View.INVISIBLE);
+                    cardViewIm.setVisibility(View.VISIBLE);
                     break;
             }
             isComplete = true;
