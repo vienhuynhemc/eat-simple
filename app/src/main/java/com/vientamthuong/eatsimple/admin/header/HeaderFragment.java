@@ -11,11 +11,15 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.vientamthuong.eatsimple.R;
 import com.vientamthuong.eatsimple.admin.Configuration;
+import com.vientamthuong.eatsimple.admin.danhMuc.DanhMucFragment;
 import com.vientamthuong.eatsimple.admin.dialog.DiaLogConfirm;
+import com.vientamthuong.eatsimple.admin.homePage.HomePageFragment;
 import com.vientamthuong.eatsimple.admin.loadData.LoadData;
+import com.vientamthuong.eatsimple.admin.maGiamGia.MaGiamGiaFragment;
 import com.vientamthuong.eatsimple.fontAwesome.FontAwesomeManager;
 import com.vientamthuong.eatsimple.login.activity_login;
 
@@ -106,16 +110,25 @@ public class HeaderFragment extends Fragment {
             case Configuration.HOME:
                 iconHome.setTextColor(getActivity().getColor(R.color.white));
                 iconHome.setBackgroundResource(R.drawable.admin_background_select);
+                replaceFragment(new HomePageFragment());
                 break;
             case Configuration.DANH_MUC:
                 iconDanhMuc.setTextColor(getActivity().getColor(R.color.white));
                 iconDanhMuc.setBackgroundResource(R.drawable.admin_background_select);
+                replaceFragment(new DanhMucFragment());
                 break;
             case Configuration.MA_GIAM_GIA:
                 iconMaGiamGia.setTextColor(getActivity().getColor(R.color.white));
                 iconMaGiamGia.setBackgroundResource(R.drawable.admin_background_select);
+                replaceFragment(new MaGiamGiaFragment());
                 break;
         }
+    }
+
+    private void replaceFragment(Fragment fragment) {
+        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.f2, fragment);
+        fragmentTransaction.commit();
     }
 
     private void resetView() {
