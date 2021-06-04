@@ -5,8 +5,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <TextView
+        android:layout_marginBottom="5dp"
+        android:textColor="#f22"
+        android:id="@+id/notify_signUp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        app:layout_constraintBottom_toTopOf="@+id/email_signUp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <EditText
-        android:id="@+id/email"
+        android:inputType="textEmailAddress"
+        android:id="@+id/email_signUp"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="Email"
@@ -23,7 +35,8 @@
         app:layout_constraintWidth_percent=".8" />
 
     <EditText
-        android:id="@+id/pass"
+        android:inputType="textPassword"
+        android:id="@+id/password_signUp"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="Mật khẩu"
@@ -36,12 +49,13 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/email"
+        app:layout_constraintTop_toBottomOf="@+id/email_signUp"
         app:layout_constraintVertical_bias="0"
         app:layout_constraintWidth_percent=".8" />
 
     <EditText
-        android:id="@+id/repass"
+        android:inputType="textPassword"
+        android:id="@+id/repassword_signUp"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="Nhập lại mật khẩu"
@@ -54,7 +68,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/pass"
+        app:layout_constraintTop_toBottomOf="@+id/password_signUp"
         app:layout_constraintVertical_bias="0"
         app:layout_constraintWidth_percent=".8" />
 
@@ -63,14 +77,14 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@drawable/activity_login_button_bg"
-        android:text="Đăng kí"
+        android:text="Đăng ký"
         android:textColor="@color/white"
         android:textSize="16dp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/pass"
+        app:layout_constraintTop_toBottomOf="@+id/password_signUp"
         app:layout_constraintVertical_bias=".7"
         app:layout_constraintWidth_percent=".8" />
 

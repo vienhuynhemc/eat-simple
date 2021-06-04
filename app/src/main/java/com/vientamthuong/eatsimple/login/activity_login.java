@@ -37,7 +37,7 @@ public class activity_login extends AppCompatActivity {
         tw=findViewById(R.id.fab_twitter);
 
         tapLayout.addTab(tapLayout.newTab().setText("Đăng nhập"));
-        tapLayout.addTab(tapLayout.newTab().setText("Đăng kí"));
+        tapLayout.addTab(tapLayout.newTab().setText("Đăng ký"));
         tapLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
         final LoginAdapter adapter = new LoginAdapter(getSupportFragmentManager(), this,tapLayout.getTabCount());
