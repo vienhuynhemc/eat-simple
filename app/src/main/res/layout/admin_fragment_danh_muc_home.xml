@@ -71,15 +71,16 @@
                 tools:ignore="ContentDescription" />
 
             <EditText
-                android:background="@null"
+                android:id="@+id/search"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
+                android:background="@null"
                 android:hint="Tìm kiếm"
                 android:inputType="text"
-                android:textColor="#2a2935"
                 android:maxLines="1"
                 android:paddingStart="5dp"
                 android:paddingEnd="5dp"
+                android:textColor="#2a2935"
                 android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@id/iconSearch"
@@ -90,5 +91,17 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/view_chinh"
+        android:layout_width="300dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="13dp"
+        android:layout_marginTop="17dp"
+        android:layout_marginBottom="17dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/card2" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
