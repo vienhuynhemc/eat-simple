@@ -56,6 +56,18 @@ public class SingupTabFragment extends Fragment {
                         notify.setText("");
                         checkLengthPass = false;
                     }
+                    if(!repass.getText().toString().equals("")) {
+                        if (!pss.equals(repass.getText().toString())) {
+                            notify.setText("*Mật khẩu không khớp");
+                            notify.setTextColor(Color.RED);
+                            checkPassword = false;
+                        }
+                        else{
+                            checkPassword = true;
+                        }
+                    }
+
+
             }
 
             @Override
@@ -102,18 +114,24 @@ public class SingupTabFragment extends Fragment {
                 sRePassword = repass.getText().toString().trim();
                 sPassword = pass.getText().toString().trim();
 
-                if (!sPassword.equals(sRePassword)){
-                    notify.setText("*Mật khẩu không khớp");
-                    notify.setTextColor(Color.RED);
+                if (pass.getText().toString().equals("") && !repass.getText().toString().equals("")){
+                    notify.setText("*Vui lòng nhập mật khẩu trước!");
                     checkPassword = false;
                 }
                 else{
-                    notify.setText("");
-                    checkPassword = true;
-                }
-                if(sRePassword.equals("")){
-                    notify.setText("");
-                    checkPassword = false;
+                    if (!sPassword.equals(sRePassword)){
+                        notify.setText("*Mật khẩu không khớp");
+                        notify.setTextColor(Color.RED);
+                        checkPassword = false;
+                    }
+                    else{
+                        notify.setText("");
+                        checkPassword = true;
+                    }
+                    if(sRePassword.equals("")){
+                        notify.setText("");
+                        checkPassword = false;
+                    }
                 }
             }
 
