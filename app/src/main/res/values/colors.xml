@@ -18,4 +18,5 @@
     <color name="color_main">#fecb4d</color>
     <color name="color_text_main">#2e2e2e</color>
     <color name="color_admin_main">#4162fb</color>
+    <color name="color_admin_xam">#d3dbdf</color>
 </resources>
