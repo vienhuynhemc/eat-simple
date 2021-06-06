@@ -19,6 +19,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -46,13 +47,15 @@ import java.util.Map;
 public class DanhMucFragment extends Fragment implements MainFragment {
 
     private Spinner spinner;
-    List<String> listType;
+    private List<String> listType;
     private ImageView sort;
     private EditText search;
     private RecyclerView recyclerView;
     private DanhMucAdapter danhMucAdapter;
     private List<DanhMuc> rootArray;
     private List<DanhMuc> showArray;
+    private FloatingActionButton buttonThem;
+    private FloatingActionButton buttonXoa;
     private int nowSort;
 
     @Nullable
@@ -70,6 +73,8 @@ public class DanhMucFragment extends Fragment implements MainFragment {
         sort = view.findViewById(R.id.sort);
         search = view.findViewById(R.id.search);
         recyclerView = view.findViewById(R.id.view_chinh);
+        buttonThem = view.findViewById(R.id.buttonThem);
+        buttonXoa = view.findViewById(R.id.buttonXoa);
     }
 
     private void action() {
@@ -87,6 +92,7 @@ public class DanhMucFragment extends Fragment implements MainFragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (LoadData.getLoadData().isReadyFromMainFragment()) {
+                    show();
                     sort();
                 }
             }
@@ -140,7 +146,8 @@ public class DanhMucFragment extends Fragment implements MainFragment {
             showArray.add(new DanhMuc(null, null, null, -1, false, null, null));
             rootArray.add(new DanhMuc(null, null, null, -1, false, null, null));
         }
-        danhMucAdapter = new DanhMucAdapter(R.layout.admin_view_holder_item_danh_muc, showArray, rootArray, getActivity());
+        danhMucAdapter = new DanhMucAdapter(R.layout.admin_view_holder_item_danh_muc, showArray, rootArray,
+                getActivity(), buttonXoa);
         recyclerView.setAdapter(danhMucAdapter);
         danhMucAdapter.notifyDataSetChanged();
     }
@@ -305,6 +312,7 @@ public class DanhMucFragment extends Fragment implements MainFragment {
         String search = this.search.getText().toString().toLowerCase();
         String sort = spinner.getSelectedItem().toString();
         showArray.clear();
+        int count = 0;
         for (DanhMuc danhMuc : rootArray) {
             boolean isOKe = false;
             switch (sort) {
@@ -340,7 +348,15 @@ public class DanhMucFragment extends Fragment implements MainFragment {
             }
             if (isOKe) {
                 showArray.add(new DanhMuc(danhMuc));
+               if(danhMuc.isChonXoa()){
+                   count++;
+               }
             }
+        }
+        if (count != 0) {
+            buttonXoa.setVisibility(View.VISIBLE);
+        } else {
+            buttonXoa.setVisibility(View.GONE);
         }
     }
 

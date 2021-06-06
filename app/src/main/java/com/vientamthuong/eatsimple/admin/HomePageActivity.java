@@ -221,4 +221,7 @@ public class HomePageActivity extends AppCompatActivity implements ActivityProto
         // loader
         diaLogLoader = new DiaLogLoader(HomePageActivity.this);
     }
+
+
+
 }
