@@ -11,7 +11,7 @@ import androidx.cardview.widget.CardView;
 import com.airbnb.lottie.LottieAnimationView;
 import com.android.volley.toolbox.ImageRequest;
 import com.vientamthuong.eatsimple.admin.model.ThongBaoChuong;
-import com.vientamthuong.eatsimple.danhMuc.DanhMuc;
+import com.vientamthuong.eatsimple.model.DanhMuc;
 
 public class LoadImageForView {
 

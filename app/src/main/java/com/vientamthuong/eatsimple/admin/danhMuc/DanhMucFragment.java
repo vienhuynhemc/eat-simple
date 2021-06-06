@@ -1,9 +1,12 @@
 package com.vientamthuong.eatsimple.admin.danhMuc;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -39,6 +42,7 @@ import java.util.List;
 public class DanhMucFragment extends Fragment implements MainFragment {
 
     private Spinner spinner;
+    List<String> listType;
     private ImageView sort;
     private EditText search;
     private RecyclerView recyclerView;
@@ -72,6 +76,37 @@ public class DanhMucFragment extends Fragment implements MainFragment {
             } else {
                 nowSort = Configuration.ASC;
                 sort.setScaleY(-1);
+            }
+            sort();
+        });
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (LoadData.getLoadData().isReadyFromMainFragment()) {
+                    sort();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        search.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                show();
+                sort();
             }
         });
     }
@@ -107,7 +142,7 @@ public class DanhMucFragment extends Fragment implements MainFragment {
     }
 
     private void initSpinner() {
-        List<String> listType = new ArrayList<>(Arrays.asList("Ngày tạo", "Tên danh mục", "Mã danh mục", "Số lượng sản phẩm"));
+        listType = new ArrayList<>(Arrays.asList("Ngày tạo", "Tên danh mục", "Mã danh mục", "Số lượng sản phẩm"));
         SelectAdapter selectAdapter = new SelectAdapter(getActivity(), R.layout.admin_view_holder_select, listType);
         spinner.setAdapter(selectAdapter);
     }
@@ -169,6 +204,7 @@ public class DanhMucFragment extends Fragment implements MainFragment {
                 }
                 // Show
                 show();
+                sort();
                 // Và giờ tải hình từ các link hình
                 if (!activityProtocol.isRunningVolley()) {
                     activityProtocol.setRunningVolley(true);
@@ -189,7 +225,7 @@ public class DanhMucFragment extends Fragment implements MainFragment {
     public void update() {
         for (DanhMuc danhMuc : showArray) {
             for (DanhMuc d : rootArray) {
-                if (danhMuc.getMaDanhMuc().equals(d.getMaDanhMuc())) {
+                if (d.getMaDanhMuc() != null && danhMuc.getMaDanhMuc().equals(d.getMaDanhMuc())) {
                     danhMuc.setHinh(d.getHinh());
                     break;
                 }
@@ -199,13 +235,101 @@ public class DanhMucFragment extends Fragment implements MainFragment {
     }
 
     private void show() {
-        String search = this.search.getText().toString();
+        String search = this.search.getText().toString().toLowerCase();
         String sort = spinner.getSelectedItem().toString();
         showArray.clear();
-        for(DanhMuc danhMuc : rootArray){
-            showArray.add(new DanhMuc(danhMuc));
+        for (DanhMuc danhMuc : rootArray) {
+            boolean isOKe = false;
+            switch (sort) {
+                case "Ngày tạo":
+                    if (danhMuc.getNgayTao() != null) {
+                        if (danhMuc.getNgayTao().toStringDateTypeNumberStringNumber().toLowerCase().contains(search)) {
+                            isOKe = true;
+                        }
+                    } else {
+                        isOKe = true;
+                    }
+                    break;
+                case "Tên danh mục":
+                    if (danhMuc.getTenDanhMuc().toLowerCase().contains(search)) {
+                        isOKe = true;
+                    }
+                    break;
+                case "Mã danh mục":
+                    if (danhMuc.getMaDanhMuc().toLowerCase().contains(search)) {
+                        isOKe = true;
+                    }
+                    break;
+                case "Số lượng sản phẩm":
+                    try {
+                        int a = Integer.parseInt(search);
+                        if (a == danhMuc.getSoSanPham()) {
+                            isOKe = true;
+                        }
+                    } catch (Exception e) {
+                        isOKe = false;
+                    }
+                    break;
+            }
+            if (isOKe) {
+                showArray.add(new DanhMuc(danhMuc));
+            }
         }
+    }
+
+    public void sort() {
+        String sort = spinner.getSelectedItem().toString();
+        showArray.sort((o1, o2) -> {
+            switch (sort) {
+                case "Ngày tạo":
+                    if (o1.getNgayTao() != null) {
+                        if (nowSort == Configuration.ASC) {
+                            return (int) (o1.getNgayTao().getTime() - o2.getNgayTao().getTime());
+                        } else {
+                            return (int) (o2.getNgayTao().getTime() - o1.getNgayTao().getTime());
+                        }
+                    } else {
+                        return 0;
+                    }
+                case "Tên danh mục":
+                    if (nowSort == Configuration.ASC) {
+                        return compareToString(o1.getTenDanhMuc(), o2.getTenDanhMuc());
+                    } else {
+                        return compareToString(o2.getTenDanhMuc(), o1.getTenDanhMuc());
+                    }
+                case "Mã danh mục":
+                    if (nowSort == Configuration.ASC) {
+                        return compareToString(o1.getMaDanhMuc(), o2.getMaDanhMuc());
+                    } else {
+                        return compareToString(o2.getMaDanhMuc(), o1.getMaDanhMuc());
+                    }
+                default:
+                    if (nowSort == Configuration.ASC) {
+                        return o1.getSoSanPham() - o2.getSoSanPham();
+                    } else {
+                        return o2.getSoSanPham() - o1.getSoSanPham();
+                    }
+            }
+        });
         danhMucAdapter.notifyDataSetChanged();
+    }
+
+
+    public int compareToString(String s1, String s2) {
+        char[] a1 = s1.trim().toCharArray();
+        char[] a2 = s2.trim().toCharArray();
+        int count = 0;
+        int result = 0;
+        while (count < a1.length && count < a2.length) {
+            int c = a1[count] - a2[count];
+            if (c == 0) {
+                count++;
+            } else {
+                result = c;
+                break;
+            }
+        }
+        return result;
     }
 
 }

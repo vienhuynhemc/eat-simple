@@ -6,7 +6,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.vientamthuong.eatsimple.danhMuc.DanhMuc;
+import com.vientamthuong.eatsimple.model.DanhMuc;
 
 import java.util.List;
 

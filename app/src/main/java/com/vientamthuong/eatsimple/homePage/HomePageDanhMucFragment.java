@@ -18,7 +18,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import com.vientamthuong.eatsimple.R;
-import com.vientamthuong.eatsimple.danhMuc.DanhMuc;
+import com.vientamthuong.eatsimple.model.DanhMuc;
 import com.vientamthuong.eatsimple.diaLog.DiaLogLoader;
 import com.vientamthuong.eatsimple.loadData.LoadDataConfiguration;
 import com.vientamthuong.eatsimple.loadData.LoadImageForView;
@@ -67,19 +67,22 @@ public class HomePageDanhMucFragment extends Fragment {
                 // Biến count để biết có bao nhiêu thằng
                 int countDanhMuc = 0;
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    countDanhMuc++;
-                    DanhMuc danhMuc = new DanhMuc(dataSnapshot.getKey());
-                    danhMuc.setHinh(Objects.requireNonNull(dataSnapshot.child("hinh").getValue()).toString());
-                    danhMuc.setTen_danh_muc(Objects.requireNonNull(dataSnapshot.child("ten").getValue()).toString());
-                    // Nếu như chưa lớn hơn thì thay vì add vào ta thay đổi thuộc tính của nó
-                    if (countDanhMuc < 5) {
-                        danhMucs.get(countDanhMuc - 1).setTen_danh_muc(danhMuc.getTen_danh_muc());
-                        danhMucs.get(countDanhMuc - 1).setHinh(danhMuc.getHinh());
-                        danhMucs.get(countDanhMuc - 1).setMa_danh_muc(danhMuc.getMa_danh_muc());
-                    } else {
-                        danhMucs.add(danhMuc);
+                    int ton_tai = Integer.parseInt(dataSnapshot.child("ton_tai").getValue().toString());
+                    if (ton_tai == 0) {
+                        countDanhMuc++;
+                        DanhMuc danhMuc = new DanhMuc(dataSnapshot.getKey());
+                        danhMuc.setHinh(Objects.requireNonNull(dataSnapshot.child("hinh").getValue()).toString());
+                        danhMuc.setTen_danh_muc(Objects.requireNonNull(dataSnapshot.child("ten").getValue()).toString());
+                        // Nếu như chưa lớn hơn thì thay vì add vào ta thay đổi thuộc tính của nó
+                        if (countDanhMuc < 5) {
+                            danhMucs.get(countDanhMuc - 1).setTen_danh_muc(danhMuc.getTen_danh_muc());
+                            danhMucs.get(countDanhMuc - 1).setHinh(danhMuc.getHinh());
+                            danhMucs.get(countDanhMuc - 1).setMa_danh_muc(danhMuc.getMa_danh_muc());
+                        } else {
+                            danhMucs.add(danhMuc);
+                        }
+                        customDanhMucAdapter.notifyDataSetChanged();
                     }
-                    customDanhMucAdapter.notifyDataSetChanged();
                 }
                 // Nếu như số danh mục < 4 (mặc định )thì xóa bớt
                 if (countDanhMuc < 4) {
