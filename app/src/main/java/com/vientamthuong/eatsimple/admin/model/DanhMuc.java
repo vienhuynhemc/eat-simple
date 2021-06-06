@@ -24,6 +24,16 @@ public class DanhMuc {
         this.hinh = hinh;
     }
 
+    public DanhMuc(DanhMuc d){
+        this.maDanhMuc = d.getMaDanhMuc();
+        this.tenDanhMuc = d.getTenDanhMuc();
+        this.ngayTao = d.getNgayTao();
+        this.soSanPham = d.getSoSanPham();
+        this.chonXoa = d.isChonXoa();
+        this.url = d.getUrl();
+        this.hinh = d.getHinh();
+    }
+
     public String getMaDanhMuc() {
         return maDanhMuc;
     }

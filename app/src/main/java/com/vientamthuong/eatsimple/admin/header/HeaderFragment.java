@@ -9,10 +9,12 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.google.firebase.database.DatabaseReference;
 import com.vientamthuong.eatsimple.R;
 import com.vientamthuong.eatsimple.admin.Configuration;
 import com.vientamthuong.eatsimple.admin.danhMuc.DanhMucFragment;
@@ -20,8 +22,13 @@ import com.vientamthuong.eatsimple.admin.dialog.DiaLogConfirm;
 import com.vientamthuong.eatsimple.admin.homePage.HomePageFragment;
 import com.vientamthuong.eatsimple.admin.loadData.LoadData;
 import com.vientamthuong.eatsimple.admin.maGiamGia.MaGiamGiaFragment;
+import com.vientamthuong.eatsimple.admin.model.MainFragment;
+import com.vientamthuong.eatsimple.diaLog.DiaLogLoader;
 import com.vientamthuong.eatsimple.fontAwesome.FontAwesomeManager;
+import com.vientamthuong.eatsimple.loadData.LoadImageForView;
 import com.vientamthuong.eatsimple.login.activity_login;
+
+import java.util.List;
 
 public class HeaderFragment extends Fragment {
 
@@ -32,6 +39,7 @@ public class HeaderFragment extends Fragment {
     private TextView iconLogout;
     private CardView cardViewLogout;
     private int nowSelect;
+    private MainFragment mainFragment;
 
     @Nullable
     @Override
@@ -51,6 +59,10 @@ public class HeaderFragment extends Fragment {
         cardViewLogout.setOnClickListener(v -> {
             actionLogout();
         });
+    }
+
+    public void getData(DatabaseReference root, DiaLogLoader diaLogLoader, List<LoadImageForView> imagesNeedLoad, AppCompatActivity appCompatActivity) {
+        mainFragment.getData(root, diaLogLoader, imagesNeedLoad, appCompatActivity);
     }
 
     private void init() {
@@ -110,17 +122,23 @@ public class HeaderFragment extends Fragment {
             case Configuration.HOME:
                 iconHome.setTextColor(getActivity().getColor(R.color.white));
                 iconHome.setBackgroundResource(R.drawable.admin_background_select);
-                replaceFragment(new HomePageFragment());
+                HomePageFragment homePageFragment = new HomePageFragment();
+                replaceFragment(homePageFragment);
+                mainFragment = homePageFragment;
                 break;
             case Configuration.DANH_MUC:
                 iconDanhMuc.setTextColor(getActivity().getColor(R.color.white));
                 iconDanhMuc.setBackgroundResource(R.drawable.admin_background_select);
-                replaceFragment(new DanhMucFragment());
+                DanhMucFragment danhMucFragment = new DanhMucFragment();
+                replaceFragment(danhMucFragment);
+                mainFragment = danhMucFragment;
                 break;
             case Configuration.MA_GIAM_GIA:
                 iconMaGiamGia.setTextColor(getActivity().getColor(R.color.white));
                 iconMaGiamGia.setBackgroundResource(R.drawable.admin_background_select);
-                replaceFragment(new MaGiamGiaFragment());
+                MaGiamGiaFragment maGiamGiaFragment = new MaGiamGiaFragment();
+                replaceFragment(maGiamGiaFragment);
+                mainFragment = maGiamGiaFragment;
                 break;
         }
     }
@@ -147,5 +165,9 @@ public class HeaderFragment extends Fragment {
         iconMaGiamGia = view.findViewById(R.id.icon_MaGiamGia);
         iconLogout = view.findViewById(R.id.icon_logout);
         cardViewLogout = view.findViewById(R.id.log_out);
+    }
+
+    public void update() {
+        mainFragment.update();
     }
 }

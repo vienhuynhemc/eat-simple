@@ -7,11 +7,18 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import com.google.firebase.database.DatabaseReference;
 import com.vientamthuong.eatsimple.R;
+import com.vientamthuong.eatsimple.admin.model.MainFragment;
+import com.vientamthuong.eatsimple.diaLog.DiaLogLoader;
+import com.vientamthuong.eatsimple.loadData.LoadImageForView;
 
-public class MaGiamGiaFragment extends Fragment {
+import java.util.List;
+
+public class MaGiamGiaFragment extends Fragment implements MainFragment {
 
     @Nullable
     @Override
@@ -20,4 +27,13 @@ public class MaGiamGiaFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void getData(DatabaseReference root, DiaLogLoader diaLogLoader, List<LoadImageForView> imagesNeedLoad, AppCompatActivity appCompatActivity) {
+
+    }
+
+    @Override
+    public void update() {
+
+    }
 }

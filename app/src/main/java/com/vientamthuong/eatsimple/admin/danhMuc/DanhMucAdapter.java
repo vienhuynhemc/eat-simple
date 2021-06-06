@@ -1,5 +1,6 @@
 package com.vientamthuong.eatsimple.admin.danhMuc;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -32,6 +33,7 @@ public class DanhMucAdapter extends RecyclerView.Adapter<DanhMucViewHolder> {
         return new DanhMucViewHolder(LayoutInflater.from(parent.getContext()).inflate(resource, parent, false));
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull DanhMucViewHolder holder, int position) {
         DanhMuc danhMuc = show.get(position);
@@ -43,13 +45,25 @@ public class DanhMucAdapter extends RecyclerView.Adapter<DanhMucViewHolder> {
             } else {
                 holder.getChonXoa().setButtonTintList(context.getColorStateList(R.color.color_admin_xam));
             }
-//            for (DanhMuc d : root) {
-//                if (d.getMaDanhMuc().equals(danhMuc.getMaDanhMuc())) {
-//                    d.setChonXoa(danhMuc.isChonXoa());
-//                    break;
-//                }
-//            }
+            for (DanhMuc d : root) {
+                if (d.getMaDanhMuc().equals(danhMuc.getMaDanhMuc())) {
+                    d.setChonXoa(danhMuc.isChonXoa());
+                    break;
+                }
+            }
         });
+        if (danhMuc.getMaDanhMuc() != null) {
+            holder.getMaDanhMuc().setText("#" + danhMuc.getMaDanhMuc());
+        }
+        if (danhMuc.getTenDanhMuc() != null) {
+            holder.getTenDanhMuc().setText(danhMuc.getTenDanhMuc());
+        }
+        if (danhMuc.getNgayTao() != null) {
+            holder.getNgayTao().setText(danhMuc.getNgayTao().toStringDateTypeNumberStringNumber());
+        }
+        if (danhMuc.getHinh() != null) {
+            holder.getHinhDaiDien().setImageBitmap(danhMuc.getHinh());
+        }
     }
 
     @Override

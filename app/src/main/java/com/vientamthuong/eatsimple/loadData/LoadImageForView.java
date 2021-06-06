@@ -36,6 +36,8 @@ public class LoadImageForView {
     // Top header admin
     private CardView cardView;
     private CardView cardViewIm;
+    // Danh mục bên admin
+    private com.vientamthuong.eatsimple.admin.model.DanhMuc danhMucAdmin;
     // Thông báo chuông
     private ThongBaoChuong thongBaoChuong;
     //-----------------------------------------------------------
@@ -65,6 +67,16 @@ public class LoadImageForView {
         this.url = danhMuc.getHinh();
     }
 
+    // Danh mục bên admin
+    public LoadImageForView(AppCompatActivity appCompatActivity, com.vientamthuong.eatsimple.admin.model.DanhMuc danhMuc,
+                            int type) {
+        this.danhMucAdmin = danhMuc;
+        this.appCompatActivity = appCompatActivity;
+        this.type = type;
+        // Lấy url
+        this.url = danhMuc.getUrl();
+    }
+
     // Thông báo chuông
     public LoadImageForView(AppCompatActivity appCompatActivity, ThongBaoChuong thongBaoChuong, int type) {
         this.thongBaoChuong = thongBaoChuong;
@@ -75,7 +87,7 @@ public class LoadImageForView {
     }
 
     // Hình đại diện top header admin
-    public LoadImageForView(String url, AppCompatActivity appCompatActivity, ImageView imageView, int type, CardView cardView,CardView cardViewIm) {
+    public LoadImageForView(String url, AppCompatActivity appCompatActivity, ImageView imageView, int type, CardView cardView, CardView cardViewIm) {
         this.imageView = imageView;
         this.appCompatActivity = appCompatActivity;
         this.type = type;
@@ -107,6 +119,9 @@ public class LoadImageForView {
                     imageView.setImageBitmap(response);
                     cardView.setVisibility(View.INVISIBLE);
                     cardViewIm.setVisibility(View.VISIBLE);
+                    break;
+                case LoadDataConfiguration.DANH_MUC_ADMIN:
+                    danhMucAdmin.setHinh(response);
                     break;
             }
             isComplete = true;

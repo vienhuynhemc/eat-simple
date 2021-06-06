@@ -56,6 +56,7 @@ public class HomePageActivity extends AppCompatActivity implements ActivityProto
             diaLogLostConnection.show();
         } else {
             getDataHeader();
+            getDataMainFragment();
         }
     }
 
@@ -65,9 +66,23 @@ public class HomePageActivity extends AppCompatActivity implements ActivityProto
             // Không mất kết nối thì lấy dữ liêu  fire base về của activity này
             FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
             DatabaseReference root = firebaseDatabase.getReference();
-            imagesNeedLoad = new ArrayList<>();
+            if(imagesNeedLoad == null){
+                imagesNeedLoad = new ArrayList<>();
+            }
             // Load dữ liệu top header
             topHeaderFragment.getData(root, diaLogLoader, imagesNeedLoad, HomePageActivity.this);
+        }
+    }
+
+    public void getDataMainFragment(){
+        if(LoadData.getInstance().isReadyFromMainFragment()){
+            // Không mất kết nối thì lấy dữ liêu  fire base về của activity này
+            FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+            DatabaseReference root = firebaseDatabase.getReference();
+            if(imagesNeedLoad == null){
+                imagesNeedLoad = new ArrayList<>();
+            }
+            headerFragment.getData(root, diaLogLoader, imagesNeedLoad, HomePageActivity.this);
         }
     }
 
@@ -100,6 +115,8 @@ public class HomePageActivity extends AppCompatActivity implements ActivityProto
                                 // Kiểm tra nếu thằng xong này type thông báo chuông thì thông báo
                                 if (imagesNeedLoad.get(count).getType() == LoadDataConfiguration.IMAGE_THONG_BAO_CHUONG) {
                                     runOnUiThread(() -> topHeaderFragment.update());
+                                }else if(imagesNeedLoad.get(count).getType() == LoadDataConfiguration.DANH_MUC_ADMIN){
+                                    runOnUiThread(() -> headerFragment.update());
                                 }
                                 imagesNeedLoad.remove(count);
                             } else if (loadImageForView.isError()) {

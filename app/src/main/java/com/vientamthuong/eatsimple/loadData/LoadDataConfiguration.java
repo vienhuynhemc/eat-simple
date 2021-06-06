@@ -14,4 +14,7 @@ public class LoadDataConfiguration {
     // THông báo chuông
     public static final int IMAGE_THONG_BAO_CHUONG = 4;
 
+    // Danh mục bên admin
+    public static final int DANH_MUC_ADMIN = 5;
+
 }

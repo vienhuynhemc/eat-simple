@@ -82,10 +82,12 @@ public class ThongBaoNoiFragment extends Fragment {
         thongBaoNoiFragmentCustomAdapter.notifyDataSetChanged();
 
         // Sẵn sàng
-        LoadData.getInstance().setReadyFromThongBaoNoi(true);
-        // Tới đây thì mọi thứ đã sẵn sàng cho header và ta tải dữ liệu cho header
-        HomePageActivity homePageActivity = (HomePageActivity) getActivity();
-        homePageActivity.getDataHeader();
+        if (!LoadData.getInstance().isReadyFromThongBaoNoi()) {
+            LoadData.getInstance().setReadyFromThongBaoNoi(true);
+            // Tới đây thì mọi thứ đã sẵn sàng cho header và ta tải dữ liệu cho header
+            HomePageActivity homePageActivity = (HomePageActivity) getActivity();
+            homePageActivity.getDataHeader();
+        }
     }
 
     public void handleShowHide() {

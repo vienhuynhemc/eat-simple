@@ -5,12 +5,15 @@ public class LoadData {
     private static LoadData loadData;
     // Biến để xem thông báo nổi sẵn sàng hay chưa ?
     private boolean isReadyFromThongBaoNoi;
+    // Main fragment có sẵn sàn hay chưa
+    private boolean isReadyFromMainFragment;
 
     private LoadData() {
     }
 
     public void reset() {
         isReadyFromThongBaoNoi = false;
+        isReadyFromMainFragment = false;
     }
 
     public static LoadData getInstance() {
@@ -34,5 +37,13 @@ public class LoadData {
 
     public void setReadyFromThongBaoNoi(boolean readyFromThongBaoNoi) {
         isReadyFromThongBaoNoi = readyFromThongBaoNoi;
+    }
+
+    public boolean isReadyFromMainFragment() {
+        return isReadyFromMainFragment;
+    }
+
+    public void setReadyFromMainFragment(boolean readyFromMainFragment) {
+        isReadyFromMainFragment = readyFromMainFragment;
     }
 }
