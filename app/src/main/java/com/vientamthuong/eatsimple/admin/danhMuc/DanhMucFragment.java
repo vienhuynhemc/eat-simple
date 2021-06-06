@@ -35,9 +35,13 @@ import com.vientamthuong.eatsimple.loadData.LoadDataConfiguration;
 import com.vientamthuong.eatsimple.loadData.LoadImageForView;
 import com.vientamthuong.eatsimple.protocol.ActivityProtocol;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class DanhMucFragment extends Fragment implements MainFragment {
 
@@ -205,6 +209,8 @@ public class DanhMucFragment extends Fragment implements MainFragment {
                 // Show
                 show();
                 sort();
+                // Đếm số sản phẩm
+                countSl(root);
                 // Và giờ tải hình từ các link hình
                 if (!activityProtocol.isRunningVolley()) {
                     activityProtocol.setRunningVolley(true);
@@ -219,6 +225,67 @@ public class DanhMucFragment extends Fragment implements MainFragment {
                 Toast.makeText(appCompatActivity, "Lỗi tải dữ liệu từ firebase !", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void countSl(DatabaseReference root) {
+        root.child("san_pham").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                Map<String, Integer> map = new HashMap<>();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    String ma_danh_muc = dataSnapshot.child("ma_danh_muc").getValue().toString();
+                    Integer object = map.get(ma_danh_muc);
+                    if (object == null) {
+                        map.put(ma_danh_muc, 1);
+                    } else {
+                        map.put(ma_danh_muc, map.get(ma_danh_muc) + 1);
+                    }
+                }
+                updateSl(map);
+            }
+
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    private void updateSl(Map<String, Integer> map) {
+        for (DanhMuc danhMuc : rootArray) {
+            danhMuc.setSoSanPham(-1);
+        }
+        for (DanhMuc danhMuc : showArray) {
+            danhMuc.setSoSanPham(-1);
+        }
+        for (Map.Entry<String, Integer> entry : map.entrySet()) {
+            String ma_danh_muc = entry.getKey();
+            int sl = entry.getValue();
+            for (DanhMuc danhMuc : rootArray) {
+                if (danhMuc.getMaDanhMuc().equals(ma_danh_muc)) {
+                    danhMuc.setSoSanPham(sl);
+                    break;
+                }
+            }
+            for (DanhMuc danhMuc : showArray) {
+                if (danhMuc.getMaDanhMuc().equals(ma_danh_muc)) {
+                    danhMuc.setSoSanPham(sl);
+                    danhMucAdapter.notifyDataSetChanged();
+                    break;
+                }
+            }
+        }
+        for (DanhMuc danhMuc : rootArray) {
+            if (danhMuc.getSoSanPham() == -1) {
+                danhMuc.setSoSanPham(0);
+            }
+        }
+        for (DanhMuc danhMuc : showArray) {
+            if (danhMuc.getSoSanPham() == -1) {
+                danhMuc.setSoSanPham(0);
+            }
+        }
+        danhMucAdapter.notifyDataSetChanged();
     }
 
     @Override

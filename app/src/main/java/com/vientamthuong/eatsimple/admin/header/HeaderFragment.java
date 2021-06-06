@@ -92,6 +92,7 @@ public class HeaderFragment extends Fragment {
     }
 
     private void moveTo(View view) {
+        LoadData.getInstance().setReadyFromMainFragment(false);
         int nextSelect = -1;
         switch (view.getId()) {
             case R.id.icon_home:

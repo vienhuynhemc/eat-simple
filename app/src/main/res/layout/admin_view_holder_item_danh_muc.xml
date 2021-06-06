@@ -38,7 +38,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:src="@drawable/activity_introductory_logo"
+                    android:visibility="invisible"
                     tools:ignore="ContentDescription" />
+
+                <com.airbnb.lottie.LottieAnimationView
+                    android:id="@+id/hinhDaiDienLottie"
+                    android:layout_width="46dp"
+                    android:layout_height="46dp"
+                    app:lottie_autoPlay="true"
+                    app:lottie_loop="true"
+                    app:lottie_rawRes="@raw/loader_rectangle" />
 
             </androidx.cardview.widget.CardView>
 
@@ -49,11 +58,30 @@
                 android:layout_marginStart="10dp"
                 android:text="Gà nướng siêu cấp"
                 android:textColor="#2a2935"
+                android:visibility="invisible"
                 android:textSize="13sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toEndOf="@id/card1"
                 app:layout_constraintTop_toTopOf="@id/card1"
                 tools:ignore="HardcodedText" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/tenLottie"
+                android:layout_width="200dp"
+                android:layout_height="10dp"
+                android:layout_marginStart="10dp"
+                app:cardCornerRadius="5dp"
+                app:cardElevation="0dp"
+                app:layout_constraintStart_toEndOf="@id/card1"
+                app:layout_constraintTop_toTopOf="@id/card1">
+
+                <com.airbnb.lottie.LottieAnimationView
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    app:lottie_autoPlay="true"
+                    app:lottie_loop="true"
+                    app:lottie_rawRes="@raw/loader_rectangle" />
+            </androidx.cardview.widget.CardView>
 
             <TextView
                 android:id="@+id/maDanhMuc"
@@ -61,6 +89,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:text="#dm_1"
+                android:visibility="invisible"
                 android:textColor="#d5d7e9"
                 android:textSize="11sp"
                 android:textStyle="bold"
@@ -68,7 +97,26 @@
                 app:layout_constraintTop_toBottomOf="@id/tenDanhMuc"
                 tools:ignore="HardcodedText,SmallSp" />
 
+            <androidx.cardview.widget.CardView
+                android:id="@+id/maLottie"
+                android:layout_width="50dp"
+                android:layout_height="10dp"
+                android:layout_marginStart="10dp"
+                app:cardCornerRadius="5dp"
+                app:cardElevation="0dp"
+                app:layout_constraintStart_toEndOf="@id/card1"
+                app:layout_constraintTop_toBottomOf="@id/tenDanhMuc">
+
+                <com.airbnb.lottie.LottieAnimationView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    app:lottie_autoPlay="true"
+                    app:lottie_loop="true"
+                    app:lottie_rawRes="@raw/loader_rectangle" />
+            </androidx.cardview.widget.CardView>
+
             <TextView
+                android:visibility="invisible"
                 android:id="@+id/ngayTao"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -82,8 +130,28 @@
                 app:layout_constraintTop_toBottomOf="@id/maDanhMuc"
                 tools:ignore="HardcodedText,SmallSp" />
 
+            <androidx.cardview.widget.CardView
+                android:id="@+id/ngayLottie"
+                android:layout_width="100dp"
+                android:layout_height="10dp"
+                android:layout_marginStart="10dp"
+                app:cardCornerRadius="5dp"
+                app:cardElevation="0dp"
+                app:layout_constraintBottom_toBottomOf="@id/card1"
+                app:layout_constraintStart_toEndOf="@id/card1"
+                app:layout_constraintTop_toBottomOf="@id/maDanhMuc">
+
+                <com.airbnb.lottie.LottieAnimationView
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    app:lottie_autoPlay="true"
+                    app:lottie_loop="true"
+                    app:lottie_rawRes="@raw/loader_rectangle" />
+            </androidx.cardview.widget.CardView>
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/noiDung"
+                android:visibility="invisible"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
@@ -119,6 +187,7 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.cardview.widget.CardView
+                android:visibility="invisible"
                 android:id="@+id/buttonSua"
                 android:layout_width="70dp"
                 android:layout_height="30dp"
@@ -143,7 +212,48 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/suaLottie"
+                android:layout_width="70dp"
+                android:layout_height="10dp"
+                android:layout_marginBottom="19dp"
+                android:layout_marginEnd="10dp"
+                app:cardCornerRadius="5dp"
+                app:cardElevation="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <com.airbnb.lottie.LottieAnimationView
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    app:lottie_autoPlay="true"
+                    app:lottie_loop="true"
+                    app:lottie_rawRes="@raw/loader_rectangle" />
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/slLottie"
+                android:layout_width="150dp"
+                android:layout_height="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="45dp"
+                app:cardCornerRadius="5dp"
+                app:cardElevation="0dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/card1">
+
+                <com.airbnb.lottie.LottieAnimationView
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    app:lottie_autoPlay="true"
+                    app:lottie_loop="true"
+                    app:lottie_rawRes="@raw/loader_rectangle" />
+            </androidx.cardview.widget.CardView>
+
+
+
+            <androidx.cardview.widget.CardView
                 android:id="@+id/buttonXoa"
+                android:visibility="invisible"
                 android:layout_width="70dp"
                 android:layout_height="30dp"
                 android:layout_marginEnd="10dp"
@@ -165,6 +275,25 @@
                     tools:ignore="HardcodedText,SmallSp" />
             </androidx.cardview.widget.CardView>
 
+            <androidx.cardview.widget.CardView
+                android:id="@+id/xoaLottie"
+                android:layout_width="70dp"
+                android:layout_height="10dp"
+                android:layout_marginBottom="19dp"
+                android:layout_marginEnd="10dp"
+                app:cardCornerRadius="5dp"
+                app:cardElevation="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/suaLottie">
+
+                <com.airbnb.lottie.LottieAnimationView
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    app:lottie_autoPlay="true"
+                    app:lottie_loop="true"
+                    app:lottie_rawRes="@raw/loader_rectangle" />
+            </androidx.cardview.widget.CardView>
+
             <CheckBox
                 android:id="@+id/chonXoa"
                 android:layout_width="wrap_content"
@@ -172,6 +301,7 @@
                 android:layout_marginStart="3dp"
                 android:buttonTint="#d3dbdf"
                 android:paddingStart="4dp"
+                android:visibility="invisible"
                 android:scaleX="0.7"
                 android:scaleY="0.7"
                 android:text="Đã chọn"
@@ -180,6 +310,25 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 tools:ignore="HardcodedText,RtlSymmetry,SmallSp" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/chonXoaLottie"
+                android:layout_width="70dp"
+                android:layout_height="10dp"
+                android:layout_marginBottom="19dp"
+                android:layout_marginStart="10dp"
+                app:cardCornerRadius="5dp"
+                app:cardElevation="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <com.airbnb.lottie.LottieAnimationView
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    app:lottie_autoPlay="true"
+                    app:lottie_loop="true"
+                    app:lottie_rawRes="@raw/loader_rectangle" />
+            </androidx.cardview.widget.CardView>
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

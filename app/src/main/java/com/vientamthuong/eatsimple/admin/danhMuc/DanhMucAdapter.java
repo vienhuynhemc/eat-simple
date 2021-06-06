@@ -54,15 +54,23 @@ public class DanhMucAdapter extends RecyclerView.Adapter<DanhMucViewHolder> {
         });
         if (danhMuc.getMaDanhMuc() != null) {
             holder.getMaDanhMuc().setText("#" + danhMuc.getMaDanhMuc());
+            holder.updateMaDanhMuc();
         }
         if (danhMuc.getTenDanhMuc() != null) {
             holder.getTenDanhMuc().setText(danhMuc.getTenDanhMuc());
+            holder.updateTenDanhMuc();
         }
         if (danhMuc.getNgayTao() != null) {
             holder.getNgayTao().setText(danhMuc.getNgayTao().toStringDateTypeNumberStringNumber());
+            holder.updateNgayTao();
         }
         if (danhMuc.getHinh() != null) {
             holder.getHinhDaiDien().setImageBitmap(danhMuc.getHinh());
+            holder.updateHinhDaiDien();
+        }
+        if(danhMuc.getSoSanPham() != -1){
+            holder.getThongTin().setText("Số lượng sản phẩm: "+danhMuc.getSoSanPham());
+            holder.updateSl();
         }
     }
 
