@@ -145,13 +145,26 @@
         </LinearLayout>
 
         <Button
+            android:textSize="15dp"
             android:id="@+id/btn_login"
             android:layout_marginTop="35dp"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:text="Đăng ký"
+            android:text="Đăng nhập"
             android:textAllCaps="false"
             android:background="@drawable/activity_login_button_bg"/>
+
+<!--        <LinearLayout-->
+<!--            android:layout_marginTop="25dp"-->
+<!--            android:orientation="horizontal"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content">-->
+<!--            <androidx.appcompat.widget.AppCompatButton-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="Facebook"-->
+<!--        </LinearLayout>-->
+
     </LinearLayout>
 
 </LinearLayout>

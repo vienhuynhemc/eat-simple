@@ -66,6 +66,9 @@ dependencies {
     //shimmer
     implementation 'com.facebook.shimmer:shimmer:0.5.0'
 
+    // thu vien gson
+    implementation 'com.google.code.gson:gson:2.8.6'
+
 
 
 }
