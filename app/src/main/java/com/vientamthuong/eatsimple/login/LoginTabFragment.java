@@ -29,7 +29,7 @@ import java.util.Map;
 
 public class LoginTabFragment extends Fragment {
 
-    EditText email;
+    EditText username;
     View forgotPass;
     Button login;
     EditText pass;
@@ -39,14 +39,14 @@ public class LoginTabFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle saveInstanceState) {
         ViewGroup root = (ViewGroup) inflater.inflate(R.layout.activity_login_tab_fragment, container, false);
 
-        email = root.findViewById(R.id.email);
+        username = root.findViewById(R.id.email);
         pass = root.findViewById(R.id.pass);
         forgotPass = root.findViewById(R.id.forgot_pass);
         login = root.findViewById(R.id.button_login);
 
         // Test để làm admin
         login.setOnClickListener(v1 -> {
-            String tai_khoan = email.getText().toString().trim();
+            String tai_khoan = username.getText().toString().trim();
             String mat_khau = pass.getText().toString().trim();
             Map<String, String> result = new LinkedHashMap<>();
             StringRequest stringRequest = new StringRequest(Request.Method.POST,
@@ -91,22 +91,31 @@ public class LoginTabFragment extends Fragment {
             };
             VolleyPool.getInstance(getActivity()).addRequest(stringRequest);
         });
+
+        // hiển thị username khi đăng ký thành công!
+        Intent intent = getActivity().getIntent();
+        if (intent.getStringExtra("username_signup") != null){
+            username.setText(intent.getStringExtra("username_signup"));
+        }
+
+
+
         /////////////////////
 
-        email.setTranslationX(0);
-        pass.setTranslationX(0);
-        forgotPass.setTranslationX(0);
-        login.setTranslationX(0);
-
-        email.setAlpha(v);
-        pass.setAlpha(v);
-        forgotPass.setAlpha(v);
-        login.setAlpha(v);
-
-        email.animate().translationY(100).alpha(1).setDuration(800).setStartDelay(300).start();
-        pass.animate().translationY(100).alpha(1).setDuration(800).setStartDelay(500).start();
-        forgotPass.animate().translationY(100).alpha(1).setDuration(800).setStartDelay(500).start();
-        login.animate().translationY(100).alpha(1).setDuration(800).setStartDelay(700).start();
+//        email.setTranslationX(0);
+//        pass.setTranslationX(0);
+//        forgotPass.setTranslationX(0);
+//        login.setTranslationX(0);
+//
+//        email.setAlpha(v);
+//        pass.setAlpha(v);
+//        forgotPass.setAlpha(v);
+//        login.setAlpha(v);
+//
+//        email.animate().translationY(100).alpha(1).setDuration(800).setStartDelay(300).start();
+//        pass.animate().translationY(100).alpha(1).setDuration(800).setStartDelay(500).start();
+//        forgotPass.animate().translationY(100).alpha(1).setDuration(800).setStartDelay(500).start();
+//        login.animate().translationY(100).alpha(1).setDuration(800).setStartDelay(700).start();
 
 
         return root;
