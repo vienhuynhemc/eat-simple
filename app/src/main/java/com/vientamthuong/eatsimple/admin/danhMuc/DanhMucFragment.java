@@ -56,6 +56,7 @@ public class DanhMucFragment extends Fragment implements MainFragment {
     private List<DanhMuc> showArray;
     private FloatingActionButton buttonThem;
     private FloatingActionButton buttonXoa;
+    private FloatingActionButton buttonAll;
     private int nowSort;
 
     @Nullable
@@ -75,6 +76,7 @@ public class DanhMucFragment extends Fragment implements MainFragment {
         recyclerView = view.findViewById(R.id.view_chinh);
         buttonThem = view.findViewById(R.id.buttonThem);
         buttonXoa = view.findViewById(R.id.buttonXoa);
+        buttonAll = view.findViewById(R.id.buttonAll);
     }
 
     private void action() {
@@ -119,6 +121,34 @@ public class DanhMucFragment extends Fragment implements MainFragment {
                 sort();
             }
         });
+        buttonAll.setOnClickListener(v -> {
+            if (buttonXoa.getVisibility() == View.VISIBLE) {
+                for (DanhMuc danhMuc : showArray) {
+                    danhMuc.setChonXoa(false);
+                    for (DanhMuc d : rootArray) {
+                        if (d.getMaDanhMuc().equals(danhMuc.getMaDanhMuc())) {
+                            d.setChonXoa(danhMuc.isChonXoa());
+                            break;
+                        }
+                    }
+                }
+                buttonXoa.setVisibility(View.GONE);
+                buttonAll.setImageResource(R.drawable.admin_fragment_danh_muc_done_all);
+            } else {
+                for (DanhMuc danhMuc : showArray) {
+                    danhMuc.setChonXoa(true);
+                    for (DanhMuc d : rootArray) {
+                        if (d.getMaDanhMuc().equals(danhMuc.getMaDanhMuc())) {
+                            d.setChonXoa(danhMuc.isChonXoa());
+                            break;
+                        }
+                    }
+                }
+                buttonXoa.setVisibility(View.VISIBLE);
+                buttonAll.setImageResource(R.drawable.admin_fragment_danh_muc_clear_all);
+            }
+            danhMucAdapter.notifyDataSetChanged();
+        });
     }
 
     private void init() {
@@ -147,7 +177,7 @@ public class DanhMucFragment extends Fragment implements MainFragment {
             rootArray.add(new DanhMuc(null, null, null, -1, false, null, null));
         }
         danhMucAdapter = new DanhMucAdapter(R.layout.admin_view_holder_item_danh_muc, showArray, rootArray,
-                getActivity(), buttonXoa);
+                this);
         recyclerView.setAdapter(danhMucAdapter);
         danhMucAdapter.notifyDataSetChanged();
     }
@@ -312,7 +342,6 @@ public class DanhMucFragment extends Fragment implements MainFragment {
         String search = this.search.getText().toString().toLowerCase();
         String sort = spinner.getSelectedItem().toString();
         showArray.clear();
-        int count = 0;
         for (DanhMuc danhMuc : rootArray) {
             boolean isOKe = false;
             switch (sort) {
@@ -348,15 +377,25 @@ public class DanhMucFragment extends Fragment implements MainFragment {
             }
             if (isOKe) {
                 showArray.add(new DanhMuc(danhMuc));
-               if(danhMuc.isChonXoa()){
-                   count++;
-               }
+            }
+        }
+        updateButtonXoa();
+    }
+
+    public void updateButtonXoa() {
+        int count = 0;
+        for (DanhMuc danhMuc : showArray) {
+            if (danhMuc.isChonXoa()) {
+                count++;
+                break;
             }
         }
         if (count != 0) {
             buttonXoa.setVisibility(View.VISIBLE);
+            buttonAll.setImageResource(R.drawable.admin_fragment_danh_muc_clear_all);
         } else {
             buttonXoa.setVisibility(View.GONE);
+            buttonAll.setImageResource(R.drawable.admin_fragment_danh_muc_done_all);
         }
     }
 

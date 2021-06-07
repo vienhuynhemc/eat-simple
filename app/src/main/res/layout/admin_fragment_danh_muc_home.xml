@@ -119,6 +119,21 @@
         tools:ignore="ContentDescription" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/buttonAll"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:backgroundTint="@color/color_admin_main"
+        android:scaleX="0.7"
+        android:scaleY="0.7"
+        android:src="@drawable/admin_fragment_danh_muc_done_all"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/buttonThem"
+        app:tint="@color/white"
+        tools:ignore="ContentDescription" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/buttonXoa"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -130,7 +145,7 @@
         android:src="@drawable/admin_fragment_danh_muc_delete"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/buttonThem"
+        app:layout_constraintEnd_toStartOf="@id/buttonAll"
         app:tint="@color/white"
         tools:ignore="ContentDescription" />
 

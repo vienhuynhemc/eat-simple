@@ -3,13 +3,11 @@ package com.vientamthuong.eatsimple.admin.danhMuc;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.vientamthuong.eatsimple.admin.model.DanhMuc;
 
 import java.util.List;
@@ -20,14 +18,13 @@ public class DanhMucAdapter extends RecyclerView.Adapter<DanhMucViewHolder> {
     private List<DanhMuc> show;
     private List<DanhMuc> root;
     private Context context;
-    private FloatingActionButton floatingActionButton;
+    private DanhMucFragment danhMucFragment;
 
-    public DanhMucAdapter(int resource, List<DanhMuc> show, List<DanhMuc> root, Context context, FloatingActionButton floatingActionButton) {
+    public DanhMucAdapter(int resource, List<DanhMuc> show, List<DanhMuc> root, DanhMucFragment danhMucFragment) {
         this.resource = resource;
         this.show = show;
         this.root = root;
-        this.context = context;
-        this.floatingActionButton = floatingActionButton;
+        this.danhMucFragment = danhMucFragment;
     }
 
     @NonNull
@@ -36,20 +33,6 @@ public class DanhMucAdapter extends RecyclerView.Adapter<DanhMucViewHolder> {
         return new DanhMucViewHolder(LayoutInflater.from(parent.getContext()).inflate(resource, parent, false));
     }
 
-    private void updateButtonXoa() {
-        int count = 0;
-        for (DanhMuc danhMuc : show) {
-            if (danhMuc.isChonXoa()) {
-                count++;
-                break;
-            }
-        }
-        if (count != 0) {
-            floatingActionButton.setVisibility(View.VISIBLE);
-        } else {
-            floatingActionButton.setVisibility(View.GONE);
-        }
-    }
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -61,7 +44,7 @@ public class DanhMucAdapter extends RecyclerView.Adapter<DanhMucViewHolder> {
             for (DanhMuc d : root) {
                 if (d.getMaDanhMuc().equals(danhMuc.getMaDanhMuc())) {
                     d.setChonXoa(danhMuc.isChonXoa());
-                    updateButtonXoa();
+                    danhMucFragment.updateButtonXoa();
                     break;
                 }
             }
