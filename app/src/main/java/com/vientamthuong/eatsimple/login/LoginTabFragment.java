@@ -39,10 +39,10 @@ public class LoginTabFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle saveInstanceState) {
         ViewGroup root = (ViewGroup) inflater.inflate(R.layout.activity_login_tab_fragment, container, false);
 
-        username = root.findViewById(R.id.email);
-        pass = root.findViewById(R.id.pass);
-        forgotPass = root.findViewById(R.id.forgot_pass);
-        login = root.findViewById(R.id.button_login);
+        username = root.findViewById(R.id.username_login);
+        pass = root.findViewById(R.id.password_login);
+        forgotPass = root.findViewById(R.id.forgetPassword_login);
+        login = root.findViewById(R.id.btn_login);
 
         // Test để làm admin
         login.setOnClickListener(v1 -> {
