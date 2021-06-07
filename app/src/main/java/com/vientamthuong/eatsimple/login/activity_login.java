@@ -32,9 +32,9 @@ public class activity_login extends AppCompatActivity {
 
         tapLayout=findViewById(R.id.table_layout1);
         viewPager=findViewById(R.id.view_paper1);
-        fb=findViewById(R.id.fab_facebook);
-        gg=findViewById(R.id.fab_google);
-        tw=findViewById(R.id.fab_twitter);
+//        fb=findViewById(R.id.fab_facebook);
+//        gg=findViewById(R.id.fab_google);
+//        tw=findViewById(R.id.fab_twitter);
 
         tapLayout.addTab(tapLayout.newTab().setText("Đăng nhập"));
         tapLayout.addTab(tapLayout.newTab().setText("Đăng ký"));
@@ -62,20 +62,20 @@ public class activity_login extends AppCompatActivity {
         });
 
 
-        fb.setTranslationY(300);
-        gg.setTranslationY(300);
-        tw.setTranslationY(300);
-        tapLayout.setTranslationY(300);
-
-        fb.setAlpha(v);
-        gg.setAlpha(v);
-        tw.setAlpha(v);
-        tapLayout.setAlpha(v);
-
-        fb.animate().translationY(0).alpha(1).setDuration(1000).setStartDelay(400).start();
-        gg.animate().translationY(0).alpha(1).setDuration(1000).setStartDelay(600).start();
-        tw.animate().translationY(0).alpha(1).setDuration(1000).setStartDelay(800).start();
-        tapLayout.animate().translationY(0).alpha(1).setDuration(1000).setStartDelay(100).start();
+//        fb.setTranslationY(300);
+//        gg.setTranslationY(300);
+//        tw.setTranslationY(300);
+//        tapLayout.setTranslationY(300);
+//
+//        fb.setAlpha(v);
+//        gg.setAlpha(v);
+//        tw.setAlpha(v);
+//        tapLayout.setAlpha(v);
+//
+//        fb.animate().translationY(0).alpha(1).setDuration(1000).setStartDelay(400).start();
+//        gg.animate().translationY(0).alpha(1).setDuration(1000).setStartDelay(600).start();
+//        tw.animate().translationY(0).alpha(1).setDuration(1000).setStartDelay(800).start();
+//        tapLayout.animate().translationY(0).alpha(1).setDuration(1000).setStartDelay(100).start();
 
     }
 }

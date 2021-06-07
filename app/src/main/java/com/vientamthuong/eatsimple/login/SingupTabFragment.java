@@ -1,10 +1,12 @@
 package com.vientamthuong.eatsimple.login;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.NoCopySpan;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +26,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.vientamthuong.eatsimple.R;
+import com.vientamthuong.eatsimple.jbCrypt.BCrypt;
 import com.vientamthuong.eatsimple.loadData.VolleyPool;
 
 import java.util.HashMap;
@@ -38,8 +41,8 @@ public class SingupTabFragment extends Fragment {
     Button btnSignUp;
     String sRePassword = "", sEmail = "", sPassword = "", sUsername = "";
     boolean checkPassword, checkEmail, checkLengthPass, checkSignUp, checkUsername;
-    String urlCheckEmail = "";
-    String urlSignUp = "";
+    String urlCheckUsername = "https://eat-simple-app.000webhostapp.com/checkUsername.php";
+    String urlSignUp = "https://eat-simple-app.000webhostapp.com/signUp.php";
     float v = 0;
 
     @Override
@@ -171,7 +174,7 @@ public class SingupTabFragment extends Fragment {
                     notify.setTextColor(Color.RED);
                     checkUsername = false;
                     checkSignUp = false;
-                    notify.setText("*Vui lòng nhập username!");
+//                    notify.setText("*Vui lòng nhập username!");
                 } else if ((int) u[0] >= 65 && (int) u[0] <= 90 || (int) u[0] >= 97 && (int) u[0] <= 122) {
                     if (user.length() < 12) {
                         notify.setText("*Username phải tối thiểu 12 kí tự");
@@ -213,8 +216,82 @@ public class SingupTabFragment extends Fragment {
                     notify.setText("*Vui lòng nhập đủ thông tin!");
                     checkSignUp = false;
                 } else if (checkEmail == true && checkPassword == true && checkLengthPass == true && checkUsername == true) {
-                    notify.setText("Đăng ký thành công!");
-                    checkSignUp = true;
+                    // check email
+                    StringRequest stringRequest = new StringRequest(Request.Method.POST, urlCheckUsername,
+                            new Response.Listener<String>() {
+                                @Override
+                                public void onResponse(String response) {
+                                        if (response.trim().equals("true")){
+                                            notify.setText("*Tên tài khoản đã tồn tại!");
+                                            notify.setTextColor(Color.RED);
+                                            checkUsername = false;
+                                            checkSignUp = false;
+                                            Log.d("EEE",response);
+                                        }
+                                        else{
+                                            //BCrypt.
+                                            String pass = BCrypt.hashpw(sPassword,BCrypt.gensalt());
+                                            // tiến hành đăng ký
+                                            StringRequest stringRequest = new StringRequest(Request.Method.POST, urlSignUp,
+                                                    new Response.Listener<String>() {
+                                                        @Override
+                                                        public void onResponse(String response) {
+                                                            if (response.trim().equals("successful")){
+                                                                notify.setText("Đăng ký thành công!");
+                                                                notify.setTextColor(Color.GREEN);
+                                                                checkSignUp = true;
+
+                                                                Intent intent = new Intent(getActivity(),activity_login.class);
+                                                                intent.putExtra("username_signup",sUsername);
+                                                                startActivity(intent);
+                                                            }
+                                                            else {
+                                                                notify.setText("*Lỗi kết nối! Vui lòng thử lại!");
+                                                                notify.setTextColor(Color.RED);
+                                                                checkSignUp = true;
+                                                            }
+                                                        }
+                                                    },
+                                                    new Response.ErrorListener() {
+                                                        @Override
+                                                        public void onErrorResponse(VolleyError error) {
+
+                                                        }
+                                                    }) {
+                                                @Nullable
+                                                @org.jetbrains.annotations.Nullable
+                                                @Override
+                                                protected Map<String, String> getParams() throws AuthFailureError {
+                                                    HashMap<String, String> params = new HashMap<>();
+                                                    params.put("username", sUsername);
+                                                    params.put("password", pass);
+                                                    params.put("email", sEmail);
+                                                    return params;
+                                                }
+                                            };
+                                            VolleyPool.getInstance(getContext()).addRequest(stringRequest);
+
+
+                                            Log.d("EEE", response);
+                                        }
+                                }
+                            },
+                            new Response.ErrorListener() {
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+
+                                }
+                            }) {
+                        @Nullable
+                        @org.jetbrains.annotations.Nullable
+                        @Override
+                        protected Map<String, String> getParams() throws AuthFailureError {
+                            HashMap<String, String> params = new HashMap<>();
+                            params.put("username", sUsername);
+                            return params;
+                        }
+                    };
+                    VolleyPool.getInstance(getContext()).addRequest(stringRequest);
                 }
 
                 if (checkSignUp) {
@@ -228,8 +305,8 @@ public class SingupTabFragment extends Fragment {
         return root;
     }
 
-    public void checkEmail(String email) {
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, urlCheckEmail,
+    public void checkUsername(String username) {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, urlCheckUsername,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -247,7 +324,7 @@ public class SingupTabFragment extends Fragment {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 HashMap<String, String> params = new HashMap<>();
-                params.put("email", email);
+                params.put("email", username);
                 return params;
             }
         };
@@ -291,20 +368,20 @@ public class SingupTabFragment extends Fragment {
         notify = root.findViewById(R.id.notify_signUp);
         username = root.findViewById(R.id.username_signUp);
 
-        email.setTranslationX(0);
-        pass.setTranslationX(0);
-        repass.setTranslationX(0);
-        btnSignUp.setTranslationX(0);
-
-        email.setAlpha(v);
-        pass.setAlpha(v);
-        repass.setAlpha(v);
-        btnSignUp.setAlpha(v);
-
-        email.animate().translationY(100).alpha(1).setDuration(800).setStartDelay(300).start();
-        pass.animate().translationY(100).alpha(1).setDuration(800).setStartDelay(500).start();
-        repass.animate().translationY(100).alpha(1).setDuration(800).setStartDelay(500).start();
-        btnSignUp.animate().translationY(100).alpha(1).setDuration(800).setStartDelay(700).start();
+//        email.setTranslationX(0);
+//        pass.setTranslationX(0);
+//        repass.setTranslationX(0);
+//        btnSignUp.setTranslationX(0);
+//
+//        email.setAlpha(v);
+//        pass.setAlpha(v);
+//        repass.setAlpha(v);
+//        btnSignUp.setAlpha(v);
+//
+//        email.animate().translationY(100).alpha(1).setDuration(800).setStartDelay(300).start();
+//        pass.animate().translationY(100).alpha(1).setDuration(800).setStartDelay(500).start();
+//        repass.animate().translationY(100).alpha(1).setDuration(800).setStartDelay(500).start();
+//        btnSignUp.animate().translationY(100).alpha(1).setDuration(800).setStartDelay(700).start();
     }
 
     public boolean emailValidator(String email) {
