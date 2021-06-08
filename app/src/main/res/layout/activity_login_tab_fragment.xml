@@ -1,11 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--<androidx.constraintlayout.widget.ConstraintLayout-->
+<?xml version="1.0" encoding="utf-8"?><!--<androidx.constraintlayout.widget.ConstraintLayout-->
 <!--    xmlns:android="http://schemas.android.com/apk/res/android"-->
 <!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
 <!--    xmlns:tools="http://schemas.android.com/tools"-->
 <!--    android:layout_width="match_parent"-->
 <!--    android:layout_height="match_parent">-->
-
 
 
 <!--    <EditText-->
@@ -77,93 +75,101 @@
 
 <!--</androidx.constraintlayout.widget.ConstraintLayout>-->
 
-<LinearLayout android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
     <LinearLayout
-        android:layout_margin="30dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_margin="30dp"
         android:orientation="vertical">
+
         <TextView
-            android:textColor="#f34"
-            android:layout_width="match_parent"
             android:id="@+id/notify_login"
-            android:layout_height="wrap_content"/>
-        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#f34" />
+
+        <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:hint="Tên tài khoản"
-            app:startIconDrawable="@drawable/fragment_signup_account"
-            app:boxCornerRadiusBottomStart="25dp"
-            app:boxCornerRadiusTopEnd="25dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            app:boxCornerRadiusTopStart="25dp"
+            android:hint="Tên tài khoản"
             app:boxCornerRadiusBottomEnd="25dp"
-            android:layout_height="wrap_content">
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:id="@+id/username_login"
-                android:layout_height="wrap_content"/>
-        </com.google.android.material.textfield.TextInputLayout>
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:hint="Mật khẩu"
-            android:layout_marginTop="20dp"
             app:boxCornerRadiusBottomStart="25dp"
             app:boxCornerRadiusTopEnd="25dp"
             app:boxCornerRadiusTopStart="25dp"
-            app:startIconDrawable="@drawable/fragment_signup_pass"
-            app:boxCornerRadiusBottomEnd="25dp"
-            app:endIconMode="password_toggle"
-            android:layout_height="wrap_content">
+            app:startIconDrawable="@drawable/fragment_signup_account">
+
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/username_login"
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:hint="Mật khẩu"
+            app:boxCornerRadiusBottomEnd="25dp"
+            app:boxCornerRadiusBottomStart="25dp"
+            app:boxCornerRadiusTopEnd="25dp"
+            app:boxCornerRadiusTopStart="25dp"
+            app:endIconMode="password_toggle"
+            app:startIconDrawable="@drawable/fragment_signup_pass">
+
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/password_login"
-                android:layout_height="wrap_content"/>
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <LinearLayout
-            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
             <CheckBox
-                android:text="Lưu tài khoản"
-                android:layout_weight="1"
                 android:id="@+id/checkbox_saveAccount"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-            <TextView
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Quên mật khẩu?"
-                android:layout_width="wrap_content"
+                android:text="Lưu tài khoản" />
+
+            <TextView
                 android:id="@+id/forgetPassword_login"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:gravity="right"
-                android:layout_height="wrap_content"/>
+                android:text="Quên mật khẩu?" />
         </LinearLayout>
 
         <Button
-            android:textSize="15dp"
             android:id="@+id/btn_login"
-            android:layout_marginTop="35dp"
             android:layout_width="match_parent"
             android:layout_height="50dp"
+            android:layout_marginTop="35dp"
+            android:background="@drawable/activity_login_button_bg"
             android:text="Đăng nhập"
             android:textAllCaps="false"
-            android:background="@drawable/activity_login_button_bg"/>
+            android:textSize="15dp" />
 
-<!--        <LinearLayout-->
-<!--            android:layout_marginTop="25dp"-->
-<!--            android:orientation="horizontal"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content">-->
-<!--            <androidx.appcompat.widget.AppCompatButton-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:text="Facebook"-->
-<!--        </LinearLayout>-->
+        <!--        <LinearLayout-->
+        <!--            android:layout_marginTop="25dp"-->
+        <!--            android:orientation="horizontal"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content">-->
+        <!--            <androidx.appcompat.widget.AppCompatButton-->
+        <!--                android:layout_width="wrap_content"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:text="Facebook"-->
+        <!--        </LinearLayout>-->
 
     </LinearLayout>
 

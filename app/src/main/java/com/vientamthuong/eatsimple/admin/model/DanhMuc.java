@@ -12,6 +12,7 @@ public class DanhMuc {
     private int soSanPham;
     private boolean chonXoa;
     private String url;
+    private String hinh_fb;
     private Bitmap hinh;
 
     public DanhMuc(String maDanhMuc, String tenDanhMuc, DateTime ngayTao, int soSanPham, boolean chonXoa, String url, Bitmap hinh) {
@@ -88,5 +89,13 @@ public class DanhMuc {
 
     public void setHinh(Bitmap hinh) {
         this.hinh = hinh;
+    }
+
+    public String getHinh_fb() {
+        return hinh_fb;
+    }
+
+    public void setHinh_fb(String hinh_fb) {
+        this.hinh_fb = hinh_fb;
     }
 }

@@ -16,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -149,6 +150,11 @@ public class DanhMucFragment extends Fragment implements MainFragment {
             }
             danhMucAdapter.notifyDataSetChanged();
         });
+        buttonThem.setOnClickListener(v -> {
+            FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.add(R.id.f2, new DanhMucAddFragment(), "add");
+            fragmentTransaction.commit();
+        });
     }
 
     private void init() {
@@ -218,6 +224,7 @@ public class DanhMucFragment extends Fragment implements MainFragment {
                                 dataSnapshot.child("hinh").getValue().toString(),
                                 null
                         );
+                        danhMuc.setHinh_fb(dataSnapshot.child("hinh_fb").getValue().toString());
                         // Nếu như chưa lớn hơn thì thay vì add vào ta thay đổi thuộc tính của nó
                         if (countDanhMuc < 10) {
                             rootArray.set(countDanhMuc - 1, new DanhMuc(danhMuc));

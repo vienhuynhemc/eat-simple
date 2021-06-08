@@ -94,10 +94,9 @@ public class LoginTabFragment extends Fragment {
 
         // hiển thị username khi đăng ký thành công!
         Intent intent = getActivity().getIntent();
-        if (intent.getStringExtra("username_signup") != null){
+        if (intent.getStringExtra("username_signup") != null) {
             username.setText(intent.getStringExtra("username_signup"));
         }
-
 
 
         /////////////////////
