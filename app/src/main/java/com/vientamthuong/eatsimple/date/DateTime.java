@@ -25,7 +25,7 @@ public class DateTime {
         this.second = (int) (Double.parseDouble(times[2]));
     }
 
-    public DateTime(int type) {
+    public DateTime() {
         Date date = new Date();
         this.year = date.getYear() + 1900;
         this.month = date.getMonth() + 1;

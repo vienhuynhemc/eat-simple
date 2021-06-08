@@ -35,6 +35,7 @@ import com.vientamthuong.eatsimple.R;
 import com.vientamthuong.eatsimple.admin.Configuration;
 import com.vientamthuong.eatsimple.admin.WebService;
 import com.vientamthuong.eatsimple.admin.dialog.DiaLogConfirm;
+import com.vientamthuong.eatsimple.date.DateTime;
 import com.vientamthuong.eatsimple.loadData.VolleyPool;
 
 import org.json.JSONArray;
@@ -163,13 +164,12 @@ public class DanhMucAddFragment extends Fragment {
                 }, error -> {
         });
         VolleyPool.getInstance(getActivity()).addRequest(stringRequest);
-        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-        DatabaseReference root = firebaseDatabase.getReference();
     }
 
     private void addToFirebase(String ten_danh_muc, String ma_danh_muc) {
         ProgressDialog pd = new ProgressDialog(getActivity());
         pd.setTitle("Tải dữ liệu lên server");
+        pd.setCanceledOnTouchOutside(false);
         pd.show();
         FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
         StorageReference root = firebaseStorage.getReference();
@@ -181,10 +181,50 @@ public class DanhMucAddFragment extends Fragment {
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
         byte[] data = baos.toByteArray();
         riversRef.putBytes(data).addOnSuccessListener(taskSnapshot -> {
-            pd.dismiss();
-            FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-            DatabaseReference r = firebaseDatabase.getReference();
-            DatabaseReference d = r.child("danh_muc").child(ma_danh_muc);
+            riversRef.getDownloadUrl().addOnSuccessListener(uri -> {
+                // clear img
+                hinhDanhMuc.destroyDrawingCache();
+                hinhDanhMuc.setDrawingCacheEnabled(false);
+                // hide dialog
+                pd.dismiss();
+                // firebase
+                FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+                DatabaseReference r = firebaseDatabase.getReference();
+                DateTime dateTime = new DateTime();
+                Map<String, Object> map = new HashMap<>();
+                map.put("ngay_tao", dateTime.toString());
+                map.put("hinh_fb", "danh_muc/" + ma_danh_muc + ".png");
+                map.put("ton_tai", 0);
+                map.put("ten", ten_danh_muc);
+                map.put("hinh", uri.toString());
+                r.child("danh_muc").child(ma_danh_muc).setValue(map);
+                // clear
+                hinhDanhMuc.setImageResource(R.drawable.activity_introductory_logo);
+                editTextTenDanhMuc.setText("");
+                textViewThieuTenDanhMuc.setVisibility(View.GONE);
+                // webservice
+                StringRequest stringRequest = new StringRequest(Request.Method.POST,
+                        WebService.them_mot_danh_muc_moi,
+                        response -> {
+                        }, error -> {
+                }) {
+                    @Nullable
+                    @Override
+                    protected Map<String, String> getParams() {
+                        Map<String, String> params = new HashMap<>();
+                        params.put("ma_danh_muc", ma_danh_muc);
+                        params.put("ton_tai", "0");
+                        params.put("ten", ten_danh_muc);
+                        params.put("ngay_tao", dateTime.toString());
+                        params.put("hinh", uri.toString());
+                        params.put("hinh_fb", "danh_muc/" + ma_danh_muc + ".png");
+                        return params;
+                    }
+                };
+                VolleyPool.getInstance(getActivity()).addRequest(stringRequest);
+                // Success
+                Toast.makeText(getActivity(), "Thêm thành công: " + ma_danh_muc, Toast.LENGTH_SHORT).show();
+            });
         }).addOnFailureListener(e -> {
 
         }).addOnProgressListener(snapshot -> {
