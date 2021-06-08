@@ -182,6 +182,9 @@ public class DanhMucAddFragment extends Fragment {
         byte[] data = baos.toByteArray();
         riversRef.putBytes(data).addOnSuccessListener(taskSnapshot -> {
             pd.dismiss();
+            FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+            DatabaseReference r = firebaseDatabase.getReference();
+            DatabaseReference d = r.child("danh_muc").child(ma_danh_muc);
         }).addOnFailureListener(e -> {
 
         }).addOnProgressListener(snapshot -> {
