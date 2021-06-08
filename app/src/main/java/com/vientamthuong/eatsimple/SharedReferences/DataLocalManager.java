@@ -3,6 +3,7 @@ package com.vientamthuong.eatsimple.SharedReferences;
 import android.content.Context;
 
 import com.google.gson.Gson;
+import com.vientamthuong.eatsimple.model.Account;
 
 public class DataLocalManager {
     private static final String REF_FIRST = "REF_FIRST";
@@ -27,17 +28,20 @@ public class DataLocalManager {
     public static boolean getFirstInstalled(){
         return DataLocalManager.getInstance().myShareReferences.getBooleanValue(REF_FIRST);
     }
-//    public static void setAccount(Customer account){
-//        Gson gson = new Gson();
-//        String stringJSONAccount = gson.toJson(account);
-//        DataLocalManager.getInstance().myShareReferences.putStringValue(REF_ACCOUNT,stringJSONAccount);
-//    }
-//    public static Customer getAccount(){
-//        Gson gson = new Gson();
-//        String stringJSONAccount = DataLocalManager.getInstance().myShareReferences.getStringValue(REF_ACCOUNT);
-//        Customer account = gson.fromJson(stringJSONAccount,Customer.class);
-//        return account;
-//    }
+    public static void setAccounts(Account account){
+        Gson gson = new Gson();
+        String stringJSONAccount = gson.toJson(account);
+        DataLocalManager.getInstance().myShareReferences.putStringValue(REF_ACCOUNT,stringJSONAccount);
+    }
+    public static void setAccount(String response){
+        DataLocalManager.getInstance().myShareReferences.putStringValue(REF_ACCOUNT,response);
+    }
+    public static Account getAccount(){
+        Gson gson = new Gson();
+        String stringJSONAccount = DataLocalManager.getInstance().myShareReferences.getStringValue(REF_ACCOUNT);
+        Account account = gson.fromJson(stringJSONAccount,Account.class);
+        return account;
+    }
     public static void setValid(boolean input){
         DataLocalManager.getInstance().myShareReferences.putBooleanValue(REF_VALID,input);
     }
