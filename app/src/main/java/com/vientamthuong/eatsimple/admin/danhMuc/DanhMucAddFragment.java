@@ -1,5 +1,6 @@
 package com.vientamthuong.eatsimple.admin.danhMuc;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -28,6 +29,8 @@ import com.android.volley.toolbox.StringRequest;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.vientamthuong.eatsimple.R;
 import com.vientamthuong.eatsimple.admin.Configuration;
 import com.vientamthuong.eatsimple.admin.WebService;
@@ -38,6 +41,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.HashMap;
@@ -152,6 +156,7 @@ public class DanhMucAddFragment extends Fragment {
                             result.put("id", jsonObject.getString("ma_danh_muc"));
                         }
                         String ma_danh_muc = "danh_muc_" + result.get("id");
+                        addToFirebase(ten_danh_muc, ma_danh_muc);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -160,8 +165,31 @@ public class DanhMucAddFragment extends Fragment {
         VolleyPool.getInstance(getActivity()).addRequest(stringRequest);
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference root = firebaseDatabase.getReference();
-
     }
+
+    private void addToFirebase(String ten_danh_muc, String ma_danh_muc) {
+        ProgressDialog pd = new ProgressDialog(getActivity());
+        pd.setTitle("Tải dữ liệu lên server");
+        pd.show();
+        FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
+        StorageReference root = firebaseStorage.getReference();
+        StorageReference riversRef = root.child("danh_muc/" + ma_danh_muc + ".png");
+        hinhDanhMuc.setDrawingCacheEnabled(true);
+        hinhDanhMuc.buildDrawingCache();
+        Bitmap bitmap = hinhDanhMuc.getDrawingCache();
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        byte[] data = baos.toByteArray();
+        riversRef.putBytes(data).addOnSuccessListener(taskSnapshot -> {
+            pd.dismiss();
+        }).addOnFailureListener(e -> {
+
+        }).addOnProgressListener(snapshot -> {
+            double p = (100.00 * snapshot.getBytesTransferred()) / (double) snapshot.getTotalByteCount();
+            pd.setMessage("Tiến độ: " + (int) p + " %");
+        });
+    }
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
