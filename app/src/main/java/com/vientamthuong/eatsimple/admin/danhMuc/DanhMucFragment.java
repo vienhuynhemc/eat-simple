@@ -20,24 +20,35 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Request;
+import com.android.volley.toolbox.StringRequest;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.vientamthuong.eatsimple.R;
 import com.vientamthuong.eatsimple.admin.Configuration;
 import com.vientamthuong.eatsimple.admin.HomePageActivity;
+import com.vientamthuong.eatsimple.admin.WebService;
+import com.vientamthuong.eatsimple.admin.dialog.DiaLogConfirm;
 import com.vientamthuong.eatsimple.admin.loadData.LoadData;
 import com.vientamthuong.eatsimple.admin.model.DanhMuc;
 import com.vientamthuong.eatsimple.admin.model.MainFragment;
+import com.vientamthuong.eatsimple.admin.session.DataSession;
 import com.vientamthuong.eatsimple.date.DateTime;
 import com.vientamthuong.eatsimple.diaLog.DiaLogLoader;
 import com.vientamthuong.eatsimple.loadData.LoadDataConfiguration;
 import com.vientamthuong.eatsimple.loadData.LoadImageForView;
+import com.vientamthuong.eatsimple.loadData.VolleyPool;
 import com.vientamthuong.eatsimple.protocol.ActivityProtocol;
 
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -156,8 +167,124 @@ public class DanhMucFragment extends Fragment implements MainFragment {
             fragmentTransaction.commit();
         });
         buttonXoa.setOnClickListener(v -> {
-
+            List<String> ma_danh_mucs = new ArrayList<>();
+            for (DanhMuc danhMuc : showArray) {
+                if (danhMuc.isChonXoa()) {
+                    ma_danh_mucs.add(danhMuc.getMaDanhMuc());
+                }
+            }
+            DiaLogConfirm diaLogConfirm = new DiaLogConfirm(getActivity());
+            diaLogConfirm.getTextViewTitle().setText("Xóa nhiều danh mục");
+            diaLogConfirm.getTextViewContent().setText("Bạn có chắc chắn rằng mình muốn xóa " + ma_danh_mucs.size() + " danh mục đã chọn không?");
+            diaLogConfirm.getBtTry().setText("Không");
+            diaLogConfirm.getBtIgnore().setText("Xóa");
+            diaLogConfirm.getBtTry().setOnClickListener(v1 -> diaLogConfirm.dismiss());
+            diaLogConfirm.getBtIgnore().setOnClickListener(v1 -> {
+                diaLogConfirm.dismiss();
+                for (String ma_danh_muc : ma_danh_mucs) {
+                    // Firebase
+                    FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+                    DatabaseReference root = firebaseDatabase.getReference();
+                    root.child("danh_muc").child(ma_danh_muc).child("ton_tai").setValue("1");
+                    // Webservice
+                    StringRequest stringRequest = new StringRequest(Request.Method.POST,
+                            WebService.xoa_mot_danh_muc,
+                            response -> {
+                            }, error -> {
+                    }) {
+                        @Nullable
+                        @Override
+                        protected Map<String, String> getParams() {
+                            Map<String, String> params = new HashMap<>();
+                            params.put("ma_danh_muc", ma_danh_muc);
+                            return params;
+                        }
+                    };
+                    stringRequest.setRetryPolicy(new DefaultRetryPolicy(
+                            WebService.TIME_OUT_MS,
+                            DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+                    VolleyPool.getInstance(getActivity()).addRequest(stringRequest);
+                }
+                Toast.makeText(getActivity(), "Xóa thành công " + ma_danh_mucs.size() + " danh mục", Toast.LENGTH_SHORT).show();
+                // Tạo thông báo cá nhân
+                addNewThongBaoCaNhan(ma_danh_mucs);
+            });
+            diaLogConfirm.show();
         });
+    }
+
+    private void addNewThongBaoCaNhan(List<String> ma_danh_mucs) {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET,
+                WebService.lay_ma_thong_bao_ca_nhan_tiep_theo,
+                response -> {
+                    JSONArray jsonArray = null;
+                    try {
+                        String ma_thong_bao_ca_nhan = null;
+                        jsonArray = new JSONArray(response);
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            JSONObject jsonObject = jsonArray.getJSONObject(i);
+                            ma_thong_bao_ca_nhan = "ma_thong_bao_ca_nhan_" + jsonObject.getString("ma_thong_bao_ca_nhan");
+                            break;
+                        }
+                        System.out.println(ma_thong_bao_ca_nhan+" Ok");
+                        // Firebase
+                        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+                        DatabaseReference root = firebaseDatabase.getReference();
+                        DateTime nowDate = new DateTime();
+                        Map<String, Object> map = new HashMap<>();
+                        map.put("nv_thuc_hien", DataSession.getInstance().getMa_tai_khoan());
+                        map.put("nv_nhan", "");
+                        map.put("ngay_tao", nowDate.toString());
+                        map.put("type", "0");
+                        map.put("noi_dung", "vừa xóa " + ma_danh_mucs.size() + " danh mục có ID lần lượt là ");
+                        String noi_dung_quan_trong = "";
+                        for (String s : ma_danh_mucs) {
+                            noi_dung_quan_trong += "#" + s + ", ";
+                        }
+                        noi_dung_quan_trong = noi_dung_quan_trong.trim().substring(0, noi_dung_quan_trong.length() - 1);
+                        map.put("noi_dung_quan_trong", noi_dung_quan_trong);
+                        root.child("thong_bao_ca_nhan").child(ma_thong_bao_ca_nhan).setValue(map);
+                        // Webservice
+                        addNewThongBaoCaNhanWebService(ma_thong_bao_ca_nhan, nowDate, ma_danh_mucs, noi_dung_quan_trong);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }, error -> {
+            System.out.println(error.toString());
+        });
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
+                WebService.TIME_OUT_MS,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        VolleyPool.getInstance(getActivity()).addRequest(stringRequest);
+    }
+
+    private void addNewThongBaoCaNhanWebService(String ma_thong_bao_ca_nhan, DateTime ngay_tao, List<String> ma_danh_mucs, String noi_dung_quan_trong) {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST,
+                WebService.them_mot_thong_bao_ca_nhan_moi,
+                response -> {
+                }, error -> {
+        }) {
+            @Nullable
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("ma_thong_bao_ca_nhan", ma_thong_bao_ca_nhan);
+                params.put("nv_thuc_hien", DataSession.getInstance().getMa_tai_khoan());
+                params.put("nv_nhan", "");
+                params.put("ngay_tao", ngay_tao.toString());
+                params.put("type", "0");
+                params.put("noi_dung", "vừa xóa " + ma_danh_mucs.size() + " danh mục có ID lần lượt là ");
+                params.put("noi_dung_quan_trong", noi_dung_quan_trong);
+                return params;
+            }
+        };
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
+                WebService.TIME_OUT_MS,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        VolleyPool.getInstance(getActivity()).addRequest(stringRequest);
     }
 
     private void init() {

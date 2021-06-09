@@ -24,6 +24,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.toolbox.StringRequest;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -35,6 +36,7 @@ import com.vientamthuong.eatsimple.R;
 import com.vientamthuong.eatsimple.admin.Configuration;
 import com.vientamthuong.eatsimple.admin.WebService;
 import com.vientamthuong.eatsimple.admin.dialog.DiaLogConfirm;
+import com.vientamthuong.eatsimple.admin.session.DataSession;
 import com.vientamthuong.eatsimple.date.DateTime;
 import com.vientamthuong.eatsimple.loadData.VolleyPool;
 
@@ -147,7 +149,7 @@ public class DanhMucAddFragment extends Fragment {
 
     private void addNewDanhMuc(String ten_danh_muc) {
         Map<String, String> result = new HashMap<>();
-        StringRequest stringRequest = new StringRequest(Request.Method.POST,
+        StringRequest stringRequest = new StringRequest(Request.Method.GET,
                 WebService.lay_ma_danh_muc_tiep_theo,
                 response -> {
                     try {
@@ -158,13 +160,89 @@ public class DanhMucAddFragment extends Fragment {
                         }
                         String ma_danh_muc = "danh_muc_" + result.get("id");
                         addToFirebase(ten_danh_muc, ma_danh_muc);
+                        // add thong báo
+                        addThongBaoCaNhan(ma_danh_muc);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 }, error -> {
         });
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
+                WebService.TIME_OUT_MS,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         VolleyPool.getInstance(getActivity()).addRequest(stringRequest);
     }
+
+
+    private void addThongBaoCaNhan(String ma_danh_muc) {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET,
+                WebService.lay_ma_thong_bao_ca_nhan_tiep_theo,
+                response -> {
+                    JSONArray jsonArray = null;
+                    try {
+                        String ma_thong_bao_ca_nhan = null;
+                        jsonArray = new JSONArray(response);
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            JSONObject jsonObject = jsonArray.getJSONObject(i);
+                            ma_thong_bao_ca_nhan = "ma_thong_bao_ca_nhan_" + jsonObject.getString("ma_thong_bao_ca_nhan");
+                            break;
+                        }
+                        System.out.println(ma_thong_bao_ca_nhan + " Ok");
+                        // Firebase
+                        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+                        DatabaseReference root = firebaseDatabase.getReference();
+                        DateTime nowDate = new DateTime();
+                        Map<String, Object> map = new HashMap<>();
+                        map.put("nv_thuc_hien", DataSession.getInstance().getMa_tai_khoan());
+                        map.put("nv_nhan", "");
+                        map.put("ngay_tao", nowDate.toString());
+                        map.put("type", "0");
+                        map.put("noi_dung", "vừa thêm một danh mục có ID là");
+                        map.put("noi_dung_quan_trong", "#" + ma_danh_muc);
+                        root.child("thong_bao_ca_nhan").child(ma_thong_bao_ca_nhan).setValue(map);
+                        // Webservice
+                        addNewThongBaoCaNhanWebService(ma_thong_bao_ca_nhan, nowDate, ma_danh_muc);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }, error -> {
+            System.out.println(error.toString());
+        });
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
+                WebService.TIME_OUT_MS,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        VolleyPool.getInstance(getActivity()).addRequest(stringRequest);
+    }
+
+    private void addNewThongBaoCaNhanWebService(String ma_thong_bao_ca_nhan, DateTime ngay_tao, String ma_danh_muc) {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST,
+                WebService.them_mot_thong_bao_ca_nhan_moi,
+                response -> {
+                }, error -> {
+        }) {
+            @Nullable
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("ma_thong_bao_ca_nhan", ma_thong_bao_ca_nhan);
+                params.put("nv_thuc_hien", DataSession.getInstance().getMa_tai_khoan());
+                params.put("nv_nhan", "");
+                params.put("ngay_tao", ngay_tao.toString());
+                params.put("type", "0");
+                params.put("noi_dung", "vừa thêm một danh mục có ID là");
+                params.put("noi_dung_quan_trong", "#" + ma_danh_muc);
+                return params;
+            }
+        };
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
+                WebService.TIME_OUT_MS,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        VolleyPool.getInstance(getActivity()).addRequest(stringRequest);
+    }
+
 
     private void addToFirebase(String ten_danh_muc, String ma_danh_muc) {
         ProgressDialog pd = new ProgressDialog(getActivity());
@@ -221,6 +299,10 @@ public class DanhMucAddFragment extends Fragment {
                         return params;
                     }
                 };
+                stringRequest.setRetryPolicy(new DefaultRetryPolicy(
+                        WebService.TIME_OUT_MS,
+                        DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                        DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
                 VolleyPool.getInstance(getActivity()).addRequest(stringRequest);
                 // Success
                 Toast.makeText(getActivity(), "Thêm thành công: " + ma_danh_muc, Toast.LENGTH_SHORT).show();
