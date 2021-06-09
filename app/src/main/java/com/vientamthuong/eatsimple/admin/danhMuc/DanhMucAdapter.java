@@ -17,7 +17,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.vientamthuong.eatsimple.R;
-import com.vientamthuong.eatsimple.admin.WebService;
+import com.vientamthuong.eatsimple.admin.configuration.WebService;
 import com.vientamthuong.eatsimple.admin.dialog.DiaLogConfirm;
 import com.vientamthuong.eatsimple.admin.model.DanhMuc;
 import com.vientamthuong.eatsimple.admin.session.DataSession;

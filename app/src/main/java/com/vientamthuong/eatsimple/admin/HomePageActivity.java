@@ -11,6 +11,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.vientamthuong.eatsimple.R;
+import com.vientamthuong.eatsimple.admin.configuration.Configuration;
 import com.vientamthuong.eatsimple.admin.header.HeaderFragment;
 import com.vientamthuong.eatsimple.admin.header.TopHeaderFragment;
 import com.vientamthuong.eatsimple.admin.loadData.LoadData;
@@ -66,7 +67,7 @@ public class HomePageActivity extends AppCompatActivity implements ActivityProto
             // Không mất kết nối thì lấy dữ liêu  fire base về của activity này
             FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
             DatabaseReference root = firebaseDatabase.getReference();
-            if(imagesNeedLoad == null){
+            if (imagesNeedLoad == null) {
                 imagesNeedLoad = new ArrayList<>();
             }
             // Load dữ liệu top header
@@ -74,12 +75,12 @@ public class HomePageActivity extends AppCompatActivity implements ActivityProto
         }
     }
 
-    public void getDataMainFragment(){
-        if(LoadData.getInstance().isReadyFromMainFragment()){
+    public void getDataMainFragment() {
+        if (LoadData.getInstance().isReadyFromMainFragment()) {
             // Không mất kết nối thì lấy dữ liêu  fire base về của activity này
             FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
             DatabaseReference root = firebaseDatabase.getReference();
-            if(imagesNeedLoad == null){
+            if (imagesNeedLoad == null) {
                 imagesNeedLoad = new ArrayList<>();
             }
             headerFragment.getData(root, diaLogLoader, imagesNeedLoad, HomePageActivity.this);
@@ -106,16 +107,16 @@ public class HomePageActivity extends AppCompatActivity implements ActivityProto
                     int count = 0;
                     while (count < imagesNeedLoad.size()) {
                         LoadImageForView loadImageForView = imagesNeedLoad.get(count);
-                        if (loadImageForView!= null && !loadImageForView.isStart()) {
+                        if (loadImageForView != null && !loadImageForView.isStart()) {
                             loadImageForView.setStart(true);
                             loadImageForView.run();
                             count++;
-                        } else if(loadImageForView!= null) {
+                        } else if (loadImageForView != null) {
                             if (loadImageForView.isComplete()) {
                                 // Kiểm tra nếu thằng xong này type thông báo chuông thì thông báo
                                 if (imagesNeedLoad.get(count).getType() == LoadDataConfiguration.IMAGE_THONG_BAO_CHUONG) {
                                     runOnUiThread(() -> topHeaderFragment.update());
-                                }else if(imagesNeedLoad.get(count).getType() == LoadDataConfiguration.DANH_MUC_ADMIN){
+                                } else if (imagesNeedLoad.get(count).getType() == LoadDataConfiguration.DANH_MUC_ADMIN) {
                                     runOnUiThread(() -> headerFragment.update());
                                 }
                                 imagesNeedLoad.remove(count);
@@ -177,7 +178,7 @@ public class HomePageActivity extends AppCompatActivity implements ActivityProto
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         headerFragment = new HeaderFragment();
         Bundle bundle = new Bundle();
-        bundle.putInt("data", Configuration.DANH_MUC);
+        bundle.putInt("data", Configuration.HOME);
         headerFragment.setArguments(bundle);
         fragmentTransaction.replace(R.id.header, headerFragment);
         fragmentTransaction.commit();

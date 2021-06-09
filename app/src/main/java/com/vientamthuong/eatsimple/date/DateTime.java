@@ -55,7 +55,7 @@ public class DateTime {
         return date.getTime() + DateTimeConfiguration.ONE_MINUTE_IN_MILLIS * 60 * 24 * day;
     }
 
-    public long getTime(){
+    public long getTime() {
         Date date = new Date(year - 1900, month - 1, this.day, hour, minute, second);
         return date.getTime();
     }
@@ -109,6 +109,31 @@ public class DateTime {
         //  return về dạng mình mong muốn
         return stringDay + " " + mm + " " + year;
 
+    }
+
+    public String getOverTime() {
+        //  Lấy thời gian hiện tại
+        Date nowDate = new Date();
+
+        //  Chuyển dateTime -> date()
+        Date date = new Date(getYear() - 1900, getMonth() - 1, getDay(), getHour(), getMinute(), getSecond());
+
+        //  Lấy thời gian chênh lệch
+        long over = nowDate.getTime() - date.getTime();
+        if (over < DateTimeConfiguration.ONE_MINUTE_IN_MILLIS) {
+            return over / DateTimeConfiguration.ONE_SECOND_IN_MILIS + " giây trước";
+        } else if (over < DateTimeConfiguration.ONE_MINUTE_IN_MILLIS * 60) {
+            return over / DateTimeConfiguration.ONE_MINUTE_IN_MILLIS + " phút trước";
+        } else if (over < DateTimeConfiguration.ONE_MINUTE_IN_MILLIS * 60 * 24) {
+            return over / (DateTimeConfiguration.ONE_MINUTE_IN_MILLIS * 60) + " giờ trước";
+        } else if (over < DateTimeConfiguration.ONE_MINUTE_IN_MILLIS * 60 * 24 * 7) {
+            return over / (DateTimeConfiguration.ONE_MINUTE_IN_MILLIS * 60 * 24) + " ngày trước";
+        } else if (over < DateTimeConfiguration.ONE_MINUTE_IN_MILLIS * 60 * 24 * 30) {
+            return over / (DateTimeConfiguration.ONE_MINUTE_IN_MILLIS * 60 * 24 * 7) + " tuần trước";
+        } else if (over < DateTimeConfiguration.ONE_MINUTE_IN_MILLIS * 60 * 24 * 365) {
+            return over / (DateTimeConfiguration.ONE_MINUTE_IN_MILLIS * 60 * 24 * 30) + " tháng trước";
+        }
+        return "";
     }
 
     //  ToString dạng 14:32 - 12/10/2020

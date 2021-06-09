@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="246dp"
+    android:layout_height="wrap_content">
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/c1"
+        android:layout_width="12dp"
+        android:layout_height="12dp"
+        android:visibility="invisible"
+        app:cardBackgroundColor="#1de9b6"
+        app:cardCornerRadius="6dp"
+        app:cardElevation="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/c2"
+        android:layout_width="4px"
+        android:layout_height="0dp"
+        android:background="#1de9b6"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/c1"
+        app:layout_constraintStart_toStartOf="@id/c1"
+        app:layout_constraintTop_toBottomOf="@id/c1"
+        tools:ignore="PxUsage" />
+
+    <TextView
+        android:id="@+id/ngay_tao"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:text="5 giây trước"
+        android:textColor="#888"
+        android:textSize="11sp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@id/c1"
+        app:layout_constraintStart_toEndOf="@id/c1"
+        app:layout_constraintTop_toTopOf="@id/c1"
+        tools:ignore="HardcodedText,SmallSp" />
+
+    <TextView
+        android:id="@+id/noi_dung"
+        android:visibility="invisible"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:paddingBottom="25dp"
+        android:text="Admin Nguyễn Thị Hoa Hồng vừa duyệt đơn hàng DH1003 cho nhân viên kho Nguyễn Văn A"
+        android:textColor="#4d4d4d"
+        android:textSize="11sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/c1"
+        app:layout_constraintTop_toBottomOf="@id/ngay_tao"
+        tools:ignore="HardcodedText,SmallSp" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/l1"
+        android:layout_width="12dp"
+        android:layout_height="12dp"
+        app:cardCornerRadius="6dp"
+        app:cardElevation="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/loader_rectangle" />
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/l2"
+        android:layout_width="4px"
+        android:layout_height="90dp"
+        app:cardElevation="0dp"
+        app:layout_constraintEnd_toEndOf="@id/l1"
+        app:layout_constraintStart_toStartOf="@id/l1"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="PxUsage">
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/loader_rectangle" />
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/l3"
+        android:layout_width="100dp"
+        android:layout_height="8dp"
+        android:layout_marginStart="20dp"
+        app:cardCornerRadius="4dp"
+        app:cardElevation="0dp"
+        app:layout_constraintBottom_toBottomOf="@id/l1"
+        app:layout_constraintStart_toEndOf="@id/l1"
+        app:layout_constraintTop_toTopOf="@id/l1">
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/loader_rectangle" />
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/l4"
+        android:layout_width="200dp"
+        android:layout_height="10dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="15dp"
+        app:cardCornerRadius="5dp"
+        app:cardElevation="0dp"
+        app:layout_constraintStart_toEndOf="@id/l1"
+        app:layout_constraintTop_toBottomOf="@id/l3">
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/loader_rectangle" />
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/l5"
+        android:layout_width="150dp"
+        android:layout_height="10dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="5dp"
+        app:cardCornerRadius="5dp"
+        app:cardElevation="0dp"
+        app:layout_constraintStart_toEndOf="@id/l1"
+        app:layout_constraintTop_toBottomOf="@id/l4">
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/loader_rectangle" />
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/l6"
+        android:layout_width="180dp"
+        android:layout_height="10dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="5dp"
+        app:cardCornerRadius="5dp"
+        app:cardElevation="0dp"
+        app:layout_constraintStart_toEndOf="@id/l1"
+        app:layout_constraintTop_toBottomOf="@id/l5">
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:layout_width="180dp"
+            android:layout_height="180dp"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/loader_rectangle" />
+    </androidx.cardview.widget.CardView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -16,7 +16,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.google.firebase.database.DatabaseReference;
 import com.vientamthuong.eatsimple.R;
-import com.vientamthuong.eatsimple.admin.Configuration;
+import com.vientamthuong.eatsimple.admin.configuration.Configuration;
 import com.vientamthuong.eatsimple.admin.danhMuc.DanhMucFragment;
 import com.vientamthuong.eatsimple.admin.dialog.DiaLogConfirm;
 import com.vientamthuong.eatsimple.admin.homePage.HomePageFragment;

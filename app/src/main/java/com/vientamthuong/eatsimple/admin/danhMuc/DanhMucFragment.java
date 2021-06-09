@@ -30,9 +30,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.vientamthuong.eatsimple.R;
-import com.vientamthuong.eatsimple.admin.Configuration;
+import com.vientamthuong.eatsimple.admin.configuration.Configuration;
 import com.vientamthuong.eatsimple.admin.HomePageActivity;
-import com.vientamthuong.eatsimple.admin.WebService;
+import com.vientamthuong.eatsimple.admin.configuration.WebService;
 import com.vientamthuong.eatsimple.admin.dialog.DiaLogConfirm;
 import com.vientamthuong.eatsimple.admin.loadData.LoadData;
 import com.vientamthuong.eatsimple.admin.model.DanhMuc;
@@ -356,7 +356,7 @@ public class DanhMucFragment extends Fragment implements MainFragment {
                         );
                         danhMuc.setHinh_fb(dataSnapshot.child("hinh_fb").getValue().toString());
                         // Nếu như chưa lớn hơn thì thay vì add vào ta thay đổi thuộc tính của nó
-                        if (countDanhMuc < 10) {
+                        if (countDanhMuc < 11) {
                             rootArray.set(countDanhMuc - 1, new DanhMuc(danhMuc));
                         } else {
                             rootArray.add(danhMuc);

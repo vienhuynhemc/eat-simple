@@ -1,4 +1,4 @@
-package com.vientamthuong.eatsimple.admin;
+package com.vientamthuong.eatsimple.admin.configuration;
 
 public class WebService {
 
