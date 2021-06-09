@@ -155,6 +155,9 @@ public class DanhMucFragment extends Fragment implements MainFragment {
             fragmentTransaction.add(R.id.f2, new DanhMucAddFragment(), "add");
             fragmentTransaction.commit();
         });
+        buttonXoa.setOnClickListener(v -> {
+
+        });
     }
 
     private void init() {
