@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.DefaultRetryPolicy;
@@ -15,6 +16,7 @@ import com.android.volley.Request;
 import com.android.volley.toolbox.StringRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.vientamthuong.eatsimple.R;
 import com.vientamthuong.eatsimple.admin.WebService;
 import com.vientamthuong.eatsimple.admin.dialog.DiaLogConfirm;
 import com.vientamthuong.eatsimple.admin.model.DanhMuc;
@@ -82,6 +84,12 @@ public class DanhMucAdapter extends RecyclerView.Adapter<DanhMucViewHolder> {
                 addThongBaoCaNhan(danhMuc.getMaDanhMuc());
             });
             diaLogConfirm.show();
+        });
+        holder.getSua().setOnClickListener(v -> {
+            DanhMucSession.getInstance().setDanhMuc(new DanhMuc(danhMuc));
+            FragmentTransaction fragmentTransaction = danhMucFragment.getActivity().getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.add(R.id.f2, new DanhMucEditFragment(), "edit");
+            fragmentTransaction.commit();
         });
         if (danhMuc.getMaDanhMuc() != null) {
             holder.getMaDanhMuc().setText("#" + danhMuc.getMaDanhMuc());
