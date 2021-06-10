@@ -1,77 +1,210 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<!--<androidx.constraintlayout.widget.ConstraintLayout-->
+<!--    xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="450dp">-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/notify_signUp"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginBottom="5dp"-->
+<!--        android:text=""-->
+<!--        android:textColor="#f22"-->
+<!--        app:layout_constraintBottom_toTopOf="@+id/email_signUp"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.469"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:layout_constraintVertical_bias="0.183" />-->
+
+<!--    <EditText-->
+<!--        android:id="@+id/username_signUp"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:background="@drawable/activity_login_edit_text"-->
+<!--        android:hint="Username"-->
+<!--        android:inputType="textEmailAddress"-->
+<!--        android:paddingLeft="20dp"-->
+<!--        android:paddingTop="10dp"-->
+<!--        android:paddingBottom="10dp"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.493"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:layout_constraintVertical_bias="0.067"-->
+<!--        app:layout_constraintWidth_percent=".8" />-->
+
+<!--    <EditText-->
+<!--        android:id="@+id/email_signUp"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:background="@drawable/activity_login_edit_text"-->
+<!--        android:hint="Email"-->
+<!--        android:inputType="textEmailAddress"-->
+<!--        android:paddingLeft="20dp"-->
+<!--        android:paddingTop="10dp"-->
+<!--        android:paddingBottom="10dp"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.493"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:layout_constraintVertical_bias="0.264"-->
+<!--        app:layout_constraintWidth_percent=".8" />-->
+
+<!--    <EditText-->
+<!--        android:id="@+id/password_signUp"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="20dp"-->
+<!--        android:background="@drawable/activity_login_edit_text"-->
+<!--        android:hint="Mật khẩu"-->
+<!--        android:inputType="textPassword"-->
+<!--        android:paddingLeft="20dp"-->
+<!--        android:paddingTop="10dp"-->
+<!--        android:paddingBottom="10dp"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.493"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/email_signUp"-->
+<!--        app:layout_constraintVertical_bias="0.175"-->
+<!--        app:layout_constraintWidth_percent=".8" />-->
+
+<!--    <EditText-->
+<!--        android:id="@+id/repassword_signUp"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="20dp"-->
+<!--        android:background="@drawable/activity_login_edit_text"-->
+<!--        android:hint="Nhập lại mật khẩu"-->
+<!--        android:inputType="textPassword"-->
+<!--        android:paddingLeft="20dp"-->
+<!--        android:paddingTop="10dp"-->
+<!--        android:paddingBottom="10dp"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.493"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/password_signUp"-->
+<!--        app:layout_constraintVertical_bias="0.018"-->
+<!--        app:layout_constraintWidth_percent=".8" />-->
+
+<!--    <Button-->
+<!--        android:id="@+id/button_singup"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:background="@drawable/activity_login_button_bg"-->
+<!--        android:text="Đăng ký"-->
+<!--        android:textColor="@color/white"-->
+<!--        android:textSize="16dp"-->
+<!--        android:textStyle="bold"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.493"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/password_signUp"-->
+<!--        app:layout_constraintVertical_bias="0.469"-->
+<!--        app:layout_constraintWidth_percent=".8" />-->
+
+<!--</androidx.constraintlayout.widget.ConstraintLayout>-->
+
+<LinearLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout
+        android:layout_margin="30dp"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:layout_width="match_parent"
+            android:id="@+id/notify_signUp"
+            android:layout_height="wrap_content"
+            />
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_marginTop="10dp"
+            app:boxCornerRadiusBottomStart="25dp"
+            app:boxCornerRadiusBottomEnd="25dp"
+            app:boxCornerRadiusTopStart="25dp"
+            app:boxCornerRadiusTopEnd="25dp"
+            app:startIconDrawable="@drawable/fragment_signup_account"
+            android:hint="Tên tài khoản"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_height="wrap_content">
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:id="@+id/username_signUp"
+                android:layout_height="wrap_content"/>
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            app:boxCornerRadiusBottomStart="25dp"
+            app:boxCornerRadiusBottomEnd="25dp"
+            app:boxCornerRadiusTopStart="25dp"
+            app:boxCornerRadiusTopEnd="25dp"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_marginTop="20dp"
+            app:endIconMode="password_toggle"
+            app:startIconDrawable="@drawable/fragment_signup_pass"
+            android:layout_height="wrap_content">
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:id="@+id/password_signUp"
+                android:hint="Mật khẩu"
+                android:inputType="textPassword"
+                android:layout_height="wrap_content"/>
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_marginTop="20dp"
+            app:endIconMode="password_toggle"
+            app:boxCornerRadiusBottomStart="25dp"
+            app:boxCornerRadiusBottomEnd="25dp"
+            app:boxCornerRadiusTopStart="25dp"
+            app:boxCornerRadiusTopEnd="25dp"
+            app:startIconDrawable="@drawable/fragment_signup_pass"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_height="wrap_content">
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:id="@+id/repassword_signUp"
+                android:hint="Xác nhận mật khẩu"
+                android:inputType="textPassword"
+                android:layout_height="wrap_content"/>
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_marginTop="20dp"
+            app:boxCornerRadiusBottomStart="25dp"
+            app:boxCornerRadiusBottomEnd="25dp"
+            app:boxCornerRadiusTopStart="25dp"
+            app:boxCornerRadiusTopEnd="25dp"
+            app:startIconDrawable="@drawable/fragment_signup_email"
+            android:layout_height="wrap_content">
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:id="@+id/email_signUp"
+                android:hint="Email"
+                android:inputType="textEmailAddress"
+                android:layout_height="wrap_content"/>
+        </com.google.android.material.textfield.TextInputLayout>
+        <Button
+            android:background="@drawable/activity_login_button_bg"
+            android:layout_marginTop="30dp"
+            android:id="@+id/button_singup"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:textSize="14dp"
+            android:textAllCaps="false"
+            android:text="Đăng ký"/>
+    </LinearLayout>
 
-    <EditText
-        android:id="@+id/email"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="Email"
-        android:background="@drawable/activity_login_edit_text"
-        android:paddingLeft="20dp"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias=".5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias=".15"
-        app:layout_constraintWidth_percent=".8" />
-
-    <EditText
-        android:id="@+id/pass"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="Mật khẩu"
-        android:background="@drawable/activity_login_edit_text"
-        android:paddingLeft="20dp"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:layout_marginTop="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/email"
-        app:layout_constraintVertical_bias="0"
-        app:layout_constraintWidth_percent=".8" />
-
-    <EditText
-        android:id="@+id/repass"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="Nhập lại mật khẩu"
-        android:background="@drawable/activity_login_edit_text"
-        android:paddingLeft="20dp"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:layout_marginTop="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/pass"
-        app:layout_constraintVertical_bias="0"
-        app:layout_constraintWidth_percent=".8" />
-
-    <Button
-        android:id="@+id/button_singup"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="@drawable/activity_login_button_bg"
-        android:text="Đăng kí"
-        android:textColor="@color/white"
-        android:textSize="16dp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/pass"
-        app:layout_constraintVertical_bias=".7"
-        app:layout_constraintWidth_percent=".8" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

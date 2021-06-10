@@ -5,6 +5,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.vientamthuong.eatsimple.R;
@@ -15,17 +16,31 @@ public class CustomDanhMucViewHolder extends RecyclerView.ViewHolder {
     private TextView textView;
     private View layout;
 
-    public CustomDanhMucViewHolder(@NonNull View itemView, int type) {
+    // Loading
+    private CardView cardViewLoading;
+    private CardView cardViewLoading2;
+
+
+    public CustomDanhMucViewHolder(@NonNull View itemView) {
         super(itemView);
         this.layout = itemView;
-        if (type == HomePageConfiguration.REAL) {
-            getView(itemView);
-        }
+        getView(itemView);
     }
 
     private void getView(View view) {
         imageView = view.findViewById(R.id.activity_home_page_custom_danh_muc_image_view);
         textView = view.findViewById(R.id.activity_home_page_custom_danh_muc_text_view);
+        // loading
+        cardViewLoading = view.findViewById(R.id.card_view_loading);
+        cardViewLoading2 = view.findViewById(R.id.card_view_loading_2);
+    }
+
+    public void hiddenCardViewLoading2() {
+        cardViewLoading2.setVisibility(View.GONE);
+    }
+
+    public void hiddenCardViewLoading() {
+        cardViewLoading.setVisibility(View.GONE);
     }
 
     // GETTER AND SETTER

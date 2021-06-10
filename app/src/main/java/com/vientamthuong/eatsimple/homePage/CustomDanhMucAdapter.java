@@ -6,7 +6,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.vientamthuong.eatsimple.danhMuc.DanhMuc;
+import com.vientamthuong.eatsimple.model.DanhMuc;
 
 import java.util.List;
 
@@ -23,9 +23,6 @@ public class CustomDanhMucAdapter extends RecyclerView.Adapter<CustomDanhMucView
     @Override
     public int getItemViewType(int position) {
         int add = 0;
-        if (!danhMucs.get(position).isLoaded()) {
-            add = 3;
-        }
         if (position == 0) return add;
         else if (position == danhMucs.size() - 1) return 2 + add;
         else return 1 + add;
@@ -34,8 +31,7 @@ public class CustomDanhMucAdapter extends RecyclerView.Adapter<CustomDanhMucView
     @NonNull
     @Override
     public CustomDanhMucViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        int type = viewType/3 == 1 ? HomePageConfiguration.BANNER:HomePageConfiguration.REAL;
-        return new CustomDanhMucViewHolder(LayoutInflater.from(parent.getContext()).inflate(resource[viewType], parent, false),type);
+        return new CustomDanhMucViewHolder(LayoutInflater.from(parent.getContext()).inflate(resource[viewType], parent, false));
     }
 
     @Override
@@ -43,8 +39,10 @@ public class CustomDanhMucAdapter extends RecyclerView.Adapter<CustomDanhMucView
         DanhMuc danhMuc = danhMucs.get(position);
         if (danhMuc.isLoaded()) {
             holder.getTextView().setText(danhMuc.getTen_danh_muc());
+            holder.hiddenCardViewLoading2();
             if (danhMuc.getBitmap() != null) {
                 holder.getImageView().setImageBitmap(danhMuc.getBitmap());
+                holder.hiddenCardViewLoading();
             }
         }
     }

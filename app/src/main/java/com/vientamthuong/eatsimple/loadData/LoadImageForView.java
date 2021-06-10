@@ -6,10 +6,12 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.android.volley.toolbox.ImageRequest;
-import com.vientamthuong.eatsimple.danhMuc.DanhMuc;
+import com.vientamthuong.eatsimple.admin.model.ThongBaoChuong;
+import com.vientamthuong.eatsimple.model.DanhMuc;
 
 public class LoadImageForView {
 
@@ -31,6 +33,13 @@ public class LoadImageForView {
     // Các object có hình ảnh -----------------------------------
     //  Danh mục
     private DanhMuc danhMuc;
+    // Top header admin
+    private CardView cardView;
+    private CardView cardViewIm;
+    // Danh mục bên admin
+    private com.vientamthuong.eatsimple.admin.model.DanhMuc danhMucAdmin;
+    // Thông báo chuông
+    private ThongBaoChuong thongBaoChuong;
     //-----------------------------------------------------------
 
     public LoadImageForView(ImageView imageView, AppCompatActivity appCompatActivity, LottieAnimationView lottieAnimationView, int type, String url) {
@@ -49,12 +58,42 @@ public class LoadImageForView {
         this.url = url;
     }
 
+    // Danh mục
     public LoadImageForView(AppCompatActivity appCompatActivity, DanhMuc danhMuc, int type) {
         this.danhMuc = danhMuc;
         this.appCompatActivity = appCompatActivity;
         this.type = type;
         // Lấy url
         this.url = danhMuc.getHinh();
+    }
+
+    // Danh mục bên admin
+    public LoadImageForView(AppCompatActivity appCompatActivity, com.vientamthuong.eatsimple.admin.model.DanhMuc danhMuc,
+                            int type) {
+        this.danhMucAdmin = danhMuc;
+        this.appCompatActivity = appCompatActivity;
+        this.type = type;
+        // Lấy url
+        this.url = danhMuc.getUrl();
+    }
+
+    // Thông báo chuông
+    public LoadImageForView(AppCompatActivity appCompatActivity, ThongBaoChuong thongBaoChuong, int type) {
+        this.thongBaoChuong = thongBaoChuong;
+        this.appCompatActivity = appCompatActivity;
+        this.type = type;
+        // Lấy url
+        this.url = thongBaoChuong.getUrl();
+    }
+
+    // Hình đại diện top header admin
+    public LoadImageForView(String url, AppCompatActivity appCompatActivity, ImageView imageView, int type, CardView cardView, CardView cardViewIm) {
+        this.imageView = imageView;
+        this.appCompatActivity = appCompatActivity;
+        this.type = type;
+        this.url = url;
+        this.cardViewIm = cardViewIm;
+        this.cardView = cardView;
     }
 
     public void run() {
@@ -72,6 +111,17 @@ public class LoadImageForView {
                     break;
                 case LoadDataConfiguration.IMAGE_DANH_MUC:
                     danhMuc.setBitmap(response);
+                    break;
+                case LoadDataConfiguration.IMAGE_THONG_BAO_CHUONG:
+                    thongBaoChuong.setHinh_nguoi_gui(response);
+                    break;
+                case LoadDataConfiguration.TOP_HEADER_ADMIN:
+                    imageView.setImageBitmap(response);
+                    cardView.setVisibility(View.INVISIBLE);
+                    cardViewIm.setVisibility(View.VISIBLE);
+                    break;
+                case LoadDataConfiguration.DANH_MUC_ADMIN:
+                    danhMucAdmin.setHinh(response);
                     break;
             }
             isComplete = true;

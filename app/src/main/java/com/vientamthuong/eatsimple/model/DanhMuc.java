@@ -1,4 +1,4 @@
-package com.vientamthuong.eatsimple.danhMuc;
+package com.vientamthuong.eatsimple.model;
 
 import android.graphics.Bitmap;
 

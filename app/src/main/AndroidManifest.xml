@@ -4,26 +4,46 @@
     package="com.vientamthuong.eatsimple">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:largeHeap="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.EatSimple"
+        android:usesCleartextTraffic="true"
+
         tools:ignore="AllowBackup">
-        <activity android:name=".cartPage.CartActivity">
+        <activity android:name=".wishlist.WishlistActivity">
+            <!--                        <intent-filter>-->
+            <!--                            <action android:name="android.intent.action.MAIN" />-->
+
+            <!--                            <category android:name="android.intent.category.LAUNCHER" />-->
+            <!--                        </intent-filter>-->
+        </activity>
+        <activity android:name=".login.activity_login">
+            <!--                        <intent-filter>-->
+            <!--                            <action android:name="android.intent.action.MAIN" />-->
+
+            <!--                            <category android:name="android.intent.category.LAUNCHER" />-->
+            <!--                        </intent-filter>-->
+        </activity>
+        <activity android:name=".introductActivity.IntroductoryActivity" />
+        <activity android:name=".homePage.HomePageActivity">
+            <!--            <intent-filter>-->
+            <!--                <action android:name="android.intent.action.MAIN" />-->
+
+            <!--                <category android:name="android.intent.category.LAUNCHER" />-->
+            <!--            </intent-filter>-->
+        </activity>
+        <activity android:name=".admin.HomePageActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity android:name=".introductActivity.IntroductoryActivity">
-
-        </activity>
-        <activity android:name=".homePage.HomePageActivity">
-
         </activity>
     </application>
 

@@ -1,6 +1,7 @@
 package com.vientamthuong.eatsimple.login;
 
 import android.content.Context;
+import android.util.Log;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -30,9 +31,12 @@ public class LoginAdapter extends FragmentPagerAdapter {
         switch (position){
             case 0:
                 LoginTabFragment loginTabFragment = new LoginTabFragment();
+                Log.d("AAA","a");
                 return loginTabFragment;
+
             case 1:
                 SingupTabFragment singupTabFragment = new SingupTabFragment();
+                Log.d("AAA","b");
                 return singupTabFragment;
             default:
                 return null;
