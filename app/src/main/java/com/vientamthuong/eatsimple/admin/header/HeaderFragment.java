@@ -23,6 +23,7 @@ import com.vientamthuong.eatsimple.admin.homePage.HomePageFragment;
 import com.vientamthuong.eatsimple.admin.loadData.LoadData;
 import com.vientamthuong.eatsimple.admin.maGiamGia.MaGiamGiaFragment;
 import com.vientamthuong.eatsimple.admin.model.MainFragment;
+import com.vientamthuong.eatsimple.admin.thongTinCaNhan.ThongTinCaNhanFragment;
 import com.vientamthuong.eatsimple.diaLog.DiaLogLoader;
 import com.vientamthuong.eatsimple.fontAwesome.FontAwesomeManager;
 import com.vientamthuong.eatsimple.loadData.LoadImageForView;
@@ -37,6 +38,7 @@ public class HeaderFragment extends Fragment {
     private TextView iconDanhMuc;
     private TextView iconMaGiamGia;
     private TextView iconLogout;
+    private TextView iconThongTinCaNhan;
     private CardView cardViewLogout;
     private int nowSelect;
     private MainFragment mainFragment;
@@ -56,6 +58,7 @@ public class HeaderFragment extends Fragment {
         iconHome.setOnClickListener(v -> moveTo(iconHome));
         iconDanhMuc.setOnClickListener(v -> moveTo(iconDanhMuc));
         iconMaGiamGia.setOnClickListener(v -> moveTo(iconMaGiamGia));
+        iconThongTinCaNhan.setOnClickListener(v -> moveTo(iconThongTinCaNhan));
         cardViewLogout.setOnClickListener(v -> {
             actionLogout();
         });
@@ -71,6 +74,7 @@ public class HeaderFragment extends Fragment {
         FontAwesomeManager.getInstance().addIcon(iconDanhMuc, "fas", "\uf1b3", getActivity());
         FontAwesomeManager.getInstance().addIcon(iconMaGiamGia, "fas", "\uf02a", getActivity());
         FontAwesomeManager.getInstance().addIcon(iconLogout, "fas", "\uf2f5", getActivity());
+        FontAwesomeManager.getInstance().addIcon(iconThongTinCaNhan, "fas", "\uf505", getActivity());
     }
 
     private void actionLogout() {
@@ -110,6 +114,11 @@ public class HeaderFragment extends Fragment {
                     nextSelect = Configuration.MA_GIAM_GIA;
                 }
                 break;
+            case R.id.icon_ThongTinCaNhan:
+                if (nowSelect != Configuration.THONG_TIN_CA_NHAN) {
+                    nextSelect = Configuration.THONG_TIN_CA_NHAN;
+                }
+                break;
         }
         if (nextSelect != -1) {
             handleSelect(nextSelect);
@@ -141,6 +150,13 @@ public class HeaderFragment extends Fragment {
                 replaceFragment(maGiamGiaFragment);
                 mainFragment = maGiamGiaFragment;
                 break;
+            case Configuration.THONG_TIN_CA_NHAN:
+                iconThongTinCaNhan.setTextColor(getActivity().getColor(R.color.white));
+                iconThongTinCaNhan.setBackgroundResource(R.drawable.admin_background_select);
+                ThongTinCaNhanFragment thongTinCaNhanFragment = new ThongTinCaNhanFragment();
+                replaceFragment(thongTinCaNhanFragment);
+                mainFragment = thongTinCaNhanFragment;
+                break;
         }
     }
 
@@ -157,6 +173,8 @@ public class HeaderFragment extends Fragment {
         iconDanhMuc.setBackground(null);
         iconMaGiamGia.setTextColor(getActivity().getColor(R.color.color_admin_main));
         iconMaGiamGia.setBackground(null);
+        iconThongTinCaNhan.setTextColor(getActivity().getColor(R.color.color_admin_main));
+        iconThongTinCaNhan.setBackground(null);
     }
 
     private void getView(View view) {
@@ -166,6 +184,7 @@ public class HeaderFragment extends Fragment {
         iconMaGiamGia = view.findViewById(R.id.icon_MaGiamGia);
         iconLogout = view.findViewById(R.id.icon_logout);
         cardViewLogout = view.findViewById(R.id.log_out);
+        iconThongTinCaNhan = view.findViewById(R.id.icon_ThongTinCaNhan);
     }
 
     public void update() {
