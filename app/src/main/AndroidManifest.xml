@@ -22,7 +22,9 @@
         <activity android:name=".introductActivity.IntroductoryActivity">
 
         </activity>
-        <activity android:name=".homePage.HomePageActivity" />
+        <activity android:name=".homePage.HomePageActivity">
+
+        </activity>
     </application>
 
 </manifest>

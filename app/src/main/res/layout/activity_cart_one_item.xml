@@ -7,7 +7,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:mode="same_level"
     app:dragEdge="right"
-
     app:elevation="10dp"
     android:layout_marginBottom="20dp"
     xmlns:android="http://schemas.android.com/apk/res/android">
@@ -34,9 +33,11 @@
     <!-- Your main layout here -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="370dp"
+        android:elevation="10dp"
         android:layout_height="wrap_content">
 
         <CheckBox
+            android:id="@+id/checkbox_cart"
             android:button="@null"
             android:layout_width="30dp"
             android:layout_height="30dp"
@@ -191,7 +192,28 @@
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/shimmer_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:orientation="vertical"
+            android:elevation="200dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <include layout="@layout/activity_cart_one_item_shimmer" />
+
+            </LinearLayout>
+
+        </com.facebook.shimmer.ShimmerFrameLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </com.chauthai.swipereveallayout.SwipeRevealLayout>
