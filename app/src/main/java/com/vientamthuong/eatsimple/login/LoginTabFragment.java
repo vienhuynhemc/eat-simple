@@ -45,6 +45,7 @@ import org.json.JSONObject;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -78,6 +79,7 @@ public class LoginTabFragment extends Fragment {
     EditText pass;
     TextView notify;
     float v = 0;
+    String codeRD;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle saveInstanceState) {
@@ -203,6 +205,11 @@ public class LoginTabFragment extends Fragment {
         if (intent.getStringExtra("username_signup") != null){
             username.setText(intent.getStringExtra("username_signup"));
         }
+        // hiển thị username khi thay đổi mật khẩu thành công!
+        Intent intent1 = getActivity().getIntent();
+        if (intent1.getStringExtra("account_forgot") != null){
+            username.setText(intent1.getStringExtra("account_forgot"));
+        }
         forgotPass.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -279,43 +286,13 @@ public class LoginTabFragment extends Fragment {
                     btnSend.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            String codeRD = randomCode();
+                            codeRD = randomCode();
 
 //                                                    ProgressDialog progressDialog = new ProgressDialog(getContext());
 //                                                    progressDialog.show();
 //                                                    progressDialog.setContentView(R.layout.fragment_login_progress_dialog);
 //                                                    progressDialog.setCancelable(false);
 //                                                    progressDialog.getWindow().setLayout(500,500);
-
-                            String url = "https://eat-simple-app.000webhostapp.com/createCodeForgotPassword.php";
-                            StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
-                                @Override
-                                public void onResponse(String response) {
-                                    if (response.trim().equals("success")){
-                                        createDialogCode();
-                                        dialog.dismiss();
-                                    }
-                                    else{
-                                        Toast.makeText(getContext(), "Không thể tạo mã", Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-                            }, new Response.ErrorListener() {
-                                @Override
-                                public void onErrorResponse(VolleyError error) {
-                                    Toast.makeText(getActivity(), "Lỗi!", Toast.LENGTH_SHORT).show();
-                                }
-                            }){
-                                @RequiresApi(api = Build.VERSION_CODES.O)
-                                @Override
-                                public HashMap<String, String> getParams() {
-                                    HashMap<String,String> params = new HashMap<>();
-                                    params.put("username", username.getText().toString().trim());
-                                    params.put("randomCode", codeRD);
-                                    params.put("dateNow","2021-06-11 00:01:45");
-                                    return params;
-                                }
-                            };
-                            VolleyPool.getInstance(getContext()).addRequest(stringRequest);
 
                             // gửi mail
                              sendMail(email_forgot.getText().toString().trim(),codeRD);
@@ -410,7 +387,34 @@ public class LoginTabFragment extends Fragment {
             progressDialog.dismiss();
 
             if (s.equals("success")){
-
+                String url = "https://eat-simple-app.000webhostapp.com/createCodeForgotPassword.php";
+                StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        if (response.trim().equals("success")){
+                            createDialogCode();
+                        }
+                        else{
+                            Toast.makeText(getContext(), "Không thể tạo mã", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(getActivity(), "Lỗi!", Toast.LENGTH_SHORT).show();
+                    }
+                }){
+                    @RequiresApi(api = Build.VERSION_CODES.O)
+                    @Override
+                    public HashMap<String, String> getParams() {
+                        HashMap<String,String> params = new HashMap<>();
+                        params.put("username", username.getText().toString().trim());
+                        params.put("randomCode", codeRD);
+                        params.put("dateNow",getDateTimeNow()+"");
+                        return params;
+                    }
+                };
+                VolleyPool.getInstance(getContext()).addRequest(stringRequest);
             }
             else{
                 Toast.makeText(getActivity(), "Send Error!", Toast.LENGTH_SHORT).show();
@@ -458,7 +462,12 @@ public class LoginTabFragment extends Fragment {
                                         String dateServer = object.getString("han_su_dung_ma_qmk");
 
                                         if (encode.equals(codeServer)){
-                                            createDialogSetPassword();
+                                            if(checkDate(getDateTimeNow(),getDate(dateServer))) {
+                                                createDialogSetPassword();
+                                            }
+                                            else{
+                                                Toast.makeText(getActivity(), "Mã đã hết hạn!", Toast.LENGTH_SHORT).show();
+                                            }
                                         }
                                         else{
                                             Toast.makeText(getActivity(), "Mã xác thực không đúng!", Toast.LENGTH_SHORT).show();
@@ -489,27 +498,35 @@ public class LoginTabFragment extends Fragment {
         });
         dialog.show();
     }
-    @RequiresApi(api = Build.VERSION_CODES.O)
-//    public DateTime getDateTimeNow(){
-//       DateTime now = new DateTime();
-//
-//       int day = LocalDate.now().getDayOfMonth();
-//       int month = LocalDate.now().getMonthValue();
-//       int year = LocalDate.now().getYear();
-//
-//       int hour = LocalTime.now().getHour();
-//       int minute = LocalTime.now().getMinute();
-//       int second = LocalTime.now().getSecond();
-//
-//       now.setDay(day);
-//       now.setMonth(month);
-//       now.setYear(year);
-//       now.setHour(hour);
-//       now.setMinute(minute);
-//       now.setSecond(second);
-//
-//       return now;
-//    }
+
+    public DateTime getDateTimeNow(){
+       DateTime now = new DateTime();
+
+        java.util.Date time = Calendar.getInstance().getTime();
+        System.out.println(time);
+
+        Calendar date = Calendar.getInstance();
+
+        int day = Integer.parseInt(date.get(Calendar.DATE)+"");
+        int month = Integer.parseInt(date.get(Calendar.MONTH)+"");
+        int year = Integer.parseInt(date.get(Calendar.YEAR)+"");
+
+        String times = time.toString().split(" ")[3];
+        String[] t = times.split(":");
+        int hour = Integer.parseInt(t[0]+"");
+        int minute = Integer.parseInt(t[1]+"");
+        int second = Integer.parseInt(t[2]+"");
+
+
+       now.setDay(day);
+       now.setMonth(month);
+       now.setYear(year);
+       now.setHour(hour);
+       now.setMinute(minute);
+       now.setSecond(second);
+
+       return now;
+    }
     public DateTime getDate(String dateNow){
         String[] dateTime = dateNow.split(" ");
         String date = dateTime[0];
@@ -519,9 +536,9 @@ public class LoginTabFragment extends Fragment {
         int month = Integer.parseInt(date.split("-")[1]);
         int year = Integer.parseInt(date.split("-")[0]);
 
-        int hour = Integer.parseInt(time.split("-")[2]);
-        int minute = Integer.parseInt(time.split("-")[1]);
-        int second = Integer.parseInt(time.split("-")[0]);
+        int hour = Integer.parseInt(time.split(":")[0]);
+        int minute = Integer.parseInt(time.split(":")[1]);
+        int second = Integer.parseInt(time.split(":")[2]);
 
         DateTime d = new DateTime();
         d.setDay(day);
@@ -536,7 +553,7 @@ public class LoginTabFragment extends Fragment {
     public static boolean checkDate(DateTime now, DateTime before){
         long a = before.getDay()*1440+before.getMonth()*43200 + now.getYear()*15758000+ before.getHour()*60+before.getMinute()+before.getSecond()/60;
         long b = now.getDay()*1440+now.getMonth()*43200 + now.getYear()*15758000+ now.getHour()*60+now.getMinute()+now.getSecond()/60;
-        if(b - a <= 30){
+        if(b - a <= 3){
             return true;
         }
         return false;
@@ -547,7 +564,7 @@ public class LoginTabFragment extends Fragment {
 
         TextInputEditText pass = dialog.findViewById(R.id.newPass_login_forgot);
         TextInputEditText rePass = dialog.findViewById(R.id.rePass_login_forgot);
-        Button btnExist = dialog.findViewById(R.id.btnNo_confirm_forgot_form);
+        Button btnExist = dialog.findViewById(R.id.btnNo_exist_forgot_form);
         Button btnConfirm = dialog.findViewById(R.id.btnNo_confirm_forgot_form);
 
         btnExist.setOnClickListener(new View.OnClickListener() {
@@ -572,7 +589,56 @@ public class LoginTabFragment extends Fragment {
                         Toast.makeText(getActivity(), "Mật khẩu phải tối thiểu 8 kí tự!", Toast.LENGTH_SHORT).show();
                     }
                     else{
+                        // tạo mật khẩu mới
+                        String url = "https://eat-simple-app.000webhostapp.com/setPasswordAccount.php";
+                        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
+                                new Response.Listener<String>() {
+                                    @Override
+                                    public void onResponse(String response) {
+                                        if (response.trim().equals("success")){
 
+                                            // thông báo thành công
+                                            Dialog dialog = new Dialog(getActivity());
+                                            dialog.setContentView(R.layout.fragment_login_forgot_success);
+                                            dialog.setCancelable(false);
+
+                                            Button btnExit = dialog.findViewById(R.id.btn_exit_forgot);
+
+                                            btnExit.setOnClickListener(new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View v) {
+                                                    dialog.dismiss();
+                                                    Intent intent = new Intent(getActivity(),activity_login.class);
+                                                    intent.putExtra("account_forgot",username.getText().toString());
+                                                    startActivity(intent);
+                                                }
+                                            });
+
+                                            dialog.show();
+
+                                        }
+                                        else if(response.trim().equals("fail")){
+                                            Toast.makeText(getActivity(), "Không thể đổi mật khẩu!", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                },
+                                new Response.ErrorListener() {
+                                    @Override
+                                    public void onErrorResponse(VolleyError error) {
+                                        Toast.makeText(getActivity(), "Lỗi đổi mật khẩu!", Toast.LENGTH_SHORT).show();
+                                    }
+                                }){
+                            @Nullable
+                            @org.jetbrains.annotations.Nullable
+                            @Override
+                            protected Map<String, String> getParams() throws AuthFailureError {
+                                HashMap<String,String> params = new HashMap<>();
+                                params.put("username",username.getText().toString().trim());
+                                params.put("password",BCrypt.hashpw(p,BCrypt.gensalt()));
+                                return params;
+                            }
+                        };
+                        VolleyPool.getInstance(getActivity()).addRequest(stringRequest);
                     }
                 }
             }
@@ -580,4 +646,6 @@ public class LoginTabFragment extends Fragment {
 
         dialog.show();
     }
+
+
 }
