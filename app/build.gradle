@@ -69,6 +69,11 @@ dependencies {
     // thu vien gson
     implementation 'com.google.code.gson:gson:2.8.6'
 
+    //mail
+    implementation files('libs\\mail.jar')
+    implementation files('libs\\additionnal.jar')
+    implementation files('libs\\activation.jar')
+
 
 
     // shimmer
