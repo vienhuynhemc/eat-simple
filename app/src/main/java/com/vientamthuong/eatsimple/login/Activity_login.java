@@ -9,7 +9,7 @@ import com.vientamthuong.eatsimple.R;
 
 import android.os.Bundle;
 
-public class activity_login extends AppCompatActivity {
+public class Activity_login extends AppCompatActivity {
 
     TabLayout tapLayout;
     ViewPager viewPager;

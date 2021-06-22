@@ -27,7 +27,7 @@ import com.vientamthuong.eatsimple.admin.thongTinCaNhan.ThongTinCaNhanFragment;
 import com.vientamthuong.eatsimple.diaLog.DiaLogLoader;
 import com.vientamthuong.eatsimple.fontAwesome.FontAwesomeManager;
 import com.vientamthuong.eatsimple.loadData.LoadImageForView;
-import com.vientamthuong.eatsimple.login.activity_login;
+import com.vientamthuong.eatsimple.login.Activity_login;
 
 import java.util.List;
 
@@ -88,7 +88,7 @@ public class HeaderFragment extends Fragment {
             diaLogConfirm.dismiss();
             LoadData.getInstance().reset();
             Intent intent = new Intent();
-            intent.setClass(getActivity(), activity_login.class);
+            intent.setClass(getActivity(), Activity_login.class);
             getActivity().finish();
             startActivity(intent);
         });

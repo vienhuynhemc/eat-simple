@@ -23,7 +23,7 @@
             <!--                            <category android:name="android.intent.category.LAUNCHER" />-->
             <!--                        </intent-filter>-->
         </activity>
-        <activity android:name=".login.activity_login">
+        <activity android:name=".login.Activity_login">
             <!--                        <intent-filter>-->
             <!--                            <action android:name="android.intent.action.MAIN" />-->
 
@@ -32,18 +32,21 @@
         </activity>
         <activity android:name=".introductActivity.IntroductoryActivity" />
         <activity android:name=".homePage.HomePageActivity">
-            <!--            <intent-filter>-->
-            <!--                <action android:name="android.intent.action.MAIN" />-->
-
-            <!--                <category android:name="android.intent.category.LAUNCHER" />-->
-            <!--            </intent-filter>-->
-        </activity>
-        <activity android:name=".admin.HomePageActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".admin.HomePageActivity">
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
+        </activity>
+        <activity android:name=".detail.Activity_detail">
+
         </activity>
     </application>
 

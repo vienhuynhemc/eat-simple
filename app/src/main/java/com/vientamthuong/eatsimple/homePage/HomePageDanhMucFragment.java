@@ -1,6 +1,7 @@
 package com.vientamthuong.eatsimple.homePage;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -147,6 +148,9 @@ public class HomePageDanhMucFragment extends Fragment {
     private void getView(View view) {
         // recyclerview danh mục
         recyclerViewDanhMuc = view.findViewById(R.id.activity_home_page_list_danh_muc);
+    }
+    public void setHander(Handler hander){
+        customDanhMucAdapter.setHandler(hander);
     }
 
 }

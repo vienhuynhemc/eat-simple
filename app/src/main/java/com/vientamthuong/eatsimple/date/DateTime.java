@@ -1,9 +1,10 @@
 package com.vientamthuong.eatsimple.date;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class DateTime {
-
+public class DateTime implements Serializable {
+    private static final long serialVersionUID = 1L;
     //  Lớp này đại diện cho thuộc tính datatime trong mysql
     private int year;
     private int month;

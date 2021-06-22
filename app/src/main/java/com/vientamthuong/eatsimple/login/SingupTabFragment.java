@@ -4,10 +4,8 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
-import android.text.NoCopySpan;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,11 +18,9 @@ import androidx.fragment.app.Fragment;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.vientamthuong.eatsimple.R;
 import com.vientamthuong.eatsimple.jbCrypt.BCrypt;
 import com.vientamthuong.eatsimple.loadData.VolleyPool;
@@ -241,7 +237,7 @@ public class SingupTabFragment extends Fragment {
                                                                 notify.setTextColor(Color.GREEN);
                                                                 checkSignUp = true;
 
-                                                                Intent intent = new Intent(getActivity(),activity_login.class);
+                                                                Intent intent = new Intent(getActivity(), Activity_login.class);
                                                                 intent.putExtra("username_signup",sUsername);
                                                                 startActivity(intent);
                                                             }

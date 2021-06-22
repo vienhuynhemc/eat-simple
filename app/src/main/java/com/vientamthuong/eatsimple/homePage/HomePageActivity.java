@@ -1,17 +1,27 @@
 package com.vientamthuong.eatsimple.homePage;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.vientamthuong.eatsimple.R;
+import com.vientamthuong.eatsimple.beans.Product;
 import com.vientamthuong.eatsimple.connection.CheckConnection;
 import com.vientamthuong.eatsimple.diaLog.DiaLogLoader;
 import com.vientamthuong.eatsimple.diaLog.DiaLogLostConnection;
@@ -19,15 +29,21 @@ import com.vientamthuong.eatsimple.footer.FooterPublicFragment;
 import com.vientamthuong.eatsimple.header.HeaderPublicFragment;
 import com.vientamthuong.eatsimple.loadData.LoadDataConfiguration;
 import com.vientamthuong.eatsimple.loadData.LoadImageForView;
+import com.vientamthuong.eatsimple.loadProductByID.GetListProduct;
+import com.vientamthuong.eatsimple.loadProductByID.LoadProductConfiguration;
+import com.vientamthuong.eatsimple.loadProductByID.LoadProductHandler;
+import com.vientamthuong.eatsimple.loadProductByID.LoadProductHelp;
+import com.vientamthuong.eatsimple.loadProductByID.LoadProductViewAdapter;
 import com.vientamthuong.eatsimple.protocol.ActivityProtocol;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class HomePageActivity extends AppCompatActivity implements ActivityProtocol {
 
     // Layout để xử lý refresh
-    private SwipeRefreshLayout swipeRefreshLayout;
+    private LinearLayout swipeRefreshLayout;
     // Thời gian thoát activity
     private long lastTimePressBack;
     // Dialog
@@ -44,6 +60,13 @@ public class HomePageActivity extends AppCompatActivity implements ActivityProto
     // Biến boolean để kiểm tra luồng volley có đang chạy hay chưa
     private boolean isRunningVolley;
 
+    // bên load sản phẩm
+    private RecyclerView recyclerView;
+    private LoadProductViewAdapter loadProductViewAdapter;
+    private ArrayList<Product> productList;
+
+    private ScrollView scrollView;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,19 +78,56 @@ public class HomePageActivity extends AppCompatActivity implements ActivityProto
         // Thêm dữ liệu
         init();
         // Hành động
-        action();
+       // action();
+        // sự kiện load sản phẩm
+        event();
+        // event scroll
+        eventScroll();
+    }
+    private void event(){
+
+        LoadProductHandler handler = LoadProductHandler.getLoadPoductHandler();
+        handler.setProductList(productList);
+        handler.setLoadProductViewAdapter(loadProductViewAdapter);
+        handler.getHandler();
+
+    }
+    private void eventScroll(){
+
+
+        scrollView.setOnScrollChangeListener(new View.OnScrollChangeListener() {
+
+            @Override
+            public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+               System.out.println("OK ff" + scrollView.getTop());
+               System.out.println("Cuoii " + scrollY);
+               System.out.println("Đầu " + oldScrollY);
+                System.out.println("Zô chỗ này" + LoadProductHelp.getLoadProductHelp().getYMIN());
+                if (scrollY == LoadProductHelp.getLoadProductHelp().getYMIN()){
+                    LoadProductHelp.getLoadProductHelp().setKiem_tra_danh_muc_moi(false);
+                    LoadProductHelp.getLoadProductHelp().setNum(LoadProductHelp.getLoadProductHelp().getNum()+1);
+                    GetListProduct.getData(HomePageActivity.this);
+                    LoadProductHelp.getLoadProductHelp().setYMIN(LoadProductHelp.getLoadProductHelp().getYMIN() + 262);
+                }
+            }
+        });
+
+
     }
 
-    private void action(){
-        // refresh
-        swipeRefreshLayout.setOnRefreshListener(() -> {
-           recreate();
-           swipeRefreshLayout.setRefreshing(false);
-        });
-    }
+//    private void action(){
+//        // refresh
+//        swipeRefreshLayout.setOnRefreshListener(() -> {
+//           recreate();
+//           swipeRefreshLayout.setRefreshing(false);
+//        });
+//    }
 
     private void getView() {
         swipeRefreshLayout = findViewById(R.id.activity_home_page_layout);
+        recyclerView = findViewById(R.id.list_sp);
+        productList = new ArrayList<>();
+        scrollView = findViewById(R.id.scroll_sp);
     }
 
     private void init() {
@@ -85,6 +145,17 @@ public class HomePageActivity extends AppCompatActivity implements ActivityProto
         } else {
             getData();
         }
+        initProducts();
+    }
+    private void initProducts(){
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
+        linearLayoutManager.setSmoothScrollbarEnabled(true);
+        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setHasFixedSize(true);
+        loadProductViewAdapter = new LoadProductViewAdapter(productList);
+        recyclerView.setAdapter(loadProductViewAdapter);
+        loadProductViewAdapter.notifyDataSetChanged();
     }
 
     private void initFooter() {
@@ -224,5 +295,6 @@ public class HomePageActivity extends AppCompatActivity implements ActivityProto
             finish();
         }
     }
+
 
 }
