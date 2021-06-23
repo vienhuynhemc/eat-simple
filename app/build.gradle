@@ -74,6 +74,11 @@ dependencies {
     implementation files('libs\\additionnal.jar')
     implementation files('libs\\activation.jar')
 
+    // ted bottom picker
+    implementation 'gun0912.ted:tedbottompicker:1.2.6'
+
+    implementation 'gun0912.ted:tedpermission:2.2.3'
+
 
 
     // shimmer

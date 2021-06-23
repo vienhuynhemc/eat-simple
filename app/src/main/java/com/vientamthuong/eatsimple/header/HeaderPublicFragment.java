@@ -1,5 +1,6 @@
 package com.vientamthuong.eatsimple.header;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,9 +19,12 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import com.vientamthuong.eatsimple.R;
+import com.vientamthuong.eatsimple.SharedReferences.DataLocalManager;
 import com.vientamthuong.eatsimple.diaLog.DiaLogLoader;
 import com.vientamthuong.eatsimple.loadData.LoadDataConfiguration;
 import com.vientamthuong.eatsimple.loadData.LoadImageForView;
+import com.vientamthuong.eatsimple.login.Activity_login;
+import com.vientamthuong.eatsimple.login.ProfileActivity;
 import com.vientamthuong.eatsimple.protocol.ActivityProtocol;
 
 import java.util.List;
@@ -39,7 +43,12 @@ public class HeaderPublicFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_header_public, container, false);
+
         getView(view);
+
+        // button avatar
+        handlerButtonAvatar();
+
         return view;
     }
 
@@ -99,4 +108,18 @@ public class HeaderPublicFragment extends Fragment {
         appCompatButtonAvatar = view.findViewById(R.id.activity_home_page_avatar_button);
         lottieAnimationViewAvatar = view.findViewById(R.id.activity_home_page_avatar_animation);
     }
+    private void handlerButtonAvatar(){
+        appCompatButtonAvatar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (DataLocalManager.getAccount()!=null) {
+                    startActivity(new Intent(getActivity(), ProfileActivity.class));
+                }
+                else{
+                    startActivity(new Intent(getActivity(), Activity_login.class));
+                }
+            }
+        });
+    }
+
 }

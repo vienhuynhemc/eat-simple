@@ -20,20 +20,24 @@
                 android:layout_gravity="center"
                 android:layout_height="100dp">
                 <ImageView
+                    android:scaleType="fitXY"
+                    android:id="@+id/activity_profile_info_img"
                     android:src="@drawable/activity_introductory_icon"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"/>
             </androidx.cardview.widget.CardView>
             <TextView
+                android:id="@+id/activity_profile_info_name"
                 android:layout_width="match_parent"
-                android:text="Nhật Trường"
+                android:text=""
                 android:gravity="center"
                 android:layout_height="wrap_content"/>
             <TextView
                 android:gravity="center"
-                android:text="nhattruongagtm@gmail.com"
+                android:text=""
                 android:layout_marginTop="5dp"
                 android:layout_width="match_parent"
+                android:id="@+id/activity_profile_info_email"
                 android:layout_height="wrap_content"/>
 
         </LinearLayout>
@@ -46,6 +50,7 @@
             app:cardElevation="10dp"
             android:layout_height="25dp">
             <TextView
+                android:id="@+id/btnSignOut"
                 android:layout_gravity="center"
                 android:text="Đăng xuất"
                 android:layout_width="wrap_content"
@@ -60,6 +65,7 @@
             app:cardElevation="10dp"
             android:layout_height="25dp">
             <TextView
+                android:id="@+id/btnBack"
                 android:layout_gravity="center"
                 android:text="Trang chủ"
                 android:layout_width="wrap_content"
@@ -162,6 +168,7 @@
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="60dp"
+                android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_height="wrap_content">
                 <ImageView
@@ -182,6 +189,7 @@
                 android:orientation="vertical"
                 android:layout_marginRight="10dp"
                 android:layout_width="60dp"
+                android:layout_marginLeft="10dp"
                 android:layout_height="wrap_content">
                 <ImageView
                     android:layout_margin="2dp"
@@ -200,6 +208,7 @@
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="60dp"
+                android:layout_marginLeft="10dp"
                 android:layout_height="wrap_content">
                 <ImageView
                     android:layout_margin="2dp"
@@ -218,184 +227,187 @@
 
         </LinearLayout>
 
-       <LinearLayout
-           android:orientation="vertical"
-           android:layout_width="match_parent"
-           android:layout_height="wrap_content">
-           <LinearLayout
-               android:weightSum="3"
-               android:orientation="horizontal"
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content">
-               <ImageView
-                   android:layout_marginRight="10dp"
-                   android:src="@drawable/activity_profile_voucher"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"/>
-               <TextView
-                   android:layout_weight="3"
-                   android:layout_gravity="center"
-                   android:text="Ví Voucher"
-                   android:layout_marginRight="10dp"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"/>
-               <ImageView
-                   android:layout_weight="1"
-                   android:src="@drawable/activity_profile_arrow"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"/>
-           </LinearLayout>
-           <View
-               android:layout_marginTop="10dp"
-               android:background="#E3E3E3"
-               android:layout_width="match_parent"
-               android:layout_height="1dp"/>
-           <LinearLayout
-               android:layout_marginTop="10dp"
-               android:weightSum="3"
-               android:orientation="horizontal"
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content">
-               <ImageView
-                   android:layout_marginRight="10dp"
-                   android:src="@drawable/activity_profile_pay"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"/>
-               <TextView
-                   android:layout_weight="3"
-                   android:layout_gravity="center"
-                   android:text="Thanh toán"
-                   android:layout_marginRight="10dp"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"/>
-               <ImageView
-                   android:layout_weight="1"
-                   android:src="@drawable/activity_profile_arrow"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"/>
-           </LinearLayout>
-           <View
-               android:layout_marginTop="10dp"
-               android:background="#E3E3E3"
-               android:layout_width="match_parent"
-               android:layout_height="1dp"/>
-           <LinearLayout
-               android:layout_marginTop="10dp"
-               android:weightSum="3"
-               android:orientation="horizontal"
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content">
-               <ImageView
-                   android:layout_marginRight="10dp"
-                   android:src="@drawable/activity_profile_location"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"/>
-               <TextView
-                   android:layout_weight="3"
-                   android:layout_gravity="center"
-                   android:text="Địa chỉ"
-                   android:layout_marginRight="10dp"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"/>
-               <ImageView
-                   android:layout_weight="1"
-                   android:src="@drawable/activity_profile_arrow"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"/>
-           </LinearLayout>
-           <View
-               android:layout_marginTop="10dp"
-               android:background="#E3E3E3"
-               android:layout_width="match_parent"
-               android:layout_height="1dp"/>
-           <LinearLayout
-               android:layout_marginTop="10dp"
-               android:weightSum="3"
-               android:orientation="horizontal"
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content">
-               <ImageView
-                   android:layout_marginRight="10dp"
-                   android:src="@drawable/activity_profile_info"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"/>
-               <TextView
-                   android:layout_weight="3"
-                   android:layout_gravity="center"
-                   android:text="Thông tin tài khoản"
-                   android:layout_marginRight="10dp"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"/>
-               <ImageView
-                   android:layout_weight="1"
-                   android:src="@drawable/activity_profile_arrow"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"/>
-           </LinearLayout>
-           <View
-               android:layout_marginTop="10dp"
-               android:background="#E3E3E3"
-               android:layout_width="match_parent"
-               android:layout_height="1dp"/>
-           <LinearLayout
-               android:layout_marginTop="10dp"
-               android:weightSum="3"
-               android:orientation="horizontal"
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content">
-               <ImageView
-                   android:layout_marginRight="10dp"
-                   android:src="@drawable/activity_profile_password"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"/>
-               <TextView
-                   android:layout_weight="3"
-                   android:layout_gravity="center"
-                   android:text="Mật khẩu"
-                   android:layout_marginRight="10dp"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"/>
-               <ImageView
-                   android:layout_weight="1"
-                   android:src="@drawable/activity_profile_arrow"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"/>
-           </LinearLayout>
-           <View
-               android:layout_marginTop="10dp"
-               android:background="#E3E3E3"
-               android:layout_width="match_parent"
-               android:layout_height="1dp"/>
-           <LinearLayout
-               android:layout_marginTop="10dp"
-               android:weightSum="3"
-               android:orientation="horizontal"
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content">
-               <ImageView
-                   android:layout_marginRight="10dp"
-                   android:src="@drawable/activity_profile_setting"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"/>
-               <TextView
-                   android:layout_weight="3"
-                   android:layout_gravity="center"
-                   android:text="Cài đặt"
-                   android:layout_marginRight="10dp"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"/>
-               <ImageView
-                   android:layout_weight="1"
-                   android:src="@drawable/activity_profile_arrow"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"/>
-           </LinearLayout>
-           <View
-               android:layout_marginTop="10dp"
-               android:background="#E3E3E3"
-               android:layout_width="match_parent"
-               android:layout_height="1dp"/>
-       </LinearLayout>
+        <LinearLayout
+            android:padding="10dp"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:weightSum="3"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/activity_profile_voucher"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:layout_weight="3"
+                    android:layout_gravity="center"
+                    android:text="Ví Voucher"
+                    android:layout_marginRight="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <ImageView
+                    android:layout_weight="1"
+                    android:src="@drawable/activity_profile_arrow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+            <View
+                android:layout_marginTop="10dp"
+                android:background="#E3E3E3"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"/>
+            <LinearLayout
+                android:layout_marginTop="10dp"
+                android:weightSum="3"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/activity_profile_pay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:layout_weight="3"
+                    android:layout_gravity="center"
+                    android:text="Thanh toán"
+                    android:layout_marginRight="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <ImageView
+                    android:layout_weight="1"
+                    android:src="@drawable/activity_profile_arrow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+            <View
+                android:layout_marginTop="10dp"
+                android:background="#E3E3E3"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"/>
+            <LinearLayout
+                android:layout_marginTop="10dp"
+                android:weightSum="3"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/activity_profile_location"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:layout_weight="3"
+                    android:layout_gravity="center"
+                    android:text="Địa chỉ"
+                    android:layout_marginRight="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <ImageView
+                    android:layout_weight="1"
+                    android:src="@drawable/activity_profile_arrow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+            <View
+                android:layout_marginTop="10dp"
+                android:background="#E3E3E3"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"/>
+            <LinearLayout
+                android:id="@+id/activity_profile_info"
+                android:layout_marginTop="10dp"
+                android:weightSum="3"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/activity_profile_info"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:layout_weight="3"
+                    android:layout_gravity="center"
+                    android:text="Thông tin tài khoản"
+                    android:layout_marginRight="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <ImageView
+                    android:layout_weight="1"
+                    android:src="@drawable/activity_profile_arrow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+            <View
+                android:layout_marginTop="10dp"
+                android:background="#E3E3E3"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"/>
+            <LinearLayout
+                android:id="@+id/activity_profile_password"
+                android:layout_marginTop="10dp"
+                android:weightSum="3"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/activity_profile_password"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:layout_weight="3"
+                    android:layout_gravity="center"
+                    android:text="Mật khẩu"
+                    android:layout_marginRight="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <ImageView
+                    android:layout_weight="1"
+                    android:src="@drawable/activity_profile_arrow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+            <View
+                android:layout_marginTop="10dp"
+                android:background="#E3E3E3"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"/>
+            <LinearLayout
+                android:layout_marginTop="10dp"
+                android:weightSum="3"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/activity_profile_setting"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:layout_weight="3"
+                    android:layout_gravity="center"
+                    android:text="Cài đặt"
+                    android:layout_marginRight="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <ImageView
+                    android:layout_weight="1"
+                    android:src="@drawable/activity_profile_arrow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+            <View
+                android:layout_marginTop="10dp"
+                android:background="#E3E3E3"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"/>
+        </LinearLayout>
     </LinearLayout>
 
 

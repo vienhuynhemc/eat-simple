@@ -136,12 +136,8 @@ public class LoginTabFragment extends Fragment {
                                                                 notify.setText("*Đăng nhập thành công!");
                                                                 notify.setTextColor(Color.GREEN);
 
+                                                                getAccount(tai_khoan);
 
-                                                                Intent intent = new Intent(getActivity(), com.vientamthuong.eatsimple.homePage.HomePageActivity.class);
-
-                                                                Log.d("EEE", "Response: " + response.toString());
-
-                                                                startActivity(intent);
                                                             } else {
                                                                 notify.setTextColor(Color.RED);
                                                                 notify.setText("*Không tồn tại tài khoản!");
@@ -608,7 +604,7 @@ public class LoginTabFragment extends Fragment {
                                                 @Override
                                                 public void onClick(View v) {
                                                     dialog.dismiss();
-                                                    Intent intent = new Intent(getActivity(),activity_login.class);
+                                                    Intent intent = new Intent(getActivity(),Activity_login.class);
                                                     intent.putExtra("account_forgot",username.getText().toString());
                                                     startActivity(intent);
                                                 }
@@ -645,6 +641,75 @@ public class LoginTabFragment extends Fragment {
         });
 
         dialog.show();
+    }
+    private void getAccount(String username){
+        String url ="https://eat-simple-app.000webhostapp.com/getAccount.php";
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject object = new JSONObject(response);
+
+                            String id = object.getString("ma_tai_khoan");
+                            String username = object.getString("tai_khoan");
+                            String password = object.getString("mat_khau");
+                            String email = object.getString("email");
+                            String forgotCode = object.getString("ma_quen_mat_khau");
+                            String avatar = object.getString("hinh_dai_dien");
+                            String img = object.getString("link_hinh_dai_dien");
+                            String name = object.getString("ten_hien_thi");
+                            String date = object.getString("ngay_tao");
+                            String expireDate = object.getString("han_su_dung_ma_qmk");
+
+                            Account account = new Account();
+                            account.setId(id);
+                            account.setUsername(username);
+                            account.setPassword(password);
+                            account.setEmail(email);
+                            account.setForgotPasswordId(forgotCode);
+                            account.setImg(avatar);
+                            account.setImgLink(img);
+                            account.setName(name);
+                            account.setExpireDateCode(expireDate);
+                            account.setDateCreated(getDate(date));
+
+                            Log.d("ZZZ",account.toString());
+                            //Log.d("CCC",response);
+
+                            if(account.getUsername() != null){
+                                DataLocalManager.setAccounts(account);
+                            }
+
+                            if (DataLocalManager.getAccount()!= null) {
+                                Intent intent = new Intent(getActivity(), com.vientamthuong.eatsimple.homePage.HomePageActivity.class);
+
+                                //Log.d("CCC", "Response: " + response.toString());
+
+                                startActivity(intent);
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(getContext(), error.toString(), Toast.LENGTH_SHORT).show();
+                    }
+                }){
+            @Nullable
+            @org.jetbrains.annotations.Nullable
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                HashMap<String,String> params = new HashMap<>();
+                params.put("username",username);
+                return params;
+            }
+        };
+        VolleyPool.getInstance(getActivity()).addRequest(stringRequest);
     }
 
 
