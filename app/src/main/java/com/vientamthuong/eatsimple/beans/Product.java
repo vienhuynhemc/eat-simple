@@ -5,6 +5,8 @@ import android.graphics.Bitmap;
 import com.vientamthuong.eatsimple.date.DateTime;
 
 import java.io.Serializable;
+import java.lang.reflect.Array;
+import java.util.List;
 
 public class Product implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -19,7 +21,7 @@ public class Product implements Serializable {
     private int trang_thai;
     private DateTime ngay_tao;
     private String ma_dm;
-    private String ma_size;
+    private List<Size> sizes;
     private int so_luong_con_lai;
     private int gia;
     private int gia_km;
@@ -27,43 +29,10 @@ public class Product implements Serializable {
     private Bitmap bitmap;
     private boolean isLoadImg;
 
-    public Product(String ma_sp, String ten_sp, int kcal, int thoi_gian_nau, int ton_tai, int so_luong_ban_ra, int trang_thai, DateTime ngay_tao, String ma_dm, String ma_size, int so_luong_con_lai, int gia, int gia_km) {
-        this.ma_sp = ma_sp;
-        this.ten_sp = ten_sp;
-        this.kcal = kcal;
-        this.thoi_gian_nau = thoi_gian_nau;
-        this.ton_tai = ton_tai;
-        this.so_luong_ban_ra = so_luong_ban_ra;
-        this.trang_thai = trang_thai;
-        this.ngay_tao = ngay_tao;
-        this.ma_dm = ma_dm;
-        this.ma_size = ma_size;
-        this.so_luong_con_lai = so_luong_con_lai;
-        this.gia = gia;
-        this.gia_km = gia_km;
-    }
-
     public Product() {
         isLoadImg = false;
     }
 
-    public Product(String ma_sp, String ten_sp, String hinh, String url, int kcal, int thoi_gian_nau, int ton_tai, int so_luong_ban_ra, int trang_thai, DateTime ngay_tao, String ma_dm, String ma_size, int so_luong_con_lai, int gia, int gia_km) {
-        this.ma_sp = ma_sp;
-        this.ten_sp = ten_sp;
-        this.hinh = hinh;
-        this.url = url;
-        this.kcal = kcal;
-        this.thoi_gian_nau = thoi_gian_nau;
-        this.ton_tai = ton_tai;
-        this.so_luong_ban_ra = so_luong_ban_ra;
-        this.trang_thai = trang_thai;
-        this.ngay_tao = ngay_tao;
-        this.ma_dm = ma_dm;
-        this.ma_size = ma_size;
-        this.so_luong_con_lai = so_luong_con_lai;
-        this.gia = gia;
-        this.gia_km = gia_km;
-    }
 
     public String getMa_sp() {
         return ma_sp;
@@ -153,12 +122,12 @@ public class Product implements Serializable {
         this.ma_dm = ma_dm;
     }
 
-    public String getMa_size() {
-        return ma_size;
+    public void setMa_size(List<Size> ma_size) {
+        this.sizes = ma_size;
     }
 
-    public void setMa_size(String ma_size) {
-        this.ma_size = ma_size;
+    public List<Size> getMa_size() {
+        return sizes;
     }
 
     public int getSo_luong_con_lai() {

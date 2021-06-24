@@ -122,13 +122,14 @@
                 android:id="@+id/gia"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="3dp"
                 android:text="20.000đ"
                 android:textColor="@color/gia"
-                android:textSize="20sp"
+                android:textSize="16sp"
                 android:textStyle="italic"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.818"
+                app:layout_constraintHorizontal_bias="0.628"
                 app:layout_constraintStart_toEndOf="@+id/cardview_one_item" />
 
             <TextView

@@ -61,12 +61,28 @@
             android:text="30.000 VND"
             android:textColor="@color/color_text_main"
             android:textSize="20dp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.902"
+            app:layout_constraintHorizontal_bias="0.783"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.26" />
+            app:layout_constraintVertical_bias="0.259" />
+
+        <TextView
+            android:id="@+id/text_price_km"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif"
+            android:text="30%"
+            android:textColor="@color/color_text_main"
+            android:textSize="15dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.956"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.255" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="193dp"
@@ -244,19 +260,17 @@ hài hòa tinh túy giữa thịt bò úc thượng hạng và phô mai tan ch�
                 android:fontFamily="sans-serif-black"
                 android:paddingLeft="40dp"
                 android:paddingTop="20dp"
-                android:text="Nguyên liệu"
+                android:text="Chọn size"
                 android:textSize="18dp" />
 
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerview"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/list_size"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-                android:layout_marginRight="30dp"
-                android:orientation="horizontal"
+                android:orientation="horizontal">
 
-                />
+            </LinearLayout>
 
         </LinearLayout>
 
@@ -281,6 +295,8 @@ hài hòa tinh túy giữa thịt bò úc thượng hạng và phô mai tan ch�
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:elevation="10dp"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
             android:layout_gravity="center"
             android:src="@drawable/activity_detail_ham"
             tools:ignore="MissingConstraints" />

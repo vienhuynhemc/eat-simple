@@ -34,6 +34,7 @@ public class FooterPublicFragment extends Fragment {
         getView(view);
         // Xử lý giao diện
         handleView(getArguments().getInt("data"));
+
         return view;
     }
 

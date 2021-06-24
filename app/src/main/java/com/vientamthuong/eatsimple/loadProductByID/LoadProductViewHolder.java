@@ -37,7 +37,6 @@ public class LoadProductViewHolder extends RecyclerView.ViewHolder {
         gia = view.findViewById(R.id.gia);
         gia_km = view.findViewById(R.id.gia_km);
         img = view.findViewById(R.id.img_cart_one_item);
-        gia.setPaintFlags(gia.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         cardView = view.findViewById(R.id.cardview_one_item);
         layout = view.findViewById(R.id.swpe_cart_layout);
     }

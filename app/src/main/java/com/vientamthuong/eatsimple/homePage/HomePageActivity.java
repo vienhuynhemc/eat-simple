@@ -6,6 +6,7 @@ import android.os.Message;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.Toast;
@@ -43,7 +44,7 @@ import java.util.List;
 public class HomePageActivity extends AppCompatActivity implements ActivityProtocol {
 
     // Layout để xử lý refresh
-    private LinearLayout swipeRefreshLayout;
+    private FrameLayout swipeRefreshLayout;
     // Thời gian thoát activity
     private long lastTimePressBack;
     // Dialog

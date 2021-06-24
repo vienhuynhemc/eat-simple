@@ -15,7 +15,7 @@ public class LoginAdapter extends FragmentPagerAdapter {
 
     private Context context;
     int totalTaps;
-    private Intent intent;
+    private String repack;
 
 
     public LoginAdapter(FragmentManager fm, Context context, int totalTaps){
@@ -34,9 +34,12 @@ public class LoginAdapter extends FragmentPagerAdapter {
         switch (position){
             case 0:
                 LoginTabFragment loginTabFragment = new LoginTabFragment();
-//                Bundle bundle = new Bundle();
-//                bundle.putString("Call",);
-//                loginTabFragment.setArguments();
+
+                if (repack != null){
+                Bundle bundle = new Bundle();
+                bundle.putString("Call",repack);
+                loginTabFragment.setArguments(bundle);
+                }
                 Log.d("AAA","a");
                 return loginTabFragment;
 
@@ -47,5 +50,13 @@ public class LoginAdapter extends FragmentPagerAdapter {
             default:
                 return null;
         }
+    }
+
+    public String getRepack() {
+        return repack;
+    }
+
+    public void setRepack(String repack) {
+        this.repack = repack;
     }
 }

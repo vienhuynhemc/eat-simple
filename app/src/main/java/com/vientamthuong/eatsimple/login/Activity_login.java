@@ -7,6 +7,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.vientamthuong.eatsimple.R;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 public class Activity_login extends AppCompatActivity {
@@ -42,6 +43,16 @@ public class Activity_login extends AppCompatActivity {
 
         final LoginAdapter adapter = new LoginAdapter(getSupportFragmentManager(), this,tapLayout.getTabCount());
         viewPager.setAdapter(adapter);
+
+        Intent intent = getIntent();
+
+        if (intent != null){
+            String repack = intent.getStringExtra("Call");
+
+            if (repack != null){
+                adapter.setRepack(repack);
+            }
+        }
 
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tapLayout));
         tapLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {

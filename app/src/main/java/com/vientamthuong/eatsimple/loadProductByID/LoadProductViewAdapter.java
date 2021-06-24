@@ -2,6 +2,7 @@ package com.vientamthuong.eatsimple.loadProductByID;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,6 +43,7 @@ public class LoadProductViewAdapter extends RecyclerView.Adapter<LoadProductView
             Product p = list.get(loadProductViewHolder.getAdapterPosition());
 
             Product product = new Product();
+            product.setMa_sp(p.getMa_sp());
             product.setTen_sp(p.getTen_sp());
             product.setGia_km(p.getGia_km());
             product.setGia(p.getGia());
@@ -74,6 +76,7 @@ public class LoadProductViewAdapter extends RecyclerView.Adapter<LoadProductView
             holder.getTitle().setText(product.getTen_sp());
             holder.getGia().setText(String.valueOf(product.getGia()) + "đ");
             holder.getGia_km().setText(String.valueOf(product.getGia_km()) +"đ");
+            holder.getGia().setPaintFlags(holder.getGia().getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
 
             if (product.getBitmap() != null){
                 holder.getImg().setImageBitmap(product.getBitmap());

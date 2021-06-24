@@ -682,11 +682,24 @@ public class LoginTabFragment extends Fragment {
                             }
 
                             if (DataLocalManager.getAccount()!= null) {
-                                Intent intent = new Intent(getActivity(), com.vientamthuong.eatsimple.homePage.HomePageActivity.class);
 
-                                //Log.d("CCC", "Response: " + response.toString());
+                                Intent intent;
+                                Bundle bundle = getArguments();
+                                if (bundle != null)
+                                {
+                                    String route = bundle.getString("Call");
+                                    if(route.equals("Activity_detail")){
+                                        System.out.println("NHận đc back");
+                                        getActivity().finish();
+                                    }
+                                }else{
+                                    intent = new Intent(getActivity(), com.vientamthuong.eatsimple.homePage.HomePageActivity.class);
 
-                                startActivity(intent);
+                                    //Log.d("CCC", "Response: " + response.toString());
+
+                                    startActivity(intent);
+                                }
+
                             }
 
                         } catch (JSONException e) {

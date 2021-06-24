@@ -80,8 +80,9 @@ dependencies {
     implementation 'gun0912.ted:tedpermission:2.2.3'
 
 
-
     // shimmer
     implementation 'com.facebook.shimmer:shimmer:0.5.0@aar'
+    // MeowBottomNavigation
+    implementation 'com.etebarian:meow-bottom-navigation-java:1.2.0'
 
 }
