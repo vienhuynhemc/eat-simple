@@ -46,6 +46,7 @@ import com.vientamthuong.eatsimple.jbCrypt.BCrypt;
 import com.vientamthuong.eatsimple.loadData.VolleyPool;
 import com.vientamthuong.eatsimple.model.Account;
 import com.vientamthuong.eatsimple.model.AccountFirebase;
+import com.vientamthuong.eatsimple.wishlist.WishlistActivity;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -65,6 +66,7 @@ public class ProfileActivity extends AppCompatActivity {
     ImageView img;
     String imgAccount ="";
     final int REQUEST_CODE_IMAGE = 1;
+    LinearLayout btnWishlist;
 
     // dialog change img
     ImageView imageDisplay;
@@ -93,6 +95,9 @@ public class ProfileActivity extends AppCompatActivity {
         //handler back home page
         handlerBack();
 
+        // handler btn wishlist
+        handlerWishlist();
+
     }
     private void mapping(){
         btnInfo = findViewById(R.id.activity_profile_info);
@@ -102,6 +107,7 @@ public class ProfileActivity extends AppCompatActivity {
         name = findViewById(R.id.activity_profile_info_name);
         email = findViewById(R.id.activity_profile_info_email);
         img = findViewById(R.id.activity_profile_info_img);
+        btnWishlist = findViewById(R.id.activity_profile_wishlist);
 
         //
         DatabaseReference database = FirebaseDatabase.getInstance().getReference("tai_khoan").child(account.getId());
@@ -153,6 +159,16 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 createaDialogChangePassword();
+            }
+        });
+    }
+    private void handlerWishlist(){
+        btnWishlist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ProfileActivity.this, WishlistActivity.class);
+                intent.putExtra("ma_kh",account.getId());
+                startActivity(intent);
             }
         });
     }

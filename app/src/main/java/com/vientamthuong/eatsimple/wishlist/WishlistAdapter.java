@@ -2,6 +2,7 @@ package com.vientamthuong.eatsimple.wishlist;
 
 import android.content.Context;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,6 +39,7 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
     private Context context;
     private ArrayList<Wishlist> products;
     private ViewBinderHelper viewBinderHelper = new ViewBinderHelper();
+    private int pos;
 
     private WishlistDAO wishlistDAO = new WishlistDAO();
 
@@ -115,14 +117,15 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
     @Override
     public void onBindViewHolder(@NonNull WishlistViewHoler holder, int position) {
         Wishlist w = products.get(position);
+        pos = position;
         if(w == null){
             return;
         }
         viewBinderHelper.bind(holder.swipeRevealLayout,w.getName());
         holder.txtName.setText(w.getName());
 
-//        viewBinderHelper.bind(holder.swipeRevealLayout,w.getDesP());
-//        holder.txtDes.setText(w.getDesP());
+        viewBinderHelper.bind(holder.swipeRevealLayout,w.getNameSize());
+        holder.txtSize.setText(w.getNameSize());
 
         viewBinderHelper.bind(holder.swipeRevealLayout,String.valueOf(w.getPriceP()));
         holder.txtPrice.setText(w.getPriceP()+" VNĐ");
@@ -130,14 +133,55 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
         viewBinderHelper.bind(holder.swipeRevealLayout,String.valueOf(w.getImg()));
         Glide.with(context).load(w.getImg()).into(holder.img);
 
+
+
         holder.layoutDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 products.remove(holder.getAdapterPosition());
 
                 // xoa khoi ds wishlist
-                wishlistDAO.deleteWishlist("001",w.getId());
+                wishlistDAO.deleteWishlist(w.getIdCustomer(),w.getId(),w.getSize());
                 notifyItemRemoved(holder.getAdapterPosition());
+            }
+        });
+        holder.btnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(context, "Thêm vào giở hàng thành công!", Toast.LENGTH_LONG).show();
+            }
+        });
+
+        holder.cbAdd.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                holder.isCheck = isChecked;
+            }
+        });
+        holder.cbAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Wishlist wishlist = products.get(position);
+                Log.d("WWW",position+" pos");
+                checkboxes.add(wishlist.getId()+"_"+wishlist.getSize());
+                if(holder.isCheck) {
+                    if (checkboxes.size() > 0) {
+                        //  Toast.makeText(context, checkboxes.toString(), Toast.LENGTH_LONG).show();
+                    }
+                }
+                else{
+                    checkboxes.remove(wishlist.getId()+"_"+wishlist.getSize());
+                    if (checkboxes.size() > 0) {
+                        // Toast.makeText(context, checkboxes.toString(), Toast.LENGTH_LONG).show();
+                    }
+                }
+                for (Wishlist w : products){
+                    for(String s : checkboxes){
+                        if (s.equals(w.getId()+"_"+w.getSize())){
+                            chooseItem.put(s,w);
+                        }
+                    }
+                }
             }
         });
     }
@@ -155,7 +199,7 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
         private SwipeRevealLayout swipeRevealLayout;
         private LinearLayout layoutDelete;
         private ImageView img;
-        private TextView txtName, txtPrice;
+        private TextView txtName, txtPrice,txtSize;
         private CardView btnAdd;
         private CheckBox cbAdd;
 
@@ -177,8 +221,7 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
             img = itemView.findViewById(R.id.imgP);
             txtName = itemView.findViewById(R.id.nameP);
             txtPrice = itemView.findViewById(R.id.priceP);
-
-
+            txtSize = itemView.findViewById(R.id.activity_wishlist_size);
 
 //            shimmer = itemView.findViewById(R.id.shimmer);
 //
@@ -204,45 +247,6 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
 
 
 
-
-           btnAdd.setOnClickListener(new View.OnClickListener() {
-               @Override
-               public void onClick(View v) {
-                   Toast.makeText(context, "Thêm vào giở hàng thành công!", Toast.LENGTH_LONG).show();
-               }
-           });
-
-           cbAdd.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-               @Override
-               public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                   isCheck = isChecked;
-               }
-           });
-
-           cbAdd.setOnClickListener(new View.OnClickListener() {
-               @Override
-               public void onClick(View v) {
-                   checkboxes.add(txtName.getText().toString());
-                   if(isCheck) {
-                       if (checkboxes.size() > 0) {
-                         //  Toast.makeText(context, checkboxes.toString(), Toast.LENGTH_LONG).show();
-                       }
-                   }
-                   else{
-                       checkboxes.remove(txtName.getText().toString());
-                       if (checkboxes.size() > 0) {
-                          // Toast.makeText(context, checkboxes.toString(), Toast.LENGTH_LONG).show();
-                       }
-                   }
-                   for (Wishlist w : products){
-                       for(String s : checkboxes){
-                           if (s.equals(w.getName())){
-                               chooseItem.put(s,w);
-                           }
-                       }
-                   }
-               }
-           });
 
         }
     }

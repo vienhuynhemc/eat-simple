@@ -7,6 +7,7 @@ import androidx.appcompat.widget.AppCompatButton;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -77,6 +78,8 @@ public class WishlistActivity extends AppCompatActivity {
     private WishlistAdapter wishlistAdapter;
     // list checked item
     private Set<String> itemsChecked = new HashSet<>();
+    private LinearLayout btnCartWishlist;
+    private TextView notify;
 
 
     //Button add to more cart
@@ -96,40 +99,61 @@ public class WishlistActivity extends AppCompatActivity {
         init();
 
 
-        // list view wishlist
-        RecyclerView recyclerView = findViewById(R.id.activity_wishlist_recylerview);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(linearLayoutManager);
+
+        // get account
+        Intent intent = getIntent();
+        idCustomer = intent.getStringExtra("ma_kh");
+//            for (int i = 4; i < 7;i++){
+//                DatabaseReference databaseA = FirebaseDatabase.getInstance().getReference("yeu_thich").child(idCustomer).child("sp00"+i+"_size_"+i);
+//                databaseA.child("id").setValue("sp00"+i);
+//                databaseA.child("size").setValue("size_"+i);
+//                databaseA.child("name").setValue("Gà Rán "+i);
+//                databaseA.child("nameSize").setValue("nhỏ");
+//                databaseA.child("priceS").setValue(0);
+//                databaseA.child("priceP").setValue(39000);
+//                databaseA.child("idCustomer").setValue(idCustomer);
+//                databaseA.child("img").setValue("https://firebasestorage.googleapis.com/v0/b/eat-simple.appspot.com/o/san_pham%2Fsp_1%2Fsp_1.jpg?alt=media&token=905b8cd1-db13-4baa-abe5-f37cc7e5f8c7");
+//            }
+
+            // list view wishlist
+            RecyclerView recyclerView = findViewById(R.id.activity_wishlist_recylerview);
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+            recyclerView.setLayoutManager(linearLayoutManager);
 
 
-        products = new ArrayList<>();
-        DatabaseReference database = FirebaseDatabase.getInstance().getReference("yeu_thich").child("001");
-        database.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                clearAll();
-                for (DataSnapshot ds : snapshot.getChildren()) {
-                    Wishlist w = ds.getValue(Wishlist.class);
-                    products.add(w);
+            products = new ArrayList<>();
+            DatabaseReference database = FirebaseDatabase.getInstance().getReference("yeu_thich").child(idCustomer);
+            database.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                    clearAll();
+                    for (DataSnapshot ds : snapshot.getChildren()) {
+                        Wishlist w = ds.getValue(Wishlist.class);
+                        products.add(w);
+                    }
+                    wishlistAdapter = new WishlistAdapter(WishlistActivity.this,products);
+                    recyclerView.setAdapter(wishlistAdapter);
+
+                    itemsChecked = wishlistAdapter.getCheckboxes();
+                    wishlistAdapter.notifyDataSetChanged();
                 }
-                wishlistAdapter = new WishlistAdapter(WishlistActivity.this,products);
-                recyclerView.setAdapter(wishlistAdapter);
 
-                itemsChecked = wishlistAdapter.getCheckboxes();
-                wishlistAdapter.notifyDataSetChanged();
+                @Override
+                public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+                }
+            });
+            if (products.size()==0){
+                btnCartWishlist.setVisibility(View.GONE);
+                notify.setVisibility(View.VISIBLE);
             }
 
-            @Override
-            public void onCancelled(@NonNull @NotNull DatabaseError error) {
-
-            }
-        });
 
 
+            handlerAddCart(idCustomer);
+            handlerRemove(idCustomer);
+        }
 
-        handlerAddCart("");
-        handlerRemove("001");
-    }
     // xóa khỏi wishlist
     public void handlerRemove(String idCustomer){
         btnDeleteMore.setOnClickListener(new View.OnClickListener() {
@@ -138,7 +162,7 @@ public class WishlistActivity extends AppCompatActivity {
              ArrayList<Wishlist> chooseInCheckbox = new ArrayList<>();
              for (Wishlist w : products) {
                  for (String str : wishlistAdapter.getCheckboxes()) {
-                     if (str.equals(w.getName())) {
+                     if (str.equals(w.getId()+"_"+w.getSize())) {
                          chooseInCheckbox.add(w);
                      }
                  }
@@ -154,7 +178,8 @@ public class WishlistActivity extends AppCompatActivity {
                          int count = 0;
                          WishlistDAO wishlistDAO = new WishlistDAO();
                          for (Wishlist w : chooseInCheckbox) {
-                             if (wishlistDAO.deleteWishlist(idCustomer, w.getId())) {
+                             Toast.makeText(WishlistActivity.this, w.getId()+"_"+w.getSize(), Toast.LENGTH_SHORT).show();
+                             if (wishlistDAO.deleteWishlist(idCustomer, w.getId(),w.getSize())) {
                                  count++;
                              }
                          }
@@ -170,9 +195,6 @@ public class WishlistActivity extends AppCompatActivity {
     }
 
 
-
-
-
     // thêm vào giỏ hàng
     public void handlerAddCart(String idCustomer){
 
@@ -182,7 +204,7 @@ public class WishlistActivity extends AppCompatActivity {
                 ArrayList<Wishlist> chooseInCheckbox = new ArrayList<>();
                 for(Wishlist w : products) {
                     for (String str : wishlistAdapter.getCheckboxes()) {
-                        if (str.equals(w.getName())) {
+                        if (str.equals(w.getId()+"_"+w.getSize())) {
                             chooseInCheckbox.add(w);
                             Log.d("WWW",chooseInCheckbox.size()+"");
                         }
@@ -241,6 +263,8 @@ public class WishlistActivity extends AppCompatActivity {
         // button add more cart
         btnAddMoreCart = findViewById(R.id.activity_wishlist_addMoreCart);
         btnDeleteMore = findViewById(R.id.activity_wishlist_deleleMore);
+        notify = findViewById(R.id.activity_wishlist_notify);
+        btnCartWishlist = findViewById(R.id.dialog_checkbox_item);
 
     }
     private void getData() {
@@ -388,7 +412,6 @@ public class WishlistActivity extends AppCompatActivity {
                             Wishlist wishlist = new Wishlist();
                             wishlist.setId(object.getString(""));
                             wishlist.setName(object.getString(""));
-                            wishlist.setDesP(object.getString(""));
                             wishlist.setImg(object.getString(""));
                             wishlist.setPriceP(Integer.parseInt(""));
                         }
@@ -409,7 +432,7 @@ public class WishlistActivity extends AppCompatActivity {
         @Override
         protected Map<String, String> getParams() throws AuthFailureError {
             HashMap<String,String> params = new HashMap<>();
-            params.put("ma_tai_khoan",idCustomer);
+            params.put("ma_khach_hang",idCustomer);
             return params;
         }
     };
