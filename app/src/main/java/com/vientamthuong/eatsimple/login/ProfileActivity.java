@@ -249,9 +249,21 @@ public class ProfileActivity extends AppCompatActivity {
         btnChange = dialog.findViewById(R.id.activity_profile_change_yes);
 
         // load info
-        Glide.with(this).load(account.getImgLink()).into(imageDisplay);
-        name.setText(account.getName());
-        email.setText(account.getEmail());
+        DatabaseReference database = FirebaseDatabase.getInstance().getReference("tai_khoan").child(account.getId());
+        database.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                AccountFirebase account = snapshot.getValue(AccountFirebase.class);
+                Glide.with(ProfileActivity.this).load(account.getLink_hinh_dai_dien()).into(imageDisplay);
+                name.setText(account.getTen_hien_thi());
+                email.setText(account.getEmail());
+            }
+
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+            }
+        });
 
         //handler
         imgChange.setOnClickListener(new View.OnClickListener() {
@@ -317,6 +329,7 @@ public class ProfileActivity extends AppCompatActivity {
     }
     private void signOut(){
         DataLocalManager.setAccount(null);
+        finish();
         startActivity(new Intent(ProfileActivity.this,Activity_login.class));
     }
     private void uploadImgToFirebase(ImageView imageView,String ma_tai_khoan){
