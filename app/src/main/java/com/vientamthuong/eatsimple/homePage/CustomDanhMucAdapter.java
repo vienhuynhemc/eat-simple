@@ -76,7 +76,6 @@ public class CustomDanhMucAdapter extends RecyclerView.Adapter<CustomDanhMucView
             LoadProductHelp.getLoadProductHelp().setYMIN(LoadProductConfiguration.Y_MIN);
             LoadProductHelp.getLoadProductHelp().setMa_danh_muc_hien_tai(danhMucs.get(customDanhMucViewHolder.getAdapterPosition()).getMa_danh_muc());
             GetListProduct.getData(v.getContext());
-
         });
 
         return customDanhMucViewHolder;

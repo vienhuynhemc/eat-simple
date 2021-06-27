@@ -25,9 +25,7 @@ public class CartViewHolder extends RecyclerView.ViewHolder {
      TextView number;
      SwipeRevealLayout swipeRevealLayout;
      Button deleteLayout;
-     ShimmerFrameLayout layout;
-     Handler handler;
-
+//     ShimmerFrameLayout layout;
 
     public CartViewHolder(@NonNull View itemView) {
         super(itemView);
@@ -39,24 +37,7 @@ public class CartViewHolder extends RecyclerView.ViewHolder {
         number = itemView.findViewById(R.id.cart_number_item);
         swipeRevealLayout = itemView.findViewById(R.id.swpe_cart_layout);
         deleteLayout = itemView.findViewById(R.id.cart_delete_one_item);
-        layout = itemView.findViewById(R.id.shimmer_layout);
-        handler = new Handler();
 
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                layout.stopShimmer();
-                layout.hideShimmer();
-                layout.setVisibility(View.GONE);
-
-                image.setVisibility(View.VISIBLE);
-                title.setVisibility(View.VISIBLE);
-                content.setVisibility(View.VISIBLE);
-                price.setVisibility(View.VISIBLE);
-                number.setVisibility(View.VISIBLE);
-
-            }
-        },10000);
 
 
     }

@@ -316,9 +316,6 @@ public class Activity_detail extends AppCompatActivity {
 
 
         int km = ((product.getGia()-product.getGia_km())*100/(product.getGia()));
-        System.out.println("Phần trăm:" + km + "GIá:" +product.getGia());
-        System.out.println(((product.getGia()-product.getGia_km())));
-
         gia_km.setText(String.valueOf(km +"%"));
 
     }

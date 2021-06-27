@@ -20,7 +20,14 @@
         android:theme="@style/Theme.EatSimple"
         android:usesCleartextTraffic="true"
         tools:ignore="AllowBackup">
-        <activity android:name=".homePage.HomeMeowBottom"></activity>
+        <activity android:name=".homePage.HomeMeowBottom">
+             <intent-filter>
+             <action android:name="android.intent.action.MAIN" />
+
+
+             <category android:name="android.intent.category.LAUNCHER" />
+             </intent-filter>
+        </activity>
         <activity android:name=".wishlist.WishlistActivity">
 
             <!-- <intent-filter> -->
@@ -40,13 +47,13 @@
             <!-- </intent-filter> -->
         </activity>
         <activity android:name=".introductActivity.IntroductoryActivity" />
-        <activity android:name=".homePage.HomePageActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+<!--        <activity android:name=".homePage.HomePageActivity">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
+<!--        </activity>-->
         <activity android:name=".admin.HomePageActivity">
 
             <!-- <intent-filter> -->

@@ -35,6 +35,7 @@ import com.vientamthuong.eatsimple.SharedReferences.DataLocalManager;
 import com.vientamthuong.eatsimple.admin.HomePageActivity;
 import com.vientamthuong.eatsimple.admin.session.DataSession;
 import com.vientamthuong.eatsimple.date.DateTime;
+import com.vientamthuong.eatsimple.homePage.HomeMeowBottom;
 import com.vientamthuong.eatsimple.jbCrypt.BCrypt;
 import com.vientamthuong.eatsimple.loadData.VolleyPool;
 import com.vientamthuong.eatsimple.model.Account;
@@ -693,7 +694,7 @@ public class LoginTabFragment extends Fragment {
                                         getActivity().finish();
                                     }
                                 }else{
-                                    intent = new Intent(getActivity(), com.vientamthuong.eatsimple.homePage.HomePageActivity.class);
+                                    intent = new Intent(getActivity(), HomeMeowBottom.class);
 
                                     //Log.d("CCC", "Response: " + response.toString());
 

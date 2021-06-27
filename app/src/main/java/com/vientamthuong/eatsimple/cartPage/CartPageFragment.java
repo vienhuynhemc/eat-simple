@@ -4,10 +4,21 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.LinearLayout;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.vientamthuong.eatsimple.R;
+import com.vientamthuong.eatsimple.SharedReferences.DataLocalManager;
+import com.vientamthuong.eatsimple.beans.Cart;
+import com.vientamthuong.eatsimple.loadProductByID.LoadProductHandler;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -25,6 +36,13 @@ public class CartPageFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    // khai báo
+    private RecyclerView recyclerView;
+    private List<Cart> list_Item;
+    private CartAdapter cartAdapter;
+    private LinearLayout lottieAnimationView;
+
+
 
     public CartPageFragment() {
         // Required empty public constructor
@@ -60,7 +78,44 @@ public class CartPageFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        View view;
+
+        if (DataLocalManager.getAccount() != null) {
+            view = inflater.inflate(R.layout.activity_cart, container, false);
+            getView(view);
+            anim();
+            cartRecycle();
+            event();
+        }else {
+            view = inflater.inflate(R.layout.fragment_cart_page, container, false);
+        }
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_cart_page, container, false);
+        return view;
+    }
+    private void event(){
+        LoadCartHandler handler = LoadCartHandler.getInstance();
+        handler.setCarts(list_Item);
+        handler.setCartAdapter(cartAdapter);
+        handler.getHandler();
+        GetCart.getData(getContext());
+    }
+
+    void getView(View view){
+        recyclerView = view.findViewById(R.id.list_item);
+        lottieAnimationView = view.findViewById(R.id.activity_home_page_layout_location);
+        list_Item = new ArrayList<>();
+
+    }
+    void anim(){
+        Animation animation = AnimationUtils.loadAnimation(getContext(),R.anim.activity_cart_translate);
+        lottieAnimationView.startAnimation(animation);
+    }
+    void cartRecycle(){
+        cartAdapter = new CartAdapter(list_Item);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
+        recyclerView.setAdapter(cartAdapter);
+        cartAdapter.notifyDataSetChanged();
     }
 }

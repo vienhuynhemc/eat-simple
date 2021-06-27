@@ -53,7 +53,7 @@
             android:id="@+id/constraintLayout"
             android:layout_width="320dp"
             android:layout_height="wrap_content"
-            android:background="@drawable/activity_cart_bg_item"
+
             android:translationX="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -68,7 +68,7 @@
                 android:id="@+id/cardview_one_item"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                app:cardElevation="0dp"
+                app:cardElevation="15dp"
                 app:cardCornerRadius="50dp"
                 tools:ignore="MissingConstraints">
 
@@ -192,28 +192,7 @@
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-        <com.facebook.shimmer.ShimmerFrameLayout
-            android:id="@+id/shimmer_layout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:orientation="vertical"
-            android:elevation="200dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <include layout="@layout/activity_cart_one_item_shimmer" />
-
-            </LinearLayout>
-
-        </com.facebook.shimmer.ShimmerFrameLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </com.chauthai.swipereveallayout.SwipeRevealLayout>

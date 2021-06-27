@@ -35,6 +35,16 @@ public class HomePageDanhMucFragment extends Fragment {
     private List<DanhMuc> danhMucs;
     private RecyclerView recyclerViewDanhMuc;
     private CustomDanhMucAdapter customDanhMucAdapter;
+//    private static HomePageDanhMucFragment homePageDanhMucFragment;
+//
+//    private HomePageDanhMucFragment(){}
+//    public static HomePageDanhMucFragment getInstance(){
+//        if (homePageDanhMucFragment == null){
+//            homePageDanhMucFragment = new HomePageDanhMucFragment();
+//        }
+//        return homePageDanhMucFragment;
+//    }
+
 
     @Nullable
     @Override
@@ -98,11 +108,14 @@ public class HomePageDanhMucFragment extends Fragment {
                 }
                 // Tải dữ liệu từ firebase về thành công
                 // Đưa vô imageNeedLoad
+                System.out.println("DANH MUC: " + danhMucs.size() + activityProtocol.toString());
                 for (DanhMuc danhMuc : danhMucs) {
+                    System.out.println("DANH MUC: " + 100);
                     imagesNeedLoad.add(new LoadImageForView(appCompatActivity, danhMuc, LoadDataConfiguration.IMAGE_DANH_MUC));
                 }
                 // Và giờ tải hình từ các link hình
                 if (!activityProtocol.isRunningVolley()) {
+                    System.out.println("ZO LOAD HINH");
                     activityProtocol.setRunningVolley(true);
                     activityProtocol.loadImageFromIntenet();
                 }

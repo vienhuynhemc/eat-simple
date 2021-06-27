@@ -11,15 +11,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.chauthai.swipereveallayout.ViewBinderHelper;
 import com.vientamthuong.eatsimple.R;
+import com.vientamthuong.eatsimple.beans.Cart;
 
 import java.util.List;
 
 public class CartAdapter extends RecyclerView.Adapter<CartViewHolder> {
 
-    private List<CartModel> list;
+    private List<Cart> list;
     private ViewBinderHelper viewBinderHelper;
 
-    public CartAdapter(List<CartModel> list) {
+    public CartAdapter(List<Cart> list) {
         this.list = list;
     }
 
@@ -39,17 +40,17 @@ public class CartAdapter extends RecyclerView.Adapter<CartViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull CartViewHolder holder, int position) {
 
-        CartModel cartModel = list.get(position);
+        Cart cartModel = list.get(position);
 
         viewBinderHelper = new ViewBinderHelper();
 
-        viewBinderHelper.bind(holder.swipeRevealLayout,cartModel.getTitle());
+        viewBinderHelper.bind(holder.swipeRevealLayout,cartModel.getTen_sp());
 
-        holder.image.setImageResource(cartModel.getImage());
-        holder.title.setText(cartModel.getTitle());
-        holder.content.setText(cartModel.getContent());
-        holder.price.setText(cartModel.getPrice()+"");
-        holder.number.setText(cartModel.getNumber()+"");
+//        holder.image.setImageResource(cartModel.getImage());
+        holder.title.setText(cartModel.getTen_sp());
+        holder.content.setText("Danh mục: "+cartModel.getTen_dm());
+        holder.price.setText(cartModel.getGia()+"");
+        holder.number.setText(cartModel.getSo_luong()+"");
 
 
         holder.deleteLayout.setOnClickListener(new View.OnClickListener() {

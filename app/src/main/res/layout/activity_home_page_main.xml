@@ -25,7 +25,6 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginTop="0dp"
-            android:layout_marginBottom="50dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/activity_home_page_header"
             app:layout_constraintVertical_bias="0.0"
@@ -33,7 +32,7 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="match_parent">
 
                 <!-- Banner -->
 <!--                <androidx.cardview.widget.CardView-->
@@ -209,11 +208,12 @@
                 <ScrollView
                     android:id="@+id/scroll_sp"
                     android:layout_width="match_parent"
-                    android:layout_height="320dp"
-                    android:layout_marginStart="30dp"
+                    android:layout_height="470dp"
+                    android:layout_marginStart="28dp"
+                    android:layout_marginTop="200dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintBottom_toTopOf="@+id/activity_home_page_footer"
-                    app:layout_constraintTop_toBottomOf="@+id/textView"
+                    app:layout_constraintTop_toBottomOf="@+id/activity_home_page_list_danh_muc"
                     tools:ignore="MissingConstraints,NotSibling,UnknownId">
 
                     <androidx.recyclerview.widget.RecyclerView
@@ -233,15 +233,15 @@
         </LinearLayout>
         <!-- Kết thúc nội dung -->
 
-        <!-- Footer -->
-        <FrameLayout
-            android:id="@+id/activity_home_page_footer"
-            android:layout_width="match_parent"
-            android:layout_height="98dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-        <!-- Kết thúc footer -->
+<!--        &lt;!&ndash; Footer &ndash;&gt;-->
+<!--        <FrameLayout-->
+<!--            android:id="@+id/activity_home_page_footer"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="98dp"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent" />-->
+<!--        &lt;!&ndash; Kết thúc footer &ndash;&gt;-->
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

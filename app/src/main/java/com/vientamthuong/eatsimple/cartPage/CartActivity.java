@@ -35,13 +35,12 @@ public class CartActivity extends AppCompatActivity {
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN);
         setContentView(R.layout.activity_cart);
         // ánh xạ
-        getView();
-        anim();
-        // load data
-        loadData();
-        // khỏi tạo
-        cartRecycle();
-
+//        getView();
+//        anim();
+//        // load data
+//        loadData();
+//        // khỏi tạo
+//        cartRecycle();
 
     }
     void getView(){
@@ -55,7 +54,7 @@ public class CartActivity extends AppCompatActivity {
     }
 
     void cartRecycle(){
-        cartAdapter = new CartAdapter(list_Item);
+       // cartAdapter = new CartAdapter(list_Item);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
         recyclerView.setAdapter(cartAdapter);
