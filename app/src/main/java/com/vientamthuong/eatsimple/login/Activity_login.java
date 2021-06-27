@@ -6,15 +6,17 @@ import androidx.viewpager.widget.ViewPager;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.vientamthuong.eatsimple.R;
+import com.vientamthuong.eatsimple.homePage.HomePageActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 public class Activity_login extends AppCompatActivity {
 
     TabLayout tapLayout;
     ViewPager viewPager;
-    FloatingActionButton fb, gg, tw;
+    FloatingActionButton fb, gg, tw,btnBack;
     float v =0;
 
 //    @Override
@@ -33,6 +35,7 @@ public class Activity_login extends AppCompatActivity {
 
         tapLayout=findViewById(R.id.table_layout1);
         viewPager=findViewById(R.id.view_paper1);
+        btnBack = findViewById(R.id.activity_login_back);
 //        fb=findViewById(R.id.fab_facebook);
 //        gg=findViewById(R.id.fab_google);
 //        tw=findViewById(R.id.fab_twitter);
@@ -69,6 +72,13 @@ public class Activity_login extends AppCompatActivity {
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
 
+            }
+        });
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+                startActivity(new Intent(Activity_login.this, HomePageActivity.class));
             }
         });
 

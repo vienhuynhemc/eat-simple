@@ -16,14 +16,14 @@ import java.util.ArrayList;
 
 public class WishlistDAO {
     DatabaseReference database = FirebaseDatabase.getInstance().getReference().child("yeu_thich");
-    public boolean deleteWishlist(String idCustomer, String idDish){
+    public boolean deleteWishlist(String idCustomer, String idDish,String size){
         if (database.child(idCustomer) == null){
             Log.d("WWW","Không tồn tại khách hàng!");
             return false;
         }
         else{
-            if(database.child(idCustomer).child(idDish) != null) {
-                database.child(idCustomer).child(idDish).removeValue();
+            if(database.child(idCustomer).child(idDish+"_"+size) != null) {
+                database.child(idCustomer).child(idDish+"_"+size).removeValue();
                 return true;
             }
             else{
