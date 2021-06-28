@@ -429,7 +429,7 @@ public class HomePageActivity extends Fragment  {
                 System.out.println("Cuoii " + scrollY);
                 System.out.println("Đầu " + oldScrollY);
                 System.out.println("Zô chỗ này" + LoadProductHelp.getLoadProductHelp().getYMIN());
-                if (scrollY == LoadProductHelp.getLoadProductHelp().getYMIN()){
+                if (scrollY > LoadProductHelp.getLoadProductHelp().getYMIN()){
                     LoadProductHelp.getLoadProductHelp().setKiem_tra_danh_muc_moi(false);
                     LoadProductHelp.getLoadProductHelp().setNum(LoadProductHelp.getLoadProductHelp().getNum()+1);
                     GetListProduct.getData(getContext());

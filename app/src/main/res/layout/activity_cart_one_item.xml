@@ -63,33 +63,50 @@
             app:layout_constraintVertical_bias="0.0"
             >
 
-
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardview_one_item"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                app:cardElevation="15dp"
-                app:cardCornerRadius="50dp"
+                android:layout_width="106dp"
+                android:layout_height="106dp"
+                app:cardCornerRadius="53dp"
+                android:translationY="-1dp"
+                android:transformPivotX="2dp"
                 tools:ignore="MissingConstraints">
-
-                <ImageView
-                    android:id="@+id/img_cart_one_item"
+                <androidx.cardview.widget.CardView
                     android:layout_width="100dp"
                     android:layout_height="100dp"
-                    android:src="@drawable/activity_introductory_icon"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.0" />
+                    app:cardCornerRadius="50dp"
+                    android:layout_gravity="center"
+                    tools:ignore="MissingConstraints">
+
+                    <com.airbnb.lottie.LottieAnimationView
+                        android:id="@+id/img_cart_one_item"
+                        android:layout_width="98dp"
+                        android:layout_height="98dp"
+                        android:layout_gravity="center"
+                        android:scaleX="4"
+                        android:scaleY="4"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.0"
+                        app:lottie_autoPlay="true"
+                        app:lottie_loop="true"
+                        app:lottie_rawRes="@raw/loader_rectangle"
+
+                        />
+
+                </androidx.cardview.widget.CardView>
             </androidx.cardview.widget.CardView>
+
+
 
 
             <TextView
                 android:id="@+id/cart_one_item_title"
                 android:layout_width="191dp"
-                android:layout_height="20dp"
+                android:layout_height="22dp"
                 android:text="Sản phẩm 1"
                 android:textColor="@color/color_text_main"
                 android:textSize="15sp"

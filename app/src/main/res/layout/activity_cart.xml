@@ -8,24 +8,7 @@
     tools:context=".cartPage.CartActivity">
 
     <!-- HEDAER -->
-    <androidx.cardview.widget.CardView
-        android:id="@+id/activity_home_page_button_menu"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="35dp"
-        android:scaleType="fitXY"
-        app:cardCornerRadius="11dp"
-        app:cardElevation="0dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="ContentDescription,UnusedAttribute">
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-             />
-    </androidx.cardview.widget.CardView>
 
     <LinearLayout
         android:id="@+id/activity_home_page_layout_location"
@@ -33,42 +16,44 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="@id/activity_home_page_avatar"
-        app:layout_constraintEnd_toStartOf="@id/activity_home_page_avatar"
-        app:layout_constraintStart_toEndOf="@id/activity_home_page_button_menu"
-        app:layout_constraintTop_toTopOf="@id/activity_home_page_avatar">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.025"
+        tools:ignore="MissingConstraints">
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/cart_icon"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            app:lottie_rawRes="@raw/activity_cart_icon"
-            app:lottie_loop="true"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             app:lottie_autoPlay="true"
-            />
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/activity_cart_icon" />
 
 
     </LinearLayout>
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/activity_home_page_avatar"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="35dp"
-        android:layout_marginEnd="30dp"
-        android:scaleType="fitXY"
-        app:cardCornerRadius="11dp"
-        app:cardElevation="0dp"
+<!--    <androidx.cardview.widget.CardView-->
+<!--        android:id="@+id/activity_home_page_avatar"-->
+<!--        android:layout_width="40dp"-->
+<!--        android:layout_height="40dp"-->
+<!--        android:layout_marginTop="35dp"-->
+<!--        android:layout_marginEnd="30dp"-->
+<!--        android:scaleType="fitXY"-->
+<!--        app:cardCornerRadius="11dp"-->
+<!--        app:cardElevation="0dp"-->
 
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="ContentDescription,UnusedAttribute">
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        tools:ignore="ContentDescription,UnusedAttribute">-->
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            />
-    </androidx.cardview.widget.CardView>
+<!--        <androidx.appcompat.widget.AppCompatButton-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            />-->
+<!--    </androidx.cardview.widget.CardView>-->
     <!-- Kết thúc HEDAER -->
 
     <ScrollView
@@ -103,7 +88,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/list_item">
+        app:layout_constraintTop_toBottomOf="@+id/list_item"
+        tools:ignore="NotSibling">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -126,11 +112,11 @@
                 app:layout_constraintVertical_bias="0.098" />
 
             <TextView
-                android:id="@+id/textView3"
+                android:id="@+id/total_product"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
-                android:text="3"
+                android:text="0"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 android:textColor="@color/color_text_main"
@@ -157,10 +143,10 @@
                 app:layout_constraintVertical_bias="0.166" />
 
             <TextView
-                android:id="@+id/textView2"
+                android:id="@+id/total_vc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="3"
+                android:text="Miễn phí"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 android:textColor="@color/color_text_main"
@@ -168,7 +154,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.868"
                 app:layout_constraintStart_toEndOf="@+id/cart_vc"
-                app:layout_constraintTop_toBottomOf="@+id/textView3"
+                app:layout_constraintTop_toBottomOf="@+id/total_product"
                 app:layout_constraintVertical_bias="0.166" />
 
             <TextView
@@ -187,9 +173,10 @@
                 app:layout_constraintVertical_bias="0.287" />
 
             <TextView
+                android:id="@+id/total_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="3"
+                android:text="0"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 android:textColor="@color/color_text_main"
@@ -197,7 +184,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.894"
                 app:layout_constraintStart_toEndOf="@+id/cart_total"
-                app:layout_constraintTop_toBottomOf="@+id/textView2"
+                app:layout_constraintTop_toBottomOf="@+id/total_vc"
                 app:layout_constraintVertical_bias="0.287" />
 
             <android.widget.Button

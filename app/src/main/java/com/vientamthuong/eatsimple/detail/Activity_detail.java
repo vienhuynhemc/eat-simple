@@ -41,6 +41,7 @@ import com.vientamthuong.eatsimple.SharedReferences.DataLocalManager;
 import com.vientamthuong.eatsimple.beans.Product;
 import com.vientamthuong.eatsimple.beans.Size;
 import com.vientamthuong.eatsimple.date.DateTime;
+import com.vientamthuong.eatsimple.homePage.HomeMeowBottom;
 import com.vientamthuong.eatsimple.loadData.VolleyPool;
 import com.vientamthuong.eatsimple.loadProductByID.LoadProductConfiguration;
 import com.vientamthuong.eatsimple.loadProductByID.LoadProductHandler;
@@ -67,7 +68,7 @@ public class Activity_detail extends AppCompatActivity {
     private TextView title, gia, sosao, kcal, time, contentdetail, soluong,gia_km;
     private ImageView hinh;
     private Button decre, incre;
-    private FloatingActionButton back, detail_add;
+    private FloatingActionButton back, detail_add,detail_cart;
     private int num = 1;
     private Intent intent;
     private LinearLayout layout;
@@ -229,7 +230,13 @@ public class Activity_detail extends AppCompatActivity {
                 eventDialog(dialog);
             }
         });
-
+        detail_cart.setOnClickListener(v -> {
+            Intent intent = new Intent(v.getContext(), HomeMeowBottom.class);
+            Bundle bundle = new Bundle();
+            bundle.putString("dichuyen","cart");
+            intent.putExtra("call",bundle);
+            startActivity(intent);
+        });
     }
 
 
@@ -252,7 +259,11 @@ public class Activity_detail extends AppCompatActivity {
         });
 
         login.setOnClickListener(v -> {
-            Toast.makeText(this, "Vào giỏ hàng", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(v.getContext(), HomeMeowBottom.class);
+            Bundle bundle = new Bundle();
+            bundle.putString("dichuyen","cart");
+            intent.putExtra("call",bundle);
+            startActivity(intent);
         });
 
     }
@@ -338,6 +349,7 @@ public class Activity_detail extends AppCompatActivity {
         sizes = new ArrayList<>();
         gia_km = findViewById(R.id.text_price_km);
         gia_km.setPaintFlags(gia_km.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+        detail_cart = findViewById(R.id.detail_cart);
 
     }
 

@@ -6,6 +6,7 @@ import androidx.viewpager.widget.ViewPager;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.vientamthuong.eatsimple.R;
+import com.vientamthuong.eatsimple.homePage.HomeMeowBottom;
 import com.vientamthuong.eatsimple.homePage.HomePageActivity;
 
 import android.content.Intent;
@@ -78,7 +79,7 @@ public class Activity_login extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 finish();
-                startActivity(new Intent(Activity_login.this, HomePageActivity.class));
+                startActivity(new Intent(Activity_login.this, HomeMeowBottom.class));
             }
         });
 

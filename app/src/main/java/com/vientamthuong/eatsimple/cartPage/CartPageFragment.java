@@ -1,5 +1,6 @@
 package com.vientamthuong.eatsimple.cartPage;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,15 +8,19 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.vientamthuong.eatsimple.R;
 import com.vientamthuong.eatsimple.SharedReferences.DataLocalManager;
 import com.vientamthuong.eatsimple.beans.Cart;
 import com.vientamthuong.eatsimple.loadProductByID.LoadProductHandler;
+import com.vientamthuong.eatsimple.login.Activity_login;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,6 +46,9 @@ public class CartPageFragment extends Fragment {
     private List<Cart> list_Item;
     private CartAdapter cartAdapter;
     private LinearLayout lottieAnimationView;
+    private TextView total_product,total_price,total_vc;
+    private FloatingActionButton back;
+    private AppCompatButton dangnhap;
 
 
 
@@ -81,17 +89,38 @@ public class CartPageFragment extends Fragment {
 
         View view;
 
+        eventback();
+
         if (DataLocalManager.getAccount() != null) {
             view = inflater.inflate(R.layout.activity_cart, container, false);
             getView(view);
-            anim();
             cartRecycle();
             event();
+            eventthanhtoan();
         }else {
             view = inflater.inflate(R.layout.fragment_cart_page, container, false);
+            getView2(view);
+            eventdangnhap();
         }
         // Inflate the layout for this fragment
         return view;
+    }
+
+   void eventdangnhap(){
+        dangnhap.setOnClickListener(v -> {
+            startActivity(new Intent(getContext(), Activity_login.class));
+        });
+    }
+    void getView2(View v){
+        dangnhap = v.findViewById(R.id.dialog_lost_connection_try);
+    }
+    private void eventthanhtoan(){
+
+
+
+    }
+    private void eventback(){
+
     }
     private void event(){
         LoadCartHandler handler = LoadCartHandler.getInstance();
@@ -105,14 +134,18 @@ public class CartPageFragment extends Fragment {
         recyclerView = view.findViewById(R.id.list_item);
         lottieAnimationView = view.findViewById(R.id.activity_home_page_layout_location);
         list_Item = new ArrayList<>();
+        total_price = view.findViewById(R.id.total_price);
+        total_product = view.findViewById(R.id.total_product);
+        total_vc = view.findViewById(R.id.total_vc);
+        back = view.findViewById(R.id.detail_back);
 
     }
-    void anim(){
-        Animation animation = AnimationUtils.loadAnimation(getContext(),R.anim.activity_cart_translate);
-        lottieAnimationView.startAnimation(animation);
-    }
+//    void anim(){
+//        Animation animation = AnimationUtils.loadAnimation(getContext(),R.anim.activity_cart_translate);
+//        lottieAnimationView.startAnimation(animation);
+//    }
     void cartRecycle(){
-        cartAdapter = new CartAdapter(list_Item);
+        cartAdapter = new CartAdapter(list_Item,total_product,total_price);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
         recyclerView.setAdapter(cartAdapter);

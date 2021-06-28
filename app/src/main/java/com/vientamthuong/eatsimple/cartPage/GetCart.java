@@ -3,6 +3,7 @@ package com.vientamthuong.eatsimple.cartPage;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Message;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -11,7 +12,9 @@ import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.vientamthuong.eatsimple.SharedReferences.DataLocalManager;
 import com.vientamthuong.eatsimple.beans.Cart;
 import com.vientamthuong.eatsimple.beans.Product;
@@ -20,6 +23,7 @@ import com.vientamthuong.eatsimple.loadData.VolleyPool;
 import com.vientamthuong.eatsimple.loadProductByID.LoadProductConfiguration;
 import com.vientamthuong.eatsimple.loadProductByID.LoadProductHandler;
 import com.vientamthuong.eatsimple.loadProductByID.LoadProductHelp;
+import com.vientamthuong.eatsimple.loadProductByID.LoadProductViewAdapter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -100,4 +104,17 @@ public class GetCart {
         };
         VolleyPool.getInstance(context).addRequest(request);
     }
+
+    public static void getBitmapImage(Cart cart, Context context, CartAdapter adapter){
+        ImageRequest imageRequest = new ImageRequest(cart.getUrl(), response -> {
+            cart.setLoadImg(true);
+            cart.setBitmap(response);
+            adapter.notifyDataSetChanged();
+        },0,0, ImageView.ScaleType.FIT_CENTER, null, error -> {
+            Toast.makeText(context, "Lỗi tải hình sản phẩm!", Toast.LENGTH_SHORT).show();
+        });
+        Volley.newRequestQueue(context).add(imageRequest);
+
+    }
+
 }

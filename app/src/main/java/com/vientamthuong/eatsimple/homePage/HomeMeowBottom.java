@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -48,8 +49,6 @@ public class HomeMeowBottom extends AppCompatActivity implements ActivityProtoco
         addView();
         eventBottom();
 
-
-
     }
 
     void eventBottom() {
@@ -87,7 +86,25 @@ public class HomeMeowBottom extends AppCompatActivity implements ActivityProtoco
         });
 
        // bottomNavigation.setCount(3,"10");
-        bottomNavigation.show(3,true);
+
+
+        Intent intent = getIntent();
+        Bundle bundle = intent.getBundleExtra("call");
+
+        if (bundle != null){
+            String re = bundle.getString("dichuyen");
+            switch (re){
+                case "cart":
+                    bottomNavigation.show(5,true);
+                    break;
+                default:
+                    bottomNavigation.show(3,true);
+                    break;
+            }
+        }else {
+            bottomNavigation.show(3,true);
+        }
+
         bottomNavigation.setOnClickMenuListener(new MeowBottomNavigation.ClickListener() {
             @Override
             public void onClickItem(MeowBottomNavigation.Model item) {
