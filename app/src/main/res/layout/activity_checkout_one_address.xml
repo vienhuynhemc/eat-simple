@@ -1,16 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="250dp"
+    android:paddingRight="10dp"
+    android:paddingTop="5dp"
+    android:paddingBottom="5dp"
+    android:layout_marginBottom="5dp"
+    android:layout_marginTop="5dp"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    app:cardCornerRadius="10dp"
+    android:background="@android:color/transparent"
+    android:layout_height="110dp">
 
     <androidx.cardview.widget.CardView
-        android:layout_width="300dp"
-        android:layout_height="200dp"
-        app:cardElevation="5dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
+        android:id="@+id/cart_pay_address"
+        android:layout_width="250dp"
+        android:layout_height="110dp"
+
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -19,6 +28,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
+            android:background="@color/color_main"
             android:orientation="horizontal"
             android:layout_height="match_parent">
 
@@ -31,26 +41,27 @@
 
                 <TextView
                     android:id="@+id/name_kh"
-                    android:text="Tên khách hàng"
-                    android:textStyle="bold"
-                    android:textSize="20sp"
-                    android:paddingBottom="10dp"
-                    android:paddingTop="10dp"
-                    android:textColor="@color/color_text_main"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:text="Tên khách hàng"
+                    android:textColor="@color/color_text_main"
+                    android:textSize="10sp"
+                    android:textStyle="bold" />
+
                 <TextView
                     android:id="@+id/diachi_kh"
-                    android:textSize="15sp"
-                    android:paddingBottom="10dp"
-                    android:paddingTop="10dp"
+                    android:textSize="10sp"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp"
                     android:text="Mỹ Cát - Phù Mỹ - Bình Định"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
 
                 <TextView
                     android:id="@+id/ghichu_kh"
-                    android:textSize="15sp"
+                    android:textSize="10sp"
                     android:paddingBottom="10dp"
                     android:paddingTop="10dp"
                     android:text="Giao nhanh nha anh"
@@ -58,9 +69,9 @@
                     android:layout_height="wrap_content"/>
                 <TextView
                     android:id="@+id/sodienthoai"
-                    android:textSize="15sp"
-                    android:paddingBottom="10dp"
-                    android:paddingTop="10dp"
+                    android:textSize="10sp"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp"
                     android:text="0988776832"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
@@ -69,16 +80,15 @@
 
             <CheckBox
                 android:id="@+id/checkbox_cart"
+                android:layout_width="23dp"
+                android:layout_height="25dp"
+                android:layout_gravity="center_horizontal|bottom"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/activity_cart_checkbox_custom"
                 android:button="@null"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_gravity="center"
-               android:layout_marginRight="10dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                android:background="@drawable/activity_cart_checkbox_custom"
                 app:layout_constraintTop_toTopOf="parent" />
 
         </LinearLayout>
@@ -86,4 +96,4 @@
 
     </androidx.cardview.widget.CardView>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

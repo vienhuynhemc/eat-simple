@@ -30,6 +30,7 @@ public class Cart implements Serializable {
     private String thong_tin;
     private Bitmap bitmap;
     private boolean isLoadImg;
+    private byte[] bytes;
 
     public Cart() {
         sizes = new Size();
@@ -197,5 +198,13 @@ public class Cart implements Serializable {
 
     public void setLoadImg(boolean loadImg) {
         isLoadImg = loadImg;
+    }
+
+    public byte[] getBytes() {
+        return bytes;
+    }
+
+    public void setBytes(byte[] bytes) {
+        this.bytes = bytes;
     }
 }

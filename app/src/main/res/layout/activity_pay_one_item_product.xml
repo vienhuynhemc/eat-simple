@@ -78,15 +78,13 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/activity_home_page_custom_danh_muc_image_view">
 
-                <com.airbnb.lottie.LottieAnimationView
-                    android:id="@+id/img_load"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scaleX="4"
-                    android:scaleY="4"
-                    app:lottie_autoPlay="true"
-                    app:lottie_loop="true"
-                    app:lottie_rawRes="@raw/loader_rectangle" />
+              <TextView
+                  android:id="@+id/tensp"
+                  android:textSize="10sp"
+                  android:textStyle="bold"
+                  android:textColor="@color/color_text_main"
+                  android:layout_width="wrap_content"
+                  android:layout_height="match_parent"/>
             </androidx.cardview.widget.CardView>
 
         </androidx.constraintlayout.widget.ConstraintLayout>

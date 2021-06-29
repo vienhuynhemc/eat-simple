@@ -1,14 +1,18 @@
 package com.vientamthuong.eatsimple.cartPage;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
@@ -19,9 +23,12 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.vientamthuong.eatsimple.R;
 import com.vientamthuong.eatsimple.SharedReferences.DataLocalManager;
 import com.vientamthuong.eatsimple.beans.Cart;
+import com.vientamthuong.eatsimple.checkout.PayActivity;
 import com.vientamthuong.eatsimple.loadProductByID.LoadProductHandler;
 import com.vientamthuong.eatsimple.login.Activity_login;
 
+import java.io.ByteArrayOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,6 +56,7 @@ public class CartPageFragment extends Fragment {
     private TextView total_product,total_price,total_vc;
     private FloatingActionButton back;
     private AppCompatButton dangnhap;
+    private Button thanhtoan;
 
 
 
@@ -116,6 +124,37 @@ public class CartPageFragment extends Fragment {
     }
     private void eventthanhtoan(){
 
+    thanhtoan.setOnClickListener(v -> {
+
+        List<Cart> carts = new ArrayList<>();
+
+        for (int i =0;i<recyclerView.getChildCount();i++){
+            View view = recyclerView.getChildAt(i);
+            CheckBox checkBox = view.findViewById(R.id.checkbox_cart);
+            if (checkBox.isChecked()){
+                carts.add(list_Item.get(i));
+            }
+        }
+        if (carts.size() != 0){
+            for (int i =0;i<carts.size();i++){
+                ByteArrayOutputStream baos=new ByteArrayOutputStream();
+                carts.get(i).getBitmap().compress(Bitmap.CompressFormat.PNG,100,baos);
+                byte[] bytes = baos.toByteArray();
+                carts.get(i).setBytes(bytes);
+                carts.get(i).setBitmap(null);
+            }
+
+            Intent intent = new Intent(getContext(), PayActivity.class);
+            intent.putExtra("carts", (Serializable) carts);
+
+            startActivity(intent);
+        }else {
+            Toast.makeText(getContext(), "Vui lòng chọn sản phẩm để thanh toán", Toast.LENGTH_SHORT).show();
+        }
+
+
+
+    });
 
 
     }
@@ -138,6 +177,7 @@ public class CartPageFragment extends Fragment {
         total_product = view.findViewById(R.id.total_product);
         total_vc = view.findViewById(R.id.total_vc);
         back = view.findViewById(R.id.detail_back);
+        thanhtoan = view.findViewById(R.id.thanhtoan);
 
     }
 //    void anim(){
