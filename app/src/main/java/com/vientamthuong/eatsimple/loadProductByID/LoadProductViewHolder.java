@@ -21,7 +21,7 @@ public class LoadProductViewHolder extends RecyclerView.ViewHolder {
     private TextView title,so_sao,gia,gia_km;
     private LottieAnimationView img;
     private CardView cardView;
-    private ConstraintLayout layout;
+    //private ConstraintLayout layout;
 
 
     public LoadProductViewHolder(@NonNull @NotNull View itemView) {
@@ -38,16 +38,16 @@ public class LoadProductViewHolder extends RecyclerView.ViewHolder {
         gia_km = view.findViewById(R.id.gia_km);
         img = view.findViewById(R.id.img_cart_one_item);
         cardView = view.findViewById(R.id.cardview_one_item);
-        layout = view.findViewById(R.id.swpe_cart_layout);
+      // layout = view.findViewById(R.id.swpe_cart_layout);
     }
 
-    public ConstraintLayout getLayout() {
-        return layout;
-    }
-
-    public void setLayout(ConstraintLayout layout) {
-        this.layout = layout;
-    }
+//    public ConstraintLayout getLayout() {
+//        return layout;
+//    }
+//
+//    public void setLayout(ConstraintLayout layout) {
+//        this.layout = layout;
+//    }
 
     public TextView getTitle() {
         return title;

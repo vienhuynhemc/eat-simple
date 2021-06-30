@@ -6,6 +6,7 @@ import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -32,37 +33,43 @@ public class LoadProductViewAdapter extends RecyclerView.Adapter<LoadProductView
     @NotNull
     @Override
     public LoadProductViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_home_product,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_home_product_1,parent,false);
 
         LoadProductViewHolder loadProductViewHolder = new LoadProductViewHolder(view);
 
-        loadProductViewHolder.getLayout().setOnClickListener(v -> {
+        loadProductViewHolder.getCardView().setOnClickListener(v -> {
 
-            Intent intent = new Intent(v.getContext(), Activity_detail.class);
+            if (list.get(loadProductViewHolder.getAdapterPosition()).getBitmap() != null){
+                Intent intent = new Intent(v.getContext(), Activity_detail.class);
 
-            Product p = list.get(loadProductViewHolder.getAdapterPosition());
+                Product p = list.get(loadProductViewHolder.getAdapterPosition());
 
-            Product product = new Product();
-            product.setMa_sp(p.getMa_sp());
-            product.setTen_sp(p.getTen_sp());
-            product.setGia_km(p.getGia_km());
-            product.setGia(p.getGia());
-            product.setSo_luong_con_lai(p.getSo_luong_con_lai());
-            product.setSo_luong_ban_ra(p.getSo_luong_ban_ra());
-            product.setKcal(p.getKcal());
-            product.setThoi_gian_nau(p.getThoi_gian_nau());
-            product.setThong_tin(p.getThong_tin());
+                Product product = new Product();
+                product.setMa_sp(p.getMa_sp());
+                product.setTen_sp(p.getTen_sp());
+                product.setGia_km(p.getGia_km());
+                product.setGia(p.getGia());
+                product.setSo_luong_con_lai(p.getSo_luong_con_lai());
+                product.setSo_luong_ban_ra(p.getSo_luong_ban_ra());
+                product.setKcal(p.getKcal());
+                product.setThoi_gian_nau(p.getThoi_gian_nau());
+                product.setThong_tin(p.getThong_tin());
 
-            intent.putExtra("product",(Serializable) product );
+                intent.putExtra("product",(Serializable) product );
 
-            Bitmap bitmap = p.getBitmap();
+                Bitmap bitmap = p.getBitmap();
 
-            ByteArrayOutputStream baos=new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.PNG,100,baos);
-            byte[] bytes = baos.toByteArray();
-            intent.putExtra("bitmap",bytes);
+                ByteArrayOutputStream baos=new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.PNG,100,baos);
+                byte[] bytes = baos.toByteArray();
+                intent.putExtra("bitmap",bytes);
 
-            v.getContext().startActivity(intent);
+                v.getContext().startActivity(intent);
+            }else {
+                Toast.makeText(v.getContext(), "Vui lòng chờ tải hình", Toast.LENGTH_SHORT).show();
+            }
+
+
 
         });
 

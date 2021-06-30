@@ -8,10 +8,12 @@ public class LoadProductHelp {
     private boolean kiem_tra_danh_muc_moi;
     private int Y_MIN;
 
+
     private LoadProductHelp(
     ){
         kiem_tra_danh_muc_moi = false;
-        setYMIN(146);
+        setYMIN(140);
+
     }
 
     public static LoadProductHelp getLoadProductHelp() {
@@ -52,4 +54,5 @@ public class LoadProductHelp {
     public void setYMIN(int YMIN) {
         this.Y_MIN = YMIN;
     }
+
 }

@@ -34,4 +34,12 @@ public class LoadCartHelper {
     public void setYMIN(int YMIN) {
         this.Y_MIN = YMIN;
     }
+
+    public static LoadCartHelper getLoadCartHelper() {
+        return loadCartHelper;
+    }
+
+    public static void setLoadCartHelper(LoadCartHelper loadCartHelper) {
+        LoadCartHelper.loadCartHelper = loadCartHelper;
+    }
 }

@@ -19,6 +19,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.vientamthuong.eatsimple.admin.HomePageActivity;
 import com.vientamthuong.eatsimple.beans.Product;
+import com.vientamthuong.eatsimple.cartPage.LoadCartHelper;
 import com.vientamthuong.eatsimple.date.DateTime;
 import com.vientamthuong.eatsimple.loadData.VolleyPool;
 
@@ -76,6 +77,7 @@ public class GetListProduct {
 
                             if (products.size() == 0 && !LoadProductHelp.getLoadProductHelp().isKiem_tra_danh_muc_moi()){
                                 Toast.makeText(context, "Sản phẩm đã hết", Toast.LENGTH_SHORT).show();
+
                             }else{
                                 Message message = new Message();
                                 message.what = 99;

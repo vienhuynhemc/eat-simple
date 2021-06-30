@@ -3,14 +3,17 @@ package com.vientamthuong.eatsimple.checkout;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.vientamthuong.eatsimple.beans.Address;
 import com.vientamthuong.eatsimple.beans.Cart;
 import com.vientamthuong.eatsimple.cartPage.CartAdapter;
 import com.vientamthuong.eatsimple.cartPage.LoadCartHandler;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CheckoutHandler {
@@ -18,7 +21,7 @@ public class CheckoutHandler {
     private List<Address> adds;
     private PayAddessAdapter adapter;
     private static CheckoutHandler loadCartHandler;
-
+    private RecyclerView recyclerView;
     private CheckoutHandler(){
         // getHandler();
     }
@@ -41,6 +44,13 @@ public class CheckoutHandler {
                         List<Address> cart = (List<Address>) bundle.getSerializable("adds");
                         adds.addAll(cart);
                         adapter.notifyDataSetChanged();
+
+//                        List<View > views = new ArrayList<>();
+//                        for (int i= 0;i<cart.size();i++){
+//                            views.add(recyclerView.getChildAt(i));
+//                        }
+//
+//                        adapter.setViews(views);
                     }
                 }
             };
@@ -76,5 +86,9 @@ public class CheckoutHandler {
 
     public static void setLoadCartHandler(CheckoutHandler loadCartHandler) {
         CheckoutHandler.loadCartHandler = loadCartHandler;
+    }
+
+    public void setRecyclerView(RecyclerView recyclerView) {
+        this.recyclerView = recyclerView;
     }
 }

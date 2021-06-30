@@ -312,6 +312,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.GridLayout;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.Toast;
@@ -321,6 +322,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -429,7 +431,7 @@ public class HomePageActivity extends Fragment  {
                 System.out.println("Cuoii " + scrollY);
                 System.out.println("Đầu " + oldScrollY);
                 System.out.println("Zô chỗ này" + LoadProductHelp.getLoadProductHelp().getYMIN());
-                if (scrollY > LoadProductHelp.getLoadProductHelp().getYMIN()){
+                if ((scrollY >= LoadProductHelp.getLoadProductHelp().getYMIN())){
                     LoadProductHelp.getLoadProductHelp().setKiem_tra_danh_muc_moi(false);
                     LoadProductHelp.getLoadProductHelp().setNum(LoadProductHelp.getLoadProductHelp().getNum()+1);
                     GetListProduct.getData(getContext());
@@ -477,10 +479,11 @@ public class HomePageActivity extends Fragment  {
         initProducts();
     }
     public void initProducts(){
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(appCompatActivity);
-        linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
-        linearLayoutManager.setSmoothScrollbarEnabled(true);
-        recyclerView.setLayoutManager(linearLayoutManager);
+       // LinearLayoutManager linearLayoutManager = new LinearLayoutManager(appCompatActivity);
+        GridLayoutManager layoutManager = new GridLayoutManager(appCompatActivity,2);
+        layoutManager.setOrientation(RecyclerView.VERTICAL);
+        layoutManager.setSmoothScrollbarEnabled(true);
+        recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
         loadProductViewAdapter = new LoadProductViewAdapter(productList);
         recyclerView.setAdapter(loadProductViewAdapter);

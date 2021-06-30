@@ -58,8 +58,6 @@ public class CartPageFragment extends Fragment {
     private AppCompatButton dangnhap;
     private Button thanhtoan;
 
-
-
     public CartPageFragment() {
         // Required empty public constructor
     }
@@ -151,8 +149,6 @@ public class CartPageFragment extends Fragment {
         }else {
             Toast.makeText(getContext(), "Vui lòng chọn sản phẩm để thanh toán", Toast.LENGTH_SHORT).show();
         }
-
-
 
     });
 

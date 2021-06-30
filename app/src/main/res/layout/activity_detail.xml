@@ -13,6 +13,7 @@
         android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
         android:layout_height="485dp"
+        android:elevation="10dp"
         android:background="@drawable/activity_detail_bg"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -279,25 +280,26 @@ hài hòa tinh túy giữa thịt bò úc thượng hạng và phô mai tan ch�
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cart_hinh"
-        android:layout_width="200dp"
-        android:layout_height="140dp"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
         android:elevation="10dp"
+        app:cardCornerRadius="5dp"
         app:cardElevation="5dp"
-        app:cardCornerRadius="50dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.15">
+
         <ImageView
             android:id="@+id/hinh_sp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:elevation="10dp"
-            android:scaleType="fitCenter"
-            android:adjustViewBounds="true"
             android:layout_gravity="center"
+            android:adjustViewBounds="true"
+            android:elevation="10dp"
+
             android:src="@drawable/activity_detail_ham"
             tools:ignore="MissingConstraints" />
     </androidx.cardview.widget.CardView>
@@ -309,6 +311,7 @@ hài hòa tinh túy giữa thịt bò úc thượng hạng và phô mai tan ch�
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/white"
+        android:elevation="10dp"
         android:src="@drawable/activity_detail_cart"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -322,6 +325,7 @@ hài hòa tinh túy giữa thịt bò úc thượng hạng và phô mai tan ch�
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/white"
+        android:elevation="10dp"
         android:src="@drawable/activity_detail_icon_back"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -19,6 +19,7 @@ import com.vientamthuong.eatsimple.diaLog.DiaLogLostConnection;
 import com.vientamthuong.eatsimple.header.HeaderPublicFragment;
 import com.vientamthuong.eatsimple.loadData.LoadDataConfiguration;
 import com.vientamthuong.eatsimple.loadData.LoadImageForView;
+import com.vientamthuong.eatsimple.loadProductByID.LoadProductHelp;
 import com.vientamthuong.eatsimple.mennuSearch.SearchFragment;
 import com.vientamthuong.eatsimple.menuNotify.NotifyPageFragment;
 import com.vientamthuong.eatsimple.menuWishlist.WishlistFragment;
@@ -40,6 +41,7 @@ public class HomeMeowBottom extends AppCompatActivity implements ActivityProtoco
     HomePageActivity homePageActivity;
     // Thời gian thoát activity
     private long lastTimePressBack;
+    private CartPageFragment cartPageFragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,13 +72,14 @@ public class HomeMeowBottom extends AppCompatActivity implements ActivityProtoco
                     case 3:
 
                         frameLayout = homePageActivity;
-
+                        LoadProductHelp.getLoadProductHelp().setNum(0);
+                        LoadProductHelp.getLoadProductHelp().setYMIN(140);
                         break;
                     case 4:
-                        frameLayout = new NotifyPageFragment();
+                        frameLayout =new NotifyPageFragment();
                         break;
                     case 5:
-                        frameLayout = new CartPageFragment();
+                        frameLayout = cartPageFragment;
 
                         break;
                 }
@@ -96,6 +99,7 @@ public class HomeMeowBottom extends AppCompatActivity implements ActivityProtoco
             switch (re){
                 case "cart":
                     bottomNavigation.show(5,true);
+                 //   loadFragment(new CartPageFragment());
                     break;
                 default:
                     bottomNavigation.show(3,true);
@@ -124,6 +128,7 @@ public class HomeMeowBottom extends AppCompatActivity implements ActivityProtoco
     }
 
     void loadFragment(Fragment fragment) {
+
         getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout_home,fragment).commit();
     }
     @Override
@@ -217,6 +222,9 @@ public class HomeMeowBottom extends AppCompatActivity implements ActivityProtoco
         homePageActivity = new HomePageActivity();
         homePageActivity.setHomeMeowBottom(HomeMeowBottom.this);
         homePageActivity.setAppCompatActivity(HomeMeowBottom.this);
+
+        cartPageFragment = new CartPageFragment();
+
     }
 
         @Override

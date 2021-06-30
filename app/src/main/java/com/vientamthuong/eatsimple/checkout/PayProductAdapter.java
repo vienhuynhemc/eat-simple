@@ -45,9 +45,7 @@ public class PayProductAdapter extends RecyclerView.Adapter<PayProductHolder> {
     Bitmap bitmap = BitmapFactory.decodeByteArray(bitmaps, 0, bitmaps.length);
     holder.getImg().setImageBitmap(bitmap);
 
-     holder.getTextView().setText(cart.getTen_sp()+" S: " + cart.getSizes().getTen_size());
-
-
+    holder.getTextView().setText(cart.getTen_sp()+" S: " + cart.getSizes().getTen_size());
 
     }
 

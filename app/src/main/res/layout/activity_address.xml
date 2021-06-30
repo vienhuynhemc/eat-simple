@@ -6,117 +6,114 @@
     android:layout_height="match_parent"
     tools:context=".checkout.AddressActivity">
 
-    <ScrollView
-        android:id="@+id/scrollView2"
-        android:layout_width="match_parent"
-        android:layout_height="400dp"
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/detail_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:backgroundTint="@color/white"
+        android:src="@drawable/activity_detail_icon_back"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.005"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="MissingConstraints">
-
-        <LinearLayout
-            android:id="@+id/list_address"
-            android:layout_width="match_parent"
-            android:layout_height="400dp"
-            android:orientation="horizontal"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0"
-            tools:ignore="MissingConstraints">
-
-
-        </LinearLayout>
-    </ScrollView>
+        app:layout_constraintVertical_bias="0.016" />
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="330dp"
-        app:cardElevation="15dp"
+        android:layout_height="300dp"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
+        app:cardElevation="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintVertical_bias="0"
-        app:layout_constraintTop_toBottomOf="@+id/scrollView2"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.5"
         tools:ignore="MissingConstraints">
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
             <EditText
                 android:id="@+id/add_name"
-                android:paddingLeft="15dp"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:hint="Nhập tên"
                 android:gravity="center"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"/>
+                android:hint="Nhập tên"
+                android:paddingLeft="15dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:orientation="horizontal"
-                app:layout_constraintTop_toBottomOf="@+id/add_name"
-                android:layout_marginRight="10dp">
+                app:layout_constraintTop_toBottomOf="@+id/add_name">
 
-                <Spinner
+                <EditText
                     android:id="@+id/tinh"
-                    android:layout_marginLeft="10dp"
+                    android:hint="Tỉnh"
+                    android:gravity="center"
                     android:layout_width="100dp"
-                    android:layout_height="50dp"/>
-                <Spinner
-                    android:layout_marginLeft="10dp"
-                   android:id="@+id/quan"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="10dp" />
+
+                <EditText
+                    android:id="@+id/quan"
+                    android:hint="Quận"
                     android:layout_width="100dp"
-                    android:layout_height="50dp"/>
-                <Spinner
-                    android:layout_marginLeft="10dp"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="10dp" />
+
+                <EditText
                     android:id="@+id/xa"
+                    android:hint="Xã"
                     android:layout_width="100dp"
-                    android:layout_height="50dp"/>
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="10dp" />
 
             </LinearLayout>
 
             <EditText
                 android:id="@+id/ghichu_add"
-                android:paddingLeft="15dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:hint="Ghi chú"
                 android:gravity="center"
-                android:layout_width="match_parent"
-                android:layout_height="100dp"/>
+                android:hint="Ghi chú"
+                android:paddingLeft="15dp" />
 
             <EditText
                 android:id="@+id/sodienthoai_add"
-                android:paddingLeft="15dp"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:hint="Nhập số điện thoại"
                 android:gravity="center"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"/>
+                android:hint="Nhập số điện thoại"
+                android:paddingLeft="15dp" />
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/dialog_lost_connection_try"
+                android:id="@+id/luu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="40dp"
+                android:padding="10dp"
                 android:background="@color/color_admin_main"
                 android:text="Thêm mới địa chỉ"
                 android:textAllCaps="false"
-                android:layout_marginTop="10dp"
-                android:layout_gravity="center"
                 android:textColor="@color/white" />
 
         </LinearLayout>
-
 
 
     </androidx.cardview.widget.CardView>
