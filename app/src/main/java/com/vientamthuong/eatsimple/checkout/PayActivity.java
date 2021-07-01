@@ -7,14 +7,19 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.os.Message;
+import android.view.Gravity;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,10 +35,6 @@ import com.vientamthuong.eatsimple.beans.Address;
 import com.vientamthuong.eatsimple.beans.Cart;
 import com.vientamthuong.eatsimple.beans.MaGiamGia;
 import com.vientamthuong.eatsimple.beans.MaGiamGiaConfiguration;
-import com.vientamthuong.eatsimple.cartPage.CartConfiguration;
-import com.vientamthuong.eatsimple.cartPage.GetCart;
-import com.vientamthuong.eatsimple.cartPage.LoadCartHandler;
-import com.vientamthuong.eatsimple.cartPage.LoadCartHelper;
 import com.vientamthuong.eatsimple.date.DateTime;
 import com.vientamthuong.eatsimple.homePage.HomeMeowBottom;
 import com.vientamthuong.eatsimple.loadData.VolleyPool;
@@ -50,10 +51,11 @@ import java.util.Map;
 
 public class PayActivity extends AppCompatActivity {
 
-    private RecyclerView reDiaChi,recyclerView, reSanPham;
+    private RecyclerView reDiaChi, recyclerView, reSanPham;
     private AppCompatButton appgiamgia;
+    private Button muangay;
     private EditText giamgia;
-    private TextView tamtinh, tongtien,phivc;
+    private TextView tamtinh, tongtien, phivc;
     private List<Cart> carts;
     private List<Address> addresses;
     private FloatingActionButton back;
@@ -74,15 +76,139 @@ public class PayActivity extends AppCompatActivity {
         event();
     }
 
-    void event(){
+    void event() {
         eventBack();
         eventMaGiamGia();
         eventThemDiaChi();
+        eventmuangay();
     }
-    void eventThemDiaChi(){
+    void eventDialog(Dialog dialog,String title,String content){
+        TextView tvtitle = dialog.findViewById(R.id.dialog_lost_connection_title);
+        TextView tvcontent = dialog.findViewById(R.id.content);
+        AppCompatButton button = dialog.findViewById(R.id.dialog_lost_connection_ignore);
+
+        tvtitle.setText(title);
+        tvcontent.setText(content);
+
+        button.setOnClickListener(v -> {
+            Intent intent = new Intent(v.getContext(), HomeMeowBottom.class);
+            Bundle bundle = new Bundle();
+            bundle.putString("dichuyen","cart");
+            intent.putExtra("call",bundle);
+            startActivity(intent);
+        });
+
+
+    }
+
+    void eventmuangay() {
+
+        muangay.setOnClickListener(v -> {
+
+            Dialog dialogwait = openDialogDatabase(R.layout.activity_checkout_dialog_wait);
+
+            String ma_add = getIdAdd();
+            if (ma_add != null) {
+
+                int tong_tien = Integer.parseInt(tongtien.getText().toString().trim().substring(0, tongtien.getText().toString().trim().indexOf(" VND")));
+                String ma_gg = "";
+                if (maGiamGia != null) {
+                    ma_gg = maGiamGia.getMagg();
+                }
+
+
+                String urlLoad = "https://eat-simple-app.000webhostapp.com/checkout.php";
+                String finalMa_gg = ma_gg;
+                StringRequest request = new StringRequest(Request.Method.POST, urlLoad,
+                        new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+
+                                if (response.equals("FAIL")) {
+                                 //   Toast.makeText(PayActivity.this, "Lỗi hệ thống vui lòng thử lại", Toast.LENGTH_SHORT).show();
+
+                                    Dialog dialogfail = openDialogDatabase(R.layout.activity_checkout_dialog_notify);
+                                    eventDialog(dialogfail,"Thanh toán thất bại","Lỗi hệ thống vui lòng thử lại sau");
+
+                                } else {
+
+                                    String ma_dh = response;
+
+                                    for (int i = 0; i < carts.size(); i++) {
+                                        String urlLoad = "https://eat-simple-app.000webhostapp.com/addChiTietDonHang.php";
+                                        int finalI = i;
+                                        StringRequest request = new StringRequest(Request.Method.POST, urlLoad,
+                                                new Response.Listener<String>() {
+                                                    @Override
+                                                    public void onResponse(String response) {
+
+                                                    }
+                                                },
+                                                new Response.ErrorListener() {
+                                                    @Override
+                                                    public void onErrorResponse(VolleyError error) {
+
+                                                    }
+                                                }) {
+                                            @Nullable
+                                            @org.jetbrains.annotations.Nullable
+                                            @Override
+                                            protected Map<String, String> getParams() throws AuthFailureError {
+                                                HashMap<String, String> params = new HashMap<>();
+                                                params.put("ma_dh",ma_dh);
+                                                params.put("ma_kh", DataLocalManager.getAccount().getId());
+                                                params.put("ma_sp",carts.get(finalI).getMa_sp());
+                                                params.put("ma_size",carts.get(finalI).getSizes().getMa_size());
+                                                params.put("so_luong", String.valueOf(carts.get(finalI).getSo_luong()));
+                                                params.put("tien", String.valueOf(carts.get(finalI).getGia_km()*carts.get(finalI).getSo_luong()));
+
+                                                return params;
+                                            }
+                                        };
+                                        VolleyPool.getInstance(PayActivity.this).addRequest(request);
+
+                                    }
+                                    dialogwait.dismiss();
+                                    Dialog dialogSuccess = openDialogDatabase(R.layout.activity_checkout_dialog_notify);
+                                    eventDialog(dialogSuccess,"Thanh toán thành công","Đơn hàng sẽ nhanh chóng đến tay bạn");
+
+                                }
+
+                            }
+                        },
+                        new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+
+                            }
+                        }) {
+                    @Nullable
+                    @org.jetbrains.annotations.Nullable
+                    @Override
+                    protected Map<String, String> getParams() throws AuthFailureError {
+                        HashMap<String, String> params = new HashMap<>();
+                        params.put("ma_add", ma_add);
+                        params.put("ma_kh", DataLocalManager.getAccount().getId());
+                        params.put("tong_tien", String.valueOf(tong_tien));
+                        params.put("ma_gg", finalMa_gg);
+                        params.put("time", String.valueOf(CheckoutConfiguration.TIME));
+
+                        return params;
+                    }
+                };
+                VolleyPool.getInstance(this).addRequest(request);
+            }
+
+
+        });
+
+
+    }
+
+    void eventThemDiaChi() {
         themdiahchi.setOnClickListener(v -> {
 
-            Intent intent = new Intent(PayActivity.this,AddressActivity.class);
+            Intent intent = new Intent(PayActivity.this, AddressActivity.class);
 
             intent.putExtra("carts", (Serializable) carts);
 
@@ -90,82 +216,97 @@ public class PayActivity extends AppCompatActivity {
 
         });
     }
-    void init(){
+
+    void init() {
         initProduct();
         initAddress();
         phivc.setText(MaGiamGiaConfiguration.PHIVANCHUYEN + " VND");
         views = new ArrayList<>();
         recyclerView = reDiaChi;
     }
-    void eventMaGiamGia(){
+
+    String getIdAdd() {
+
+        for (int i = 0; i < reDiaChi.getChildCount(); i++) {
+            View view = reDiaChi.getChildAt(i);
+            CheckBox checkBox1 = view.findViewById(R.id.checkbox_cart);
+            if (checkBox1.isChecked()) {
+                return addresses.get(i).getMa_add();
+            }
+        }
+        return null;
+
+    }
+
+    void eventMaGiamGia() {
 
 
-            appgiamgia.setOnClickListener(v -> {
-                if (count == 0) {
-                    String magg = giamgia.getText().toString().trim();
-                    System.out.println("MAGIAMGIA: " + magg);
+        appgiamgia.setOnClickListener(v -> {
+            if (count == 0) {
+                String magg = giamgia.getText().toString().trim();
+                System.out.println("MAGIAMGIA: " + magg);
 
-                    String urlLoad = "https://eat-simple-app.000webhostapp.com/getMaGiamGia.php";
-                    StringRequest request = new StringRequest(Request.Method.POST, urlLoad,
-                            new Response.Listener<String>() {
-                                @Override
-                                public void onResponse(String response) {
+                String urlLoad = "https://eat-simple-app.000webhostapp.com/getMaGiamGia.php";
+                StringRequest request = new StringRequest(Request.Method.POST, urlLoad,
+                        new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
 
-                                    if (response.equals("NONE")){
-                                        Toast.makeText(PayActivity.this, "Rất tiếc mã này không có hiệu lực, vui lòng thử lại sau", Toast.LENGTH_SHORT).show();
-                                    }else {
-                                        try {
+                                if (response.equals("NONE")) {
+                                    Toast.makeText(PayActivity.this, "Rất tiếc mã này không có hiệu lực, vui lòng thử lại sau", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    try {
 
-                                            maGiamGia = new MaGiamGia();
+                                        maGiamGia = new MaGiamGia();
 
-                                            JSONObject object = new JSONObject(response);
+                                        JSONObject object = new JSONObject(response);
 
-                                            maGiamGia.setMagg(object.getString("ma_mgg"));
-                                            maGiamGia.setKieugg(Integer.parseInt(object.getString("kieu_mgg")));
-                                            maGiamGia.setGiatri(Integer.parseInt(object.getString("gia_tri")));
-                                            maGiamGia.setSolansudung(Integer.parseInt(object.getString("so_lan_su_dung")));
-                                            maGiamGia.setSolansudungtoida(Integer.parseInt(object.getString("so_lan_su_dung_toi_da")));
-                                            maGiamGia.setHansudung(new DateTime(object.getString("han_su_dung")));
-                                            maGiamGia.setNgaytao(new DateTime(object.getString("ngay_tao")));
-                                            maGiamGia.setTontai(Integer.parseInt(object.getString("tontai")));
+                                        maGiamGia.setMagg(object.getString("ma_mgg"));
+                                        maGiamGia.setKieugg(Integer.parseInt(object.getString("kieu_mgg")));
+                                        maGiamGia.setGiatri(Integer.parseInt(object.getString("gia_tri")));
+                                        maGiamGia.setSolansudung(Integer.parseInt(object.getString("so_lan_su_dung")));
+                                        maGiamGia.setSolansudungtoida(Integer.parseInt(object.getString("so_lan_su_dung_toi_da")));
+                                        maGiamGia.setHansudung(new DateTime(object.getString("han_su_dung")));
+                                        maGiamGia.setNgaytao(new DateTime(object.getString("ngay_tao")));
+                                        maGiamGia.setTontai(Integer.parseInt(object.getString("tontai")));
 
-                                            int tiencu = Integer.parseInt(tongtien.getText().toString().trim().substring(0,tongtien.getText().toString().trim().indexOf(" VND")).trim());
+                                        int tiencu = Integer.parseInt(tongtien.getText().toString().trim().substring(0, tongtien.getText().toString().trim().indexOf(" VND")).trim());
 
-                                            int tienmoi = maGiamGia.convert(tiencu);
+                                        int tienmoi = maGiamGia.convert(tiencu);
 
-                                            Toast.makeText(PayActivity.this, maGiamGia.print(), Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(PayActivity.this, maGiamGia.print(), Toast.LENGTH_SHORT).show();
 
-                                            tongtien.setText(tienmoi + " VND");
-                                            count++;
+                                        tongtien.setText(tienmoi + " VND");
+                                        count++;
 
-                                        } catch (JSONException e) {
-                                            e.printStackTrace();
-                                        }
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
                                     }
-
                                 }
-                            },
-                            new Response.ErrorListener() {
-                                @Override
-                                public void onErrorResponse(VolleyError error) {
 
-                                }
-                            }) {
-                        @Nullable
-                        @org.jetbrains.annotations.Nullable
-                        @Override
-                        protected Map<String, String> getParams() throws AuthFailureError {
-                            HashMap<String, String> params = new HashMap<>();
-                            params.put("ma_mgg", magg);
-                            return params;
-                        }
-                    };
-                    VolleyPool.getInstance(this).addRequest(request);
-                } else {
-                    Toast.makeText(this, "Tham lam", Toast.LENGTH_SHORT).show();
-                }
+                            }
+                        },
+                        new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
 
-            });
+                            }
+                        }) {
+                    @Nullable
+                    @org.jetbrains.annotations.Nullable
+                    @Override
+                    protected Map<String, String> getParams() throws AuthFailureError {
+                        HashMap<String, String> params = new HashMap<>();
+                        params.put("ma_mgg", magg);
+                        return params;
+                    }
+                };
+                VolleyPool.getInstance(this).addRequest(request);
+            } else {
+                Toast.makeText(this, "Tham lam", Toast.LENGTH_SHORT).show();
+            }
+
+        });
     }
 
     void eventCheck() {
@@ -174,21 +315,21 @@ public class PayActivity extends AppCompatActivity {
 
             View view = reDiaChi.getChildAt(i);
             CheckBox checkBox = view.findViewById(R.id.checkbox_cart);
-            System.out.println("Check" );
+            System.out.println("Check");
 
             checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
                     if (isChecked) {
-                        System.out.println("Check0" );
+                        System.out.println("Check0");
                         for (int i = 0; i < reDiaChi.getChildCount(); i++) {
                             View view = reDiaChi.getChildAt(i);
                             CheckBox checkBox1 = view.findViewById(R.id.checkbox_cart);
-                            System.out.println("Check1" );
+                            System.out.println("Check1");
                             if (checkBox1 != checkBox) {
                                 checkBox1.setChecked(false);
-                                System.out.println("Check2" );
+                                System.out.println("Check2");
                             }
                         }
 
@@ -205,8 +346,8 @@ public class PayActivity extends AppCompatActivity {
         back.setOnClickListener(v -> {
             Intent intent = new Intent(v.getContext(), HomeMeowBottom.class);
             Bundle bundle = new Bundle();
-            bundle.putString("dichuyen","cart");
-            intent.putExtra("call",bundle);
+            bundle.putString("dichuyen", "cart");
+            intent.putExtra("call", bundle);
             startActivity(intent);
         });
     }
@@ -222,7 +363,6 @@ public class PayActivity extends AppCompatActivity {
         PayAddessAdapter adapter = new PayAddessAdapter(addresses);
 
         reDiaChi.setAdapter(adapter);
-
         adapter.notifyDataSetChanged();
         adapter.setReDiaChi(reDiaChi);
 
@@ -269,7 +409,31 @@ public class PayActivity extends AppCompatActivity {
         tongtien = findViewById(R.id.total_price);
         back = findViewById(R.id.detail_back);
         phivc = findViewById(R.id.total_vc);
+        muangay = findViewById(R.id.muangay);
         count = 0;
 
+    }
+    Dialog openDialogDatabase(int layout) {
+        final Dialog dialog = new Dialog(this);
+        // ẩn title
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        // set background diaog
+        dialog.setContentView(layout);
+
+        Window window = dialog.getWindow();
+
+        if (window == null) {
+            return null;
+        } else {
+            window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+            window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+            WindowManager.LayoutParams layoutParams = window.getAttributes();
+            layoutParams.gravity = Gravity.CENTER;
+            window.setAttributes(layoutParams);
+            dialog.setCancelable(true);
+            dialog.show();
+            return dialog;
+        }
     }
 }
