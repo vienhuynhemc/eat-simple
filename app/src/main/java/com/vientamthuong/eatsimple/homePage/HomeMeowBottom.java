@@ -9,6 +9,9 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import com.etebarian.meowbottomnavigation.MeowBottomNavigation;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.vientamthuong.eatsimple.R;
@@ -42,6 +45,9 @@ public class HomeMeowBottom extends AppCompatActivity implements ActivityProtoco
     // Thời gian thoát activity
     private long lastTimePressBack;
     private CartPageFragment cartPageFragment;
+
+    // login google
+    GoogleSignInClient mGoogleSignInClient;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +56,7 @@ public class HomeMeowBottom extends AppCompatActivity implements ActivityProtoco
         getView();
         addView();
         eventBottom();
+        googleAPI();
 
     }
 
@@ -225,6 +232,10 @@ public class HomeMeowBottom extends AppCompatActivity implements ActivityProtoco
 
         cartPageFragment = new CartPageFragment();
 
+    }
+    public void googleAPI(){
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
     }
 
         @Override

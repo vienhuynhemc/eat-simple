@@ -36,6 +36,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.vientamthuong.eatsimple.R;
 import com.vientamthuong.eatsimple.SharedReferences.DataLocalManager;
 import com.vientamthuong.eatsimple.beans.Product;
@@ -48,6 +50,7 @@ import com.vientamthuong.eatsimple.loadProductByID.LoadProductHandler;
 import com.vientamthuong.eatsimple.loadProductByID.LoadProductHelp;
 import com.vientamthuong.eatsimple.login.Activity_login;
 import com.vientamthuong.eatsimple.model.Account;
+import com.vientamthuong.eatsimple.wishlist.WishlistActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -68,7 +71,7 @@ public class Activity_detail extends AppCompatActivity {
     private TextView title, gia, sosao, kcal, time, contentdetail, soluong,gia_km;
     private ImageView hinh;
     private Button decre, incre;
-    private FloatingActionButton back, detail_add,detail_cart;
+    private FloatingActionButton back, detail_add,detail_cart,detail_wishlist;
     private int num = 1;
     private Intent intent;
     private LinearLayout layout;
@@ -237,6 +240,36 @@ public class Activity_detail extends AppCompatActivity {
             intent.putExtra("call",bundle);
             startActivity(intent);
         });
+        detail_wishlist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (DataLocalManager.getAccount()!= null){
+                    DatabaseReference database = FirebaseDatabase.getInstance().getReference("yeu_thich").child(DataLocalManager.getAccount().getId());
+//               if (database.child(product.getMa_sp()+"_"+sizes.get(indexSize).getMa_size()) == null){
+                    insertToWishlist(DataLocalManager.getAccount().getId(),product.getMa_sp(),sizes.get(indexSize).getMa_size());
+
+                    DatabaseReference d = database.child(product.getMa_sp()+"_"+sizes.get(indexSize).getMa_size());
+
+                    d.child("PriceS").setValue(product.getGia_km());
+                    d.child("id").setValue(product.getMa_sp());
+                    d.child("idCustomer").setValue(DataLocalManager.getAccount().getId());
+                    d.child("img").setValue(product.getUrl());
+                    d.child("name").setValue(product.getTen_sp());
+                    d.child("nameSize").setValue(sizes.get(indexSize).getTen_size());
+                    d.child("priceP").setValue(product.getGia());
+                    d.child("size").setValue(sizes.get(indexSize).getMa_size());
+//               }
+
+
+                    insertToWishlist(DataLocalManager.getAccount().getId(),product.getMa_sp(),sizes.get(indexSize).getMa_size());
+                    Log.d("SSS", "idAccount: "+DataLocalManager.getAccount().getId()+",idDish: "+product.getMa_sp()+", idSize: "+ sizes.get(indexSize).getMa_size()+", number: "+soluong.getText().toString());
+                    // detail_wishlist.setBackgroundColor(Color.rgb(255,113,134));
+                }
+                else{
+                    Toast.makeText(Activity_detail.this, "Vui lòng đăng nhập!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
 
@@ -350,7 +383,41 @@ public class Activity_detail extends AppCompatActivity {
         gia_km = findViewById(R.id.text_price_km);
         gia_km.setPaintFlags(gia_km.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         detail_cart = findViewById(R.id.detail_cart);
+        detail_wishlist = findViewById(R.id.detail_wishlist);
 
+    }
+    // insert wishlist
+    private void insertToWishlist(String idCustomer,String idProduct,String idSize){
+        String url = "https://eat-simple-app.000webhostapp.com/addWishlist.php";
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        if (response.equals("success")){
+                            Toast.makeText(Activity_detail.this, "Đã thêm vào danh sách yêu thích!", Toast.LENGTH_SHORT).show();
+                        }
+                        else{
+                            Toast.makeText(Activity_detail.this, "Không thể thêm vào danh sách yêu thích!", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(Activity_detail.this, "Loi tai danh sach wishlist", Toast.LENGTH_SHORT).show();
+            }
+        }){
+            @Nullable
+            @org.jetbrains.annotations.Nullable
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                HashMap<String,String> params = new HashMap<>();
+                params.put("ma_khach_hang", idCustomer);
+                params.put("ma_san_pham", idProduct);
+                params.put("ma_size", idSize);
+                return params;
+            }
+        };
+        VolleyPool.getInstance(this).addRequest(stringRequest);
     }
 
 

@@ -26,10 +26,29 @@ import androidx.fragment.app.Fragment;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.vientamthuong.eatsimple.R;
 import com.vientamthuong.eatsimple.SharedReferences.DataLocalManager;
 import com.vientamthuong.eatsimple.admin.HomePageActivity;
@@ -72,6 +91,9 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
+
 public class LoginTabFragment extends Fragment {
 
     EditText username;
@@ -81,9 +103,26 @@ public class LoginTabFragment extends Fragment {
     TextView notify;
     float v = 0;
     String codeRD;
+    private CallbackManager callbackManager;
+    private LoginButton loginButton;
+    private GoogleSignInClient mGoogleSignInClient;
+    int RC_SIGN_IN = 0;
+
+    @Override
+    public void onCreate(@Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        // khởi tạo
+        FacebookSdk.sdkInitialize(getActivity());
+        AppEventsLogger.activateApp(getActivity());
+
+
+
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle saveInstanceState) {
+
         ViewGroup root = (ViewGroup) inflater.inflate(R.layout.activity_login_tab_fragment, container, false);
 
         username = root.findViewById(R.id.username_login);
@@ -91,6 +130,10 @@ public class LoginTabFragment extends Fragment {
         forgotPass = root.findViewById(R.id.forgetPassword_login);
         login = root.findViewById(R.id.btn_login);
         notify = root.findViewById(R.id.notify_login);
+
+        // login google
+        loginGoogle(root);
+
 
         // Test để làm admin
         login.setOnClickListener(v1 -> {
@@ -202,6 +245,7 @@ public class LoginTabFragment extends Fragment {
         if (intent.getStringExtra("username_signup") != null){
             username.setText(intent.getStringExtra("username_signup"));
         }
+
         // hiển thị username khi thay đổi mật khẩu thành công!
         Intent intent1 = getActivity().getIntent();
         if (intent1.getStringExtra("account_forgot") != null){
@@ -301,23 +345,68 @@ public class LoginTabFragment extends Fragment {
             }
         });
 
-        /////////////////////
+        callbackManager = CallbackManager.Factory.create();
 
-//        email.setTranslationX(0);
-//        pass.setTranslationX(0);
-//        forgotPass.setTranslationX(0);
-//        login.setTranslationX(0);
-//
-//        email.setAlpha(v);
-//        pass.setAlpha(v);
-//        forgotPass.setAlpha(v);
-//        login.setAlpha(v);
-//
-//        email.animate().translationY(100).alpha(1).setDuration(800).setStartDelay(300).start();
-//        pass.animate().translationY(100).alpha(1).setDuration(800).setStartDelay(500).start();
-//        forgotPass.animate().translationY(100).alpha(1).setDuration(800).setStartDelay(500).start();
-//        login.animate().translationY(100).alpha(1).setDuration(800).setStartDelay(700).start();
+        loginButton =  root.findViewById(R.id.login_button);
+        loginButton.setReadPermissions("email");
+        // If using in a fragment
+        loginButton.setFragment(this);
 
+        // Callback registration
+        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                GraphRequest graphRequest = GraphRequest.newMeRequest(AccessToken.getCurrentAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
+                    @Override
+                    public void onCompleted(JSONObject object, GraphResponse response) {
+                        Log.d("AAA",object.toString());
+                        try {
+                            Account account = new Account();
+                            String name = object.getString("name");
+                            String id = object.getString("id");
+                            String avatar = "https://graph.facebook.com/"+id+"/picture?type=large";
+                            account.setName(name);
+                            account.setId(id);
+                            account.setImgLink(avatar);
+                            account.setEmail("profile.facebook@gmail.com");
+
+                            createAccountAPI(account.getId(),account.getName(),account.getImgLink(),account.getEmail());
+
+                            DataLocalManager.setAccounts(account);
+
+                            Log.d("SSS", DataLocalManager.getAccount().toString());
+
+                            startActivity(new Intent(getActivity(), HomeMeowBottom.class));
+
+                        }
+                        catch (Exception e){
+                            e.printStackTrace();
+                        }
+                    }
+                });
+                Bundle bundle= new Bundle();
+                bundle.putString("fields","gender, name, id, first_name, last_name");
+                graphRequest.setParameters(bundle);
+                graphRequest.executeAsync();
+
+//                if (DataLocalManager.getAccount()!= null){
+//                    startActivity(new Intent(LoginActivity.this,MainActivity.class));
+//                }
+
+                Log.d("AAA","Login successful!");
+                //  Log.d("AAA",account.getName());
+            }
+
+            @Override
+            public void onCancel() {
+                Log.d("AAA","Login canceled!");
+            }
+
+            @Override
+            public void onError(FacebookException error) {
+                Log.d("AAA","Login error!");
+            }
+        });
 
         return root;
     }
@@ -726,5 +815,110 @@ public class LoginTabFragment extends Fragment {
         VolleyPool.getInstance(getActivity()).addRequest(stringRequest);
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        callbackManager.onActivityResult(requestCode, resultCode, data);
+        super.onActivityResult(requestCode, resultCode, data);
+
+        // Result returned from launching the Intent from GoogleSignInClient.getSignInIntent(...);
+        if (requestCode == RC_SIGN_IN) {
+            // The Task returned from this call is always completed, no need to attach
+            // a listener.
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            handleSignInResult(task);
+        }
+    }
+    private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
+        try {
+            GoogleSignInAccount acc = completedTask.getResult(ApiException.class);
+
+            Account account = new Account();
+            account.setId(acc.getId());
+            account.setImgLink(acc.getPhotoUrl()+"");
+            account.setName(acc.getDisplayName());
+            account.setEmail(acc.getEmail());
+
+            createAccountAPI(account.getId(),account.getName(),account.getImgLink(),account.getEmail());
+
+            DataLocalManager.setAccounts(account);
+
+            startActivity(new Intent(getActivity(), HomeMeowBottom.class));
+
+            // Signed in successfully, show authenticated UI.
+
+        } catch (ApiException e) {
+            // The ApiException status code indicates the detailed failure reason.
+            // Please refer to the GoogleSignInStatusCodes class reference for more information.
+//            Log.w(TAG, "signInResult:failed code=" + e.getStatusCode());
+//            updateUI(null);
+        }
+    }
+    private void signIn() {
+        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+        startActivityForResult(signInIntent, RC_SIGN_IN);
+    }
+    private void loginGoogle(View root){
+        // Set the dimensions of the sign-in button.
+        SignInButton signInButton = root.findViewById(R.id.sign_in_button);
+        signInButton.setSize(SignInButton.SIZE_STANDARD);
+
+        signInButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (v.getId()) {
+                    case R.id.sign_in_button:
+                        signIn();
+                        break;
+                }
+            }
+        });
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
+        mGoogleSignInClient = GoogleSignIn.getClient(getContext(), gso);
+    }
+    private void createAccountAPI(String id,String name,String img,String email){
+        String url = "";
+        StringRequest request = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        if (response.equals("success")) {
+                            Toast.makeText(getActivity(), "create success", Toast.LENGTH_SHORT).show();
+                        }
+                        else{
+                            Toast.makeText(getActivity(), "error create", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(getActivity(), "error volley create", Toast.LENGTH_SHORT).show();
+                    }
+                }){
+            @Nullable
+            @org.jetbrains.annotations.Nullable
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                HashMap<String,String> params = new HashMap<>();
+                params.put("ma_tai_khoan",id);
+                params.put("ten_hien_thi",name);
+                params.put("link_hinh_dai_dien",img);
+                params.put("email",email);
+                return params;
+            }
+        };
+        VolleyPool.getInstance(getContext()).addRequest(request);
+
+        // add account firebase
+        DatabaseReference database = FirebaseDatabase.getInstance().getReference().child("tai_khoan");
+
+        database.child(id).child("email").setValue(email);
+        database.child(id).child("hinh_dai_dien").setValue("tai_khoan/"+id+"/"+id+".jpg");
+        database.child(id).child("link_hinh_dai_dien").setValue(img);
+        database.child(id).child("mat_khau").setValue("null");
+        database.child(id).child("ngay_tao").setValue("null");
+        database.child(id).child("tai_khoan").setValue(id);
+        database.child(id).child("ten_hien_thi").setValue(name);
+    }
 
 }

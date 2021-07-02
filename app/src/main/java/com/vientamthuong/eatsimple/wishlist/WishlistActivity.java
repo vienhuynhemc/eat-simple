@@ -98,7 +98,8 @@ public class WishlistActivity extends AppCompatActivity {
 
         init();
 
-
+        btnCartWishlist.setVisibility(View.VISIBLE);
+        notify.setVisibility(View.GONE);
 
         // get account
         Intent intent = getIntent();
@@ -121,6 +122,8 @@ public class WishlistActivity extends AppCompatActivity {
             recyclerView.setLayoutManager(linearLayoutManager);
 
 
+
+
             products = new ArrayList<>();
             DatabaseReference database = FirebaseDatabase.getInstance().getReference("yeu_thich").child(idCustomer);
             database.addValueEventListener(new ValueEventListener() {
@@ -131,6 +134,11 @@ public class WishlistActivity extends AppCompatActivity {
                         Wishlist w = ds.getValue(Wishlist.class);
                         products.add(w);
                     }
+                    if (products.size()==0) {
+                        btnCartWishlist.setVisibility(View.GONE);
+                        notify.setVisibility(View.VISIBLE);
+                    }
+                    
                     wishlistAdapter = new WishlistAdapter(WishlistActivity.this,products);
                     recyclerView.setAdapter(wishlistAdapter);
 
@@ -143,10 +151,7 @@ public class WishlistActivity extends AppCompatActivity {
 
                 }
             });
-            if (products.size()==0){
-                btnCartWishlist.setVisibility(View.GONE);
-                notify.setVisibility(View.VISIBLE);
-            }
+
 
 
 
@@ -436,39 +441,6 @@ public class WishlistActivity extends AppCompatActivity {
             return params;
         }
     };
-    // insert wishlist
-    private void insertToWishlist(String idCustomer,String idProduct,String idSize){
-        String url = "";
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        if (response.equals("success")){
-                            Toast.makeText(WishlistActivity.this, "Đã thêm vào danh sách yêu thích!", Toast.LENGTH_SHORT).show();
-                        }
-                        else{
-                            Toast.makeText(WishlistActivity.this, "Không thể thêm vào danh sách yêu thích!", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(WishlistActivity.this, "Loi tai danh sach wishlist", Toast.LENGTH_SHORT).show();
-            }
-        }){
-            @Nullable
-            @org.jetbrains.annotations.Nullable
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                HashMap<String,String> params = new HashMap<>();
-                params.put("mai_tai_khoan", idCustomer);
-                params.put("ma_san_pham", idProduct);
-                params.put("size", idSize);
-                return params;
-            }
-        };
-        VolleyPool.getInstance(this).addRequest(stringRequest);
-    }
     // xoa khỏi wishlist
     private void deleleteWishlist(String idCustomer,String idProduct,String idSize){
         String url = "";

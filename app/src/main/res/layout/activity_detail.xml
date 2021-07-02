@@ -299,7 +299,6 @@ hài hòa tinh túy giữa thịt bò úc thượng hạng và phô mai tan ch�
             android:layout_gravity="center"
             android:adjustViewBounds="true"
             android:elevation="10dp"
-
             android:src="@drawable/activity_detail_ham"
             tools:ignore="MissingConstraints" />
     </androidx.cardview.widget.CardView>
@@ -319,6 +318,19 @@ hài hòa tinh túy giữa thịt bò úc thượng hạng và phô mai tan ch�
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.05" />
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/detail_wishlist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/white"
+        android:elevation="10dp"
+        android:src="@drawable/activity_home_page_icon_heart_done_select"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.9"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.25" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/detail_back"

@@ -208,7 +208,7 @@
     </LinearLayout>
     <ImageView
         android:id="@+id/activity_signup_img"
-        android:layout_width="1dp"
+        android:layout_width="20dp"
         android:src="@drawable/fragment_signup_account"
         android:background="@color/black"
         android:layout_height="1dp"/>
