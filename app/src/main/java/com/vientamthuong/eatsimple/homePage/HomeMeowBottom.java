@@ -9,6 +9,9 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import com.etebarian.meowbottomnavigation.MeowBottomNavigation;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.vientamthuong.eatsimple.R;
@@ -42,7 +45,6 @@ public class HomeMeowBottom extends AppCompatActivity implements ActivityProtoco
     // Thời gian thoát activity
     private long lastTimePressBack;
     private CartPageFragment cartPageFragment;
-    private NotifyPageFragment notifyPageFragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,17 +70,18 @@ public class HomeMeowBottom extends AppCompatActivity implements ActivityProtoco
                         break;
                     case 2:
                         frameLayout = new WishlistFragment();
+
                         break;
                     case 3:
+
                         frameLayout = homePageActivity;
                         LoadProductHelp.getLoadProductHelp().setNum(0);
                         LoadProductHelp.getLoadProductHelp().setYMIN(140);
                         break;
                     case 4:
-                        frameLayout = notifyPageFragment;
+                        frameLayout =new NotifyPageFragment();
                         break;
                     case 5:
-
                         frameLayout = cartPageFragment;
 
                         break;
@@ -98,12 +101,8 @@ public class HomeMeowBottom extends AppCompatActivity implements ActivityProtoco
             String re = bundle.getString("dichuyen");
             switch (re){
                 case "cart":
-
                     bottomNavigation.show(5,true);
-
-                    break;
-                case "ring":
-                    bottomNavigation.show(4,true);
+                 //   loadFragment(new CartPageFragment());
                     break;
                 default:
                     bottomNavigation.show(3,true);
@@ -228,8 +227,6 @@ public class HomeMeowBottom extends AppCompatActivity implements ActivityProtoco
         homePageActivity.setAppCompatActivity(HomeMeowBottom.this);
 
         cartPageFragment = new CartPageFragment();
-
-        notifyPageFragment = new NotifyPageFragment();
 
     }
 

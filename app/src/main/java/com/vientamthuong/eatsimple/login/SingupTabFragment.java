@@ -49,6 +49,11 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -255,6 +260,7 @@ public class SingupTabFragment extends Fragment {
                                             //BCrypt.
                                             String pass = BCrypt.hashpw(sPassword,BCrypt.gensalt());
                                             // tiến hành đăng ký
+                                            imgView = root.findViewById(R.id.activity_signup_img);
                                             StringRequest stringRequest = new StringRequest(Request.Method.POST, urlSignUp,
                                                     new Response.Listener<String>() {
                                                         @Override
@@ -271,9 +277,9 @@ public class SingupTabFragment extends Fragment {
                                                                                 String img = "https://firebasestorage.googleapis.com/v0/b/eat-simple.appspot.com/o/tai_khoan%2Fno_name%2Favatar-1577909_960_720.png?alt=media&token=8c4906c4-5fee-4455-b1a2-8340291dbd1f";
                                                                                 createAccountFireBase("kh_"+count,sEmail,"tai_khoan/kh_"+count+"/"+count+".jpg",img,pass,getDateTimeNow().toString(),sUsername,"No Name");
 
-//
 //                                                                                Glide.with(getActivity()).load(img).into(imgView);
 //                                                                                uploadImgToFirebase(imgView,"kh_"+count);
+                                                                               uploadImage("kh_"+count);
                                                                             }
                                                                         },
                                                                         new Response.ErrorListener() {
@@ -347,7 +353,6 @@ public class SingupTabFragment extends Fragment {
             }
 
         });
-
 
         return root;
     }
@@ -487,7 +492,7 @@ public class SingupTabFragment extends Fragment {
         // Create a reference to "mountains.jpg"
         StorageReference mountainsRef = storageRef.child(ma_tai_khoan).child(ma_tai_khoan.substring(ma_tai_khoan.lastIndexOf("_")+1)+".jpg");
 
-        // Get the data from an ImageView as bytes
+        // Get the data from an ImageView as byte
         imageView.setDrawingCacheEnabled(true);
         imageView.buildDrawingCache();
         Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
@@ -511,4 +516,35 @@ public class SingupTabFragment extends Fragment {
             }
         });
     }
+    private void uploadImage(String ma_tai_khoan){
+        // Create a storage reference from our app
+        StorageReference storageRef = FirebaseStorage.getInstance().getReference("tai_khoan");
+
+        StorageReference mountainsRef = storageRef.child(ma_tai_khoan);
+        String url = "images/avatar.png";
+
+        Uri link = Uri.parse(url);
+
+            mountainsRef.putFile(link).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+                    //Toast.makeText(ProfileActivity.this, "Upload successful!", Toast.LENGTH_LONG).show();
+                    Log.d("signup","load anh thanh cong");
+
+                    mountainsRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+//                            String url = uri.toString();
+//                            imgAccount = url;
+//                            changeImageAccount(account.getId(),url);
+//                            DatabaseReference database = FirebaseDatabase.getInstance().getReference("tai_khoan").child(account.getId());
+//                            database.child("link_hinh_dai_dien").setValue(url);
+                        }
+                    });
+
+                }
+            });
+    }
+
 }

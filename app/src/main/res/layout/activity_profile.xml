@@ -344,6 +344,7 @@
                     android:layout_height="wrap_content"/>
             </LinearLayout>
             <View
+                android:id="@+id/activity_profile_border1"
                 android:layout_marginTop="10dp"
                 android:background="#E3E3E3"
                 android:layout_width="match_parent"
@@ -374,6 +375,7 @@
                     android:layout_height="wrap_content"/>
             </LinearLayout>
             <View
+                android:id="@+id/activity_profile_border2"
                 android:layout_marginTop="10dp"
                 android:background="#E3E3E3"
                 android:layout_width="match_parent"

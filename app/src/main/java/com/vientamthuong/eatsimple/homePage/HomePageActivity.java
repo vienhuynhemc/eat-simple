@@ -331,6 +331,7 @@ import com.etebarian.meowbottomnavigation.MeowBottomNavigation;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.vientamthuong.eatsimple.R;
+import com.vientamthuong.eatsimple.SharedReferences.DataLocalManager;
 import com.vientamthuong.eatsimple.beans.Product;
 import com.vientamthuong.eatsimple.connection.CheckConnection;
 import com.vientamthuong.eatsimple.diaLog.DiaLogLoader;
@@ -397,6 +398,7 @@ public class HomePageActivity extends Fragment  {
         View view = inflater.inflate(R.layout.activity_home_page_main, container, false);
 
         getView(view);
+
         // Xử lý giao diện
 
      //   getView();

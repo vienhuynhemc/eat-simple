@@ -85,4 +85,11 @@ dependencies {
     // MeowBottomNavigation
     implementation 'com.etebarian:meow-bottom-navigation-java:1.2.0'
 
+
+    // login facebook
+    implementation 'com.facebook.android:facebook-android-sdk:[8,9)'
+
+    // login google
+    implementation 'com.google.android.gms:play-services-auth:19.0.0'
+
 }

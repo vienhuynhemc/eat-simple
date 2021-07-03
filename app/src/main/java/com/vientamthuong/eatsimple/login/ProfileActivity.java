@@ -68,6 +68,7 @@ public class ProfileActivity extends AppCompatActivity {
     LinearLayout btnInfo, btnPassword;
     TextView btnSignOut, btnBack, name, email;
     ImageView img;
+    View border1, border2;
     String imgAccount = account.getImgLink();
     Uri link;
     final int REQUEST_CODE_IMAGE = 1;
@@ -110,7 +111,15 @@ public class ProfileActivity extends AppCompatActivity {
         email = findViewById(R.id.activity_profile_info_email);
         img = findViewById(R.id.activity_profile_info_img);
         btnWishlist = findViewById(R.id.activity_profile_wishlist);
+        border1 = findViewById(R.id.activity_profile_border1);
+        border2 = findViewById(R.id.activity_profile_border2);
 
+        if (account.getId().length() > 15){
+            btnPassword.setVisibility(View.GONE);
+            btnInfo.setVisibility(View.GONE);
+            border1.setVisibility(View.GONE);
+            border2.setVisibility(View.GONE);
+        }
         //
         DatabaseReference database = FirebaseDatabase.getInstance().getReference("tai_khoan").child(account.getId());
         database.addValueEventListener(new ValueEventListener() {
@@ -305,6 +314,7 @@ public class ProfileActivity extends AppCompatActivity {
                 String mEmail = email.getText().toString().trim();
                 String mName = name.getText().toString().trim();
 
+
                 String url = "https://eat-simple-app.000webhostapp.com/changeInfo.php";
                 StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                         new Response.Listener<String>() {
@@ -326,13 +336,14 @@ public class ProfileActivity extends AppCompatActivity {
                                             @Override
                                             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
-                                                Toast.makeText(ProfileActivity.this, "Upload successful!", Toast.LENGTH_LONG).show();
+                                                //Toast.makeText(ProfileActivity.this, "Upload successful!", Toast.LENGTH_LONG).show();
 
                                                 mountainsRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                                     @Override
                                                     public void onSuccess(Uri uri) {
                                                         String url = uri.toString();
                                                         imgAccount = url;
+                                                        changeImageAccount(account.getId(),url);
                                                         DatabaseReference database = FirebaseDatabase.getInstance().getReference("tai_khoan").child(account.getId());
                                                         database.child("link_hinh_dai_dien").setValue(url);
                                                     }
@@ -373,7 +384,6 @@ public class ProfileActivity extends AppCompatActivity {
                         params.put("username",account.getUsername());
                         params.put("name",mName);
                         params.put("email",mEmail);
-                        params.put("img",imgAccount);
                         return params;
                     }
                 };
@@ -476,6 +486,38 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
+    }
+    private void changeImageAccount(String ma_tai_khoan, String link_hinh_dai_dien){
+        String url = "https://eat-simple-app.000webhostapp.com/changeImageAccount.php";
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        if (response.equals("success")){
+                            Log.d("profile","thay doi anh thanh cong");
+                        }
+                        else{
+                            Log.d("profile","thay doi anh that bai");
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("profile",error.toString());
+                    }
+                }){
+            @Nullable
+            @org.jetbrains.annotations.Nullable
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                HashMap<String,String> params = new HashMap<>();
+                params.put("ma_tai_khoan",ma_tai_khoan);
+                params.put("link_hinh_dai_dien",link_hinh_dai_dien);
+                return params;
+            }
+        };
+        VolleyPool.getInstance(this).addRequest(stringRequest);
     }
 
     @Override
