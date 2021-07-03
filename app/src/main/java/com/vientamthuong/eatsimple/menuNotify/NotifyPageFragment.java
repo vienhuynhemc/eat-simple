@@ -1,13 +1,27 @@
 package com.vientamthuong.eatsimple.menuNotify;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.vientamthuong.eatsimple.R;
+import com.vientamthuong.eatsimple.SharedReferences.DataLocalManager;
+import com.vientamthuong.eatsimple.beans.ThongBao;
+import com.vientamthuong.eatsimple.cartPage.CartAdapter;
+import com.vientamthuong.eatsimple.login.Activity_login;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -57,10 +71,59 @@ public class NotifyPageFragment extends Fragment {
         }
     }
 
+    private ImageView filter;
+    private RecyclerView reList;
+    private NotifiAdapter adapter;
+    private List<ThongBao> list;
+    private AppCompatButton dangnhap;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_notify_page, container, false);
+
+        View view ;
+
+             if (DataLocalManager.getAccount() != null){
+               view = inflater.inflate(R.layout.fragment_notify_page, container, false);
+                 getView(view);
+                 init();
+             }else {
+                 view = inflater.inflate(R.layout.fragment_cart_page, container, false);
+                 getView2(view);
+                 eventdangnhap();
+             }
+        return view;
+
     }
+    void getView2(View v){
+        dangnhap = v.findViewById(R.id.dialog_lost_connection_try);
+    }
+    void eventdangnhap(){
+        dangnhap.setOnClickListener(v -> {
+            startActivity(new Intent(getContext(), Activity_login.class));
+        });
+    }
+    private void init(){
+
+        DataLocalManager.setRing(false);
+
+        adapter = new NotifiAdapter(list);
+        reList.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
+        reList.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
+
+        NotifyHandler notifyHandler = NotifyHandler.getInstance();
+        notifyHandler.setAdapter(adapter);
+        notifyHandler.setAdds(list);
+        notifyHandler.getHandler();
+        GetNotify.getData(getContext());
+    }
+
+    private void getView(View view){
+
+        filter = view.findViewById(R.id.filter);
+        reList = view.findViewById(R.id.list_notify);
+        list = new ArrayList<>();
+
+    }
+
 }

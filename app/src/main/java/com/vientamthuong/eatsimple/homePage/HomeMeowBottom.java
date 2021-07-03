@@ -42,6 +42,7 @@ public class HomeMeowBottom extends AppCompatActivity implements ActivityProtoco
     // Thời gian thoát activity
     private long lastTimePressBack;
     private CartPageFragment cartPageFragment;
+    private NotifyPageFragment notifyPageFragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,18 +68,17 @@ public class HomeMeowBottom extends AppCompatActivity implements ActivityProtoco
                         break;
                     case 2:
                         frameLayout = new WishlistFragment();
-
                         break;
                     case 3:
-
                         frameLayout = homePageActivity;
                         LoadProductHelp.getLoadProductHelp().setNum(0);
                         LoadProductHelp.getLoadProductHelp().setYMIN(140);
                         break;
                     case 4:
-                        frameLayout =new NotifyPageFragment();
+                        frameLayout = notifyPageFragment;
                         break;
                     case 5:
+
                         frameLayout = cartPageFragment;
 
                         break;
@@ -98,8 +98,12 @@ public class HomeMeowBottom extends AppCompatActivity implements ActivityProtoco
             String re = bundle.getString("dichuyen");
             switch (re){
                 case "cart":
+
                     bottomNavigation.show(5,true);
-                 //   loadFragment(new CartPageFragment());
+
+                    break;
+                case "ring":
+                    bottomNavigation.show(4,true);
                     break;
                 default:
                     bottomNavigation.show(3,true);
@@ -224,6 +228,8 @@ public class HomeMeowBottom extends AppCompatActivity implements ActivityProtoco
         homePageActivity.setAppCompatActivity(HomeMeowBottom.this);
 
         cartPageFragment = new CartPageFragment();
+
+        notifyPageFragment = new NotifyPageFragment();
 
     }
 

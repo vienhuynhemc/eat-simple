@@ -40,6 +40,7 @@ import com.vientamthuong.eatsimple.R;
 import com.vientamthuong.eatsimple.SharedReferences.DataLocalManager;
 import com.vientamthuong.eatsimple.beans.Product;
 import com.vientamthuong.eatsimple.beans.Size;
+import com.vientamthuong.eatsimple.checkout.PayActivity;
 import com.vientamthuong.eatsimple.date.DateTime;
 import com.vientamthuong.eatsimple.homePage.HomeMeowBottom;
 import com.vientamthuong.eatsimple.loadData.VolleyPool;
@@ -47,6 +48,7 @@ import com.vientamthuong.eatsimple.loadProductByID.LoadProductConfiguration;
 import com.vientamthuong.eatsimple.loadProductByID.LoadProductHandler;
 import com.vientamthuong.eatsimple.loadProductByID.LoadProductHelp;
 import com.vientamthuong.eatsimple.login.Activity_login;
+import com.vientamthuong.eatsimple.menuNotify.EventRing;
 import com.vientamthuong.eatsimple.model.Account;
 
 import org.json.JSONArray;
@@ -66,7 +68,7 @@ public class Activity_detail extends AppCompatActivity {
     private ArrayList<String> imgList = new ArrayList<>();
 
     private TextView title, gia, sosao, kcal, time, contentdetail, soluong,gia_km;
-    private ImageView hinh;
+    private ImageView hinh,ring;
     private Button decre, incre;
     private FloatingActionButton back, detail_add,detail_cart;
     private int num = 1;
@@ -165,6 +167,8 @@ public class Activity_detail extends AppCompatActivity {
 
 
     void event() {
+        EventRing.getInstance().setView(ring);
+        EventRing.getInstance().startAnim();
 
         incre.setOnClickListener(v -> {
             num += 1;
@@ -350,6 +354,7 @@ public class Activity_detail extends AppCompatActivity {
         gia_km = findViewById(R.id.text_price_km);
         gia_km.setPaintFlags(gia_km.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         detail_cart = findViewById(R.id.detail_cart);
+        ring = findViewById(R.id.notify);
 
     }
 

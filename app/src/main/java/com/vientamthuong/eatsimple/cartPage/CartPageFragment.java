@@ -10,6 +10,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,6 +27,7 @@ import com.vientamthuong.eatsimple.beans.Cart;
 import com.vientamthuong.eatsimple.checkout.PayActivity;
 import com.vientamthuong.eatsimple.loadProductByID.LoadProductHandler;
 import com.vientamthuong.eatsimple.login.Activity_login;
+import com.vientamthuong.eatsimple.menuNotify.EventRing;
 
 import java.io.ByteArrayOutputStream;
 import java.io.Serializable;
@@ -57,10 +59,14 @@ public class CartPageFragment extends Fragment {
     private FloatingActionButton back;
     private AppCompatButton dangnhap;
     private Button thanhtoan;
+    private ImageView ring;
+
+    private static CartPageFragment cartPageFragment;
 
     public CartPageFragment() {
-        // Required empty public constructor
+
     }
+
 
     /**
      * Use this factory method to create a new instance of
@@ -95,8 +101,6 @@ public class CartPageFragment extends Fragment {
 
         View view;
 
-        eventback();
-
         if (DataLocalManager.getAccount() != null) {
             view = inflater.inflate(R.layout.activity_cart, container, false);
             getView(view);
@@ -129,7 +133,16 @@ public class CartPageFragment extends Fragment {
         for (int i =0;i<recyclerView.getChildCount();i++){
             View view = recyclerView.getChildAt(i);
             CheckBox checkBox = view.findViewById(R.id.checkbox_cart);
+            TextView num = view.findViewById(R.id.cart_number_item);
+
+
             if (checkBox.isChecked()){
+                int soluong = Integer.parseInt(num.getText().toString().trim());
+
+                if ( soluong > list_Item.get(i).getSo_luong_con_lai()){
+                    Toast.makeText(getContext(), "Sản phẩm " + list_Item.get(i).getTen_sp() + " hum đủ số lượng gòi" , Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 carts.add(list_Item.get(i));
             }
         }
@@ -154,8 +167,10 @@ public class CartPageFragment extends Fragment {
 
 
     }
-    private void eventback(){
-
+    public void eventRing(){
+        //EventRing.getInstance().setContext(getContext());
+        EventRing.getInstance().setView(ring);
+        EventRing.getInstance().startAnim();
     }
     private void event(){
         LoadCartHandler handler = LoadCartHandler.getInstance();
@@ -163,6 +178,8 @@ public class CartPageFragment extends Fragment {
         handler.setCartAdapter(cartAdapter);
         handler.getHandler();
         GetCart.getData(getContext());
+        eventRing();
+
     }
 
     void getView(View view){
@@ -174,6 +191,7 @@ public class CartPageFragment extends Fragment {
         total_vc = view.findViewById(R.id.total_vc);
         back = view.findViewById(R.id.detail_back);
         thanhtoan = view.findViewById(R.id.thanhtoan);
+        ring = view.findViewById(R.id.notify);
 
     }
 //    void anim(){

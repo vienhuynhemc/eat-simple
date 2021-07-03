@@ -20,7 +20,8 @@
         android:theme="@style/Theme.EatSimple"
         android:usesCleartextTraffic="true"
         tools:ignore="AllowBackup">
-        <activity android:name=".checkout.AddressActivity"></activity>
+        <activity android:name=".detailPay.DetailPayActivity"></activity>
+        <activity android:name=".checkout.AddressActivity" />
         <activity android:name=".checkout.PayActivity" />
         <activity android:name=".homePage.HomeMeowBottom">
             <intent-filter>
@@ -72,6 +73,7 @@
             <!-- </intent-filter> -->
         </activity>
         <activity android:name=".detail.Activity_detail" />
+
     </application>
 
 </manifest>

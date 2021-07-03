@@ -110,6 +110,23 @@ public class MaGiamGia {
         }
         return tiencu;
     }
+    public int convert2(int tiencu){
+        switch (kieugg){
+            case 0:
+                tiencu += MaGiamGiaConfiguration.PHIVANCHUYEN;
+                break;
+            case 1:
+                tiencu += getGiatri();
+                break;
+            case 2:
+                double tienmoi = (getGiatri()*tiencu)/100;
+                tiencu += (int) tienmoi;
+                break;
+            default:
+                break;
+        }
+        return tiencu;
+    }
     public String print(){
         switch (kieugg){
             case 0:
@@ -118,11 +135,32 @@ public class MaGiamGia {
                 return "Bạn được giảm " + getGiatri() +" VND";
             case 2:
                 return "Bạn được giảm " + getGiatri() + " %";
-
+            case 10:
+                return "";
             default:
                 return "Không xác định";
         }
 
+    }
+    public int discount(int tiencu){
+        switch (kieugg){
+            case 0:
+                tiencu = MaGiamGiaConfiguration.PHIVANCHUYEN;
+                break;
+            case 1:
+                tiencu = getGiatri();
+                break;
+            case 2:
+                double tienmoi = (getGiatri()*tiencu)/100;
+                tiencu = (int) tienmoi;
+                break;
+            case 10:
+                tiencu = 0;
+                break;
+            default:
+                break;
+        }
+        return tiencu;
     }
 
 }

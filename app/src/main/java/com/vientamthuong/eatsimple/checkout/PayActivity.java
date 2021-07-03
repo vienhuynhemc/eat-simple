@@ -16,10 +16,13 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,6 +41,8 @@ import com.vientamthuong.eatsimple.beans.MaGiamGiaConfiguration;
 import com.vientamthuong.eatsimple.date.DateTime;
 import com.vientamthuong.eatsimple.homePage.HomeMeowBottom;
 import com.vientamthuong.eatsimple.loadData.VolleyPool;
+import com.vientamthuong.eatsimple.menuNotify.CustomNotify;
+import com.vientamthuong.eatsimple.menuNotify.EventRing;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -59,10 +64,12 @@ public class PayActivity extends AppCompatActivity {
     private List<Cart> carts;
     private List<Address> addresses;
     private FloatingActionButton back;
+    private ImageView ring;
     private List<View> views;
     private MaGiamGia maGiamGia;
     private CardView themdiahchi;
     private int count;
+    private CustomNotify notify;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,13 +81,19 @@ public class PayActivity extends AppCompatActivity {
         init();
 
         event();
+
     }
+
 
     void event() {
         eventBack();
         eventMaGiamGia();
         eventThemDiaChi();
         eventmuangay();
+
+//        EventRing.getInstance().setContext(PayActivity.this);
+//        EventRing.getInstance().setView(ring);
+//        EventRing.getInstance().startAnim();
     }
     void eventDialog(Dialog dialog,String title,String content){
         TextView tvtitle = dialog.findViewById(R.id.dialog_lost_connection_title);
@@ -114,6 +127,8 @@ public class PayActivity extends AppCompatActivity {
                 String ma_gg = "";
                 if (maGiamGia != null) {
                     ma_gg = maGiamGia.getMagg();
+                }else{
+                    ma_gg = "null";
                 }
 
 
@@ -126,9 +141,10 @@ public class PayActivity extends AppCompatActivity {
 
                                 if (response.equals("FAIL")) {
                                  //   Toast.makeText(PayActivity.this, "Lỗi hệ thống vui lòng thử lại", Toast.LENGTH_SHORT).show();
-
+                                    dialogwait.dismiss();
                                     Dialog dialogfail = openDialogDatabase(R.layout.activity_checkout_dialog_notify);
                                     eventDialog(dialogfail,"Thanh toán thất bại","Lỗi hệ thống vui lòng thử lại sau");
+
 
                                 } else {
 
@@ -161,7 +177,6 @@ public class PayActivity extends AppCompatActivity {
                                                 params.put("ma_size",carts.get(finalI).getSizes().getMa_size());
                                                 params.put("so_luong", String.valueOf(carts.get(finalI).getSo_luong()));
                                                 params.put("tien", String.valueOf(carts.get(finalI).getGia_km()*carts.get(finalI).getSo_luong()));
-
                                                 return params;
                                             }
                                         };
@@ -171,7 +186,7 @@ public class PayActivity extends AppCompatActivity {
                                     dialogwait.dismiss();
                                     Dialog dialogSuccess = openDialogDatabase(R.layout.activity_checkout_dialog_notify);
                                     eventDialog(dialogSuccess,"Thanh toán thành công","Đơn hàng sẽ nhanh chóng đến tay bạn");
-
+                                    notify = new CustomNotify("Bạn vừa có một đơn hàng mới là ",ma_dh,ring);
                                 }
 
                             }
@@ -192,6 +207,7 @@ public class PayActivity extends AppCompatActivity {
                         params.put("tong_tien", String.valueOf(tong_tien));
                         params.put("ma_gg", finalMa_gg);
                         params.put("time", String.valueOf(CheckoutConfiguration.TIME));
+                        params.put("ngay_tao",new DateTime().toString());
 
                         return params;
                     }
@@ -274,8 +290,9 @@ public class PayActivity extends AppCompatActivity {
 
                                         int tienmoi = maGiamGia.convert(tiencu);
 
-                                        Toast.makeText(PayActivity.this, maGiamGia.print(), Toast.LENGTH_SHORT).show();
-
+                                        if (maGiamGia.getKieugg() != 10 && !maGiamGia.getMagg().equals("null")){
+                                            Toast.makeText(PayActivity.this, maGiamGia.print(), Toast.LENGTH_SHORT).show();
+                                        }
                                         tongtien.setText(tienmoi + " VND");
                                         count++;
 
@@ -410,6 +427,7 @@ public class PayActivity extends AppCompatActivity {
         back = findViewById(R.id.detail_back);
         phivc = findViewById(R.id.total_vc);
         muangay = findViewById(R.id.muangay);
+        ring = findViewById(R.id.notify);
         count = 0;
 
     }
