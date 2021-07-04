@@ -44,6 +44,7 @@ public class HomeMeowBottom extends AppCompatActivity implements ActivityProtoco
     HomePageActivity homePageActivity;
     // Thời gian thoát activity
     private long lastTimePressBack;
+    private NotifyPageFragment notifyPageFragment;
     private CartPageFragment cartPageFragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,7 +80,8 @@ public class HomeMeowBottom extends AppCompatActivity implements ActivityProtoco
                         LoadProductHelp.getLoadProductHelp().setYMIN(140);
                         break;
                     case 4:
-                        frameLayout =new NotifyPageFragment();
+                        frameLayout = notifyPageFragment;
+
                         break;
                     case 5:
                         frameLayout = cartPageFragment;
@@ -103,6 +105,9 @@ public class HomeMeowBottom extends AppCompatActivity implements ActivityProtoco
                 case "cart":
                     bottomNavigation.show(5,true);
                  //   loadFragment(new CartPageFragment());
+                    break;
+                case "ring":
+                    bottomNavigation.show(4,true);
                     break;
                 default:
                     bottomNavigation.show(3,true);
@@ -227,7 +232,7 @@ public class HomeMeowBottom extends AppCompatActivity implements ActivityProtoco
         homePageActivity.setAppCompatActivity(HomeMeowBottom.this);
 
         cartPageFragment = new CartPageFragment();
-
+        notifyPageFragment = new NotifyPageFragment();
     }
 
         @Override

@@ -36,8 +36,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.vientamthuong.eatsimple.R;
 import com.vientamthuong.eatsimple.SharedReferences.DataLocalManager;
 import com.vientamthuong.eatsimple.beans.Product;
@@ -52,7 +50,6 @@ import com.vientamthuong.eatsimple.loadProductByID.LoadProductHelp;
 import com.vientamthuong.eatsimple.login.Activity_login;
 import com.vientamthuong.eatsimple.menuNotify.EventRing;
 import com.vientamthuong.eatsimple.model.Account;
-import com.vientamthuong.eatsimple.wishlist.WishlistActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -71,7 +68,7 @@ public class Activity_detail extends AppCompatActivity {
     private ArrayList<String> imgList = new ArrayList<>();
 
     private TextView title, gia, sosao, kcal, time, contentdetail, soluong,gia_km;
-    private ImageView hinh;
+    private ImageView hinh,ring;
     private Button decre, incre;
     private FloatingActionButton back, detail_add,detail_cart;
     private int num = 1;
@@ -116,7 +113,7 @@ public class Activity_detail extends AppCompatActivity {
 
                                 if (i == 0){
                                     button.setBackgroundResource(R.color.color_main);
-                                   // button.setTextColor(R.color.white);
+                                    // button.setTextColor(R.color.white);
                                 }
                                 button.setOnClickListener(v -> {
                                     eventButton(button);
@@ -154,8 +151,8 @@ public class Activity_detail extends AppCompatActivity {
 
         for (int i =0;i<layout.getChildCount();i++){
 
-           View view = layout.getChildAt(i);
-           AppCompatButton button1 = view.findViewById(R.id.dialog_lost_connection_try);
+            View view = layout.getChildAt(i);
+            AppCompatButton button1 = view.findViewById(R.id.dialog_lost_connection_try);
 
             if (button == button1){
                 button.setBackgroundResource(R.color.color_main);
@@ -170,6 +167,8 @@ public class Activity_detail extends AppCompatActivity {
 
 
     void event() {
+        EventRing.getInstance().setView(ring);
+        EventRing.getInstance().startAnim();
 
         incre.setOnClickListener(v -> {
             num += 1;
@@ -355,6 +354,7 @@ public class Activity_detail extends AppCompatActivity {
         gia_km = findViewById(R.id.text_price_km);
         gia_km.setPaintFlags(gia_km.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         detail_cart = findViewById(R.id.detail_cart);
+        ring = findViewById(R.id.notify);
 
     }
 
