@@ -54,6 +54,7 @@ public class LoadProductViewAdapter extends RecyclerView.Adapter<LoadProductView
                 product.setKcal(p.getKcal());
                 product.setThoi_gian_nau(p.getThoi_gian_nau());
                 product.setThong_tin(p.getThong_tin());
+                product.setUrl(p.getUrl());
 
                 intent.putExtra("product",(Serializable) product );
 

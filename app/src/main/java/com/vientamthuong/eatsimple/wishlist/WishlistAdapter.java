@@ -16,18 +16,27 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.bumptech.glide.Glide;
 import com.chauthai.swipereveallayout.SwipeRevealLayout;
 import com.chauthai.swipereveallayout.ViewBinderHelper;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.vientamthuong.eatsimple.R;
+import com.vientamthuong.eatsimple.SharedReferences.DataLocalManager;
+import com.vientamthuong.eatsimple.loadData.VolleyPool;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.WishlistViewHoler> {
@@ -148,7 +157,7 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
         holder.btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "Thêm vào giở hàng thành công!", Toast.LENGTH_LONG).show();
+                addCart(DataLocalManager.getAccount().getId(),w.getId(),w.getSize());
             }
         });
 
@@ -248,7 +257,42 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
 
 
 
+
         }
+    }
+    private void addCart(String idCustomer,String idDish,String idSize){
+        String url = "https://eat-simple-app.000webhostapp.com/addCart.php";
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        if (response.equals("THEM_THANH_CONG")){
+                            Toast.makeText(context, "Thêm vào giỏ hàng thành công!", Toast.LENGTH_SHORT).show();
+                        }
+                        else{
+                            Toast.makeText(context, "Không thành công!", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("AAA",error.toString());
+                    }
+                }){
+            @Nullable
+            @org.jetbrains.annotations.Nullable
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                HashMap<String,String> params = new HashMap<>();
+                params.put("ma_kh",idCustomer);
+                params.put("ma_sp",idDish);
+                params.put("ma_size",idSize);
+                params.put("so_luong",1+"");
+                return params;
+            }
+        };
+        VolleyPool.getInstance(context).addRequest(stringRequest);
     }
 
 }

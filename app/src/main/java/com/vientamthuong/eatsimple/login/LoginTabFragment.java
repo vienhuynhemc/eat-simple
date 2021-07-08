@@ -876,7 +876,7 @@ public class LoginTabFragment extends Fragment {
         mGoogleSignInClient = GoogleSignIn.getClient(getContext(), gso);
     }
     private void createAccountAPI(String id,String name,String img,String email){
-        String url = "";
+        String url = "https://eat-simple-app.000webhostapp.com/createAccountAPI.php";
         StringRequest request = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
                     @Override

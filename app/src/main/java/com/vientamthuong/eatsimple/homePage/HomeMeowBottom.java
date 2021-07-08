@@ -9,12 +9,14 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import com.etebarian.meowbottomnavigation.MeowBottomNavigation;
+import com.facebook.login.LoginFragment;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.vientamthuong.eatsimple.R;
+import com.vientamthuong.eatsimple.SharedReferences.DataLocalManager;
 import com.vientamthuong.eatsimple.cartPage.CartPageFragment;
 import com.vientamthuong.eatsimple.connection.CheckConnection;
 import com.vientamthuong.eatsimple.diaLog.DiaLogLoader;
@@ -23,6 +25,8 @@ import com.vientamthuong.eatsimple.header.HeaderPublicFragment;
 import com.vientamthuong.eatsimple.loadData.LoadDataConfiguration;
 import com.vientamthuong.eatsimple.loadData.LoadImageForView;
 import com.vientamthuong.eatsimple.loadProductByID.LoadProductHelp;
+import com.vientamthuong.eatsimple.login.Activity_login;
+import com.vientamthuong.eatsimple.login.LoginTabFragment;
 import com.vientamthuong.eatsimple.mennuSearch.SearchFragment;
 import com.vientamthuong.eatsimple.menuNotify.NotifyPageFragment;
 import com.vientamthuong.eatsimple.menuWishlist.WishlistFragment;
@@ -70,8 +74,12 @@ public class HomeMeowBottom extends AppCompatActivity implements ActivityProtoco
 
                         break;
                     case 2:
-                        frameLayout = new WishlistFragment();
-
+                        if (DataLocalManager.getAccount()!=null) {
+                            frameLayout = new WishlistFragment();
+                        }
+                        else{
+                            frameLayout = new LoginTabFragment();
+                        }
                         break;
                     case 3:
 
