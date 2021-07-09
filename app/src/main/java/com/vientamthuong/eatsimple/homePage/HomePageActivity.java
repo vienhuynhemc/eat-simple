@@ -306,11 +306,14 @@ package com.vientamthuong.eatsimple.homePage;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.GridLayout;
 import android.widget.LinearLayout;
@@ -378,6 +381,7 @@ public class HomePageActivity extends Fragment  {
     private static HomePageActivity homePageActivity;
 
     private AppCompatActivity appCompatActivity;
+    private EditText editText;
 //
 //    private HomePageActivity(){
 //
@@ -421,6 +425,29 @@ public class HomePageActivity extends Fragment  {
         handler.setLoadProductViewAdapter(loadProductViewAdapter);
         handler.getHandler();
 
+
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (productList.size()!=0){
+                    String edit = editText.getText().toString().trim();
+                    System.out.println("on seatch " + edit);
+                    loadProductViewAdapter.getFilter().filter(edit);
+                }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
     }
     private void eventScroll(){
 
@@ -458,6 +485,7 @@ public class HomePageActivity extends Fragment  {
         recyclerView = view.findViewById(R.id.list_sp);
         productList = new ArrayList<>();
         scrollView = view.findViewById(R.id.scroll_sp);
+        editText = view.findViewById(R.id.search);
     }
 
     public void init() {

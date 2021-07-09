@@ -50,6 +50,8 @@ public class HomeMeowBottom extends AppCompatActivity implements ActivityProtoco
     private long lastTimePressBack;
     private NotifyPageFragment notifyPageFragment;
     private CartPageFragment cartPageFragment;
+    private SearchFragment searchFragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,7 +72,7 @@ public class HomeMeowBottom extends AppCompatActivity implements ActivityProtoco
                 switch (item.getId()){
                     case 1:
 
-                        frameLayout = new SearchFragment();
+                        frameLayout = searchFragment;
 
                         break;
                     case 2:
@@ -238,9 +240,13 @@ public class HomeMeowBottom extends AppCompatActivity implements ActivityProtoco
         homePageActivity = new HomePageActivity();
         homePageActivity.setHomeMeowBottom(HomeMeowBottom.this);
         homePageActivity.setAppCompatActivity(HomeMeowBottom.this);
+        diaLogLostConnection = homePageActivity.getDiaLogLostConnection();
 
         cartPageFragment = new CartPageFragment();
         notifyPageFragment = new NotifyPageFragment();
+        searchFragment = new SearchFragment();
+
+
     }
 
         @Override

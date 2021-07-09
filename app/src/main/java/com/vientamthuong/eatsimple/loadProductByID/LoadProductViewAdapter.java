@@ -6,6 +6,8 @@ import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -19,14 +21,18 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.ByteArrayOutputStream;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
-public class LoadProductViewAdapter extends RecyclerView.Adapter<LoadProductViewHolder> {
+public class LoadProductViewAdapter extends RecyclerView.Adapter<LoadProductViewHolder> implements Filterable {
 
     private List<Product> list;
+    private List<Product> listOld;
 
     public LoadProductViewAdapter(List<Product> list) {
+
         this.list = list;
+        this.listOld = list;
     }
 
     @NonNull
@@ -97,5 +103,50 @@ public class LoadProductViewAdapter extends RecyclerView.Adapter<LoadProductView
     @Override
     public int getItemCount() {
         return list.size();
+    }
+
+    @Override
+    public Filter getFilter() {
+
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+
+                String search = constraint.toString();
+
+                if (search.isEmpty()){
+                    list = listOld;
+
+                }else {
+                    List<Product> list1 = new ArrayList<>();
+
+                    for (Product p : listOld){
+
+                       try {
+                           int gia = Integer.parseInt(search);
+                           if (p.getGia_km() < gia){
+                               list1.add(p);
+                           }
+                       }catch (Exception e){
+                           if (p.getTen_sp().toLowerCase().contains(search.toLowerCase())){
+                               list1.add(p);
+                           }
+                       }
+                    }
+                    list = list1;
+                }
+                System.out.println("FILTER: " + list.size());
+                FilterResults results = new FilterResults();
+                results.values = list;
+
+                return results;
+            }
+
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+                list = (List<Product>) results.values;
+                notifyDataSetChanged();
+            }
+        };
     }
 }

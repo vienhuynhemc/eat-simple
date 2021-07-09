@@ -135,9 +135,10 @@
                     tools:ignore="MissingConstraints">
 
                     <androidx.cardview.widget.CardView
-                        android:layout_width="250dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="30dp"
+                       android:layout_marginLeft="30dp"
+                        android:layout_marginRight="30dp"
                         android:layout_gravity="center"
                         android:background="@drawable/activity_cart_bg_item"
                         app:cardElevation="5dp"
@@ -147,7 +148,8 @@
                         tools:ignore="MissingConstraints">
 
                         <EditText
-                            android:layout_width="250dp"
+                            android:id="@+id/search"
+                            android:layout_width="match_parent"
                             android:layout_height="50dp"
                             android:paddingLeft="15dp"
                             android:background="@android:color/transparent"
@@ -155,24 +157,6 @@
 
                     </androidx.cardview.widget.CardView>
 
-
-                    <androidx.cardview.widget.CardView
-                        android:layout_width="55dp"
-                        android:layout_gravity="center"
-                        android:layout_marginLeft="10dp"
-                        app:cardElevation="5dp"
-                        app:cardCornerRadius="30dp"
-                        android:layout_height="55dp">
-
-                        <com.airbnb.lottie.LottieAnimationView
-                            android:layout_width="80dp"
-                            android:layout_height="80dp"
-                            android:layout_gravity="center"
-                            app:lottie_autoPlay="true"
-                            app:lottie_loop="true"
-                            app:lottie_rawRes="@raw/activity_home_search"
-                            />
-                    </androidx.cardview.widget.CardView>
 
 
 
