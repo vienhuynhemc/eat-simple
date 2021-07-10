@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.vientamthuong.eatsimple.R;
 import com.vientamthuong.eatsimple.SharedReferences.DataLocalManager;
+import com.vientamthuong.eatsimple.admin.configuration.Configuration;
 import com.vientamthuong.eatsimple.beans.ThongBao;
 import com.vientamthuong.eatsimple.cartPage.CartAdapter;
 import com.vientamthuong.eatsimple.login.Activity_login;
@@ -76,6 +77,8 @@ public class NotifyPageFragment extends Fragment {
     private NotifiAdapter adapter;
     private List<ThongBao> list;
     private AppCompatButton dangnhap;
+    private int nowSort;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -86,6 +89,7 @@ public class NotifyPageFragment extends Fragment {
                view = inflater.inflate(R.layout.fragment_notify_page, container, false);
                  getView(view);
                  init();
+                 event();
              }else {
                  view = inflater.inflate(R.layout.fragment_cart_page, container, false);
                  getView2(view);
@@ -94,6 +98,39 @@ public class NotifyPageFragment extends Fragment {
         return view;
 
     }
+
+    void event(){
+        filter.setOnClickListener(v -> {
+
+                if (nowSort == Configuration.ASC) {
+                    nowSort = Configuration.DESC;
+                    filter.setScaleY(1);
+                } else {
+                    nowSort = Configuration.ASC;
+                    filter.setScaleY(-1);
+                }
+                sort();
+
+
+        });
+    }
+    void sort(){
+        list.sort((o1, o2) -> {
+
+            if (o1.getNgay_tao() != null) {
+                if (nowSort == Configuration.ASC) {
+                    return (int) (o1.getNgay_tao().getTime() - o2.getNgay_tao().getTime());
+                } else {
+                    return (int) (o2.getNgay_tao().getTime() - o1.getNgay_tao().getTime());
+                }
+            } else {
+                return 0;
+            }
+
+        });
+        adapter.notifyDataSetChanged();
+    }
+
     void getView2(View v){
         dangnhap = v.findViewById(R.id.dialog_lost_connection_try);
     }
@@ -102,11 +139,13 @@ public class NotifyPageFragment extends Fragment {
             startActivity(new Intent(getContext(), Activity_login.class));
         });
     }
+
     private void init(){
 
         DataLocalManager.setRing(false);
 
         adapter = new NotifiAdapter(list);
+        adapter.setContext(getContext());
         reList.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
         reList.setAdapter(adapter);
         adapter.notifyDataSetChanged();

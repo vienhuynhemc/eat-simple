@@ -35,7 +35,7 @@ import java.util.Map;
 
 public class GetProduct {
 
-    public static void getData(Context context,String search){
+    public static void getData(Context context){
 
         String urlLoad = "https://eat-simple-app.000webhostapp.com/search.php";
         StringRequest request = new StringRequest(Request.Method.POST, urlLoad,
@@ -74,7 +74,7 @@ public class GetProduct {
 
                             }
 
-                            if (products.size() == 0 && !LoadProductHelp.getLoadProductHelp().isKiem_tra_danh_muc_moi()){
+                            if (products.size() == 0 && SearchHelp.getLoadProductHelp().getState() == 1){
                                 Toast.makeText(context, "Sản phẩm đã hết", Toast.LENGTH_SHORT).show();
 
                             }else{
@@ -103,9 +103,9 @@ public class GetProduct {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 HashMap<String, String> params = new HashMap<>();
-                params.put("search", search);
-                params.put("start", 0 + "");
-                params.put("end", 5 + "");
+                params.put("search", SearchHelp.getLoadProductHelp().getEdit());
+                params.put("start", SearchHelp.getLoadProductHelp().getNum()*LoadProductConfiguration.NUM_PRODUCT + "");
+                params.put("end", String.valueOf((SearchHelp.getLoadProductHelp().getNum()+1)*LoadProductConfiguration.NUM_PRODUCT));
 
                 return params;
             }

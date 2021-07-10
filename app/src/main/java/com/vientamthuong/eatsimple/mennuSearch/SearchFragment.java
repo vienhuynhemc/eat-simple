@@ -3,11 +3,13 @@ package com.vientamthuong.eatsimple.mennuSearch;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,7 +23,9 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import com.vientamthuong.eatsimple.R;
 import com.vientamthuong.eatsimple.beans.Product;
 import com.vientamthuong.eatsimple.beans.Tag;
+import com.vientamthuong.eatsimple.loadProductByID.GetListProduct;
 import com.vientamthuong.eatsimple.loadProductByID.LoadProductHandler;
+import com.vientamthuong.eatsimple.loadProductByID.LoadProductHelp;
 import com.vientamthuong.eatsimple.loadProductByID.LoadProductViewAdapter;
 import com.vientamthuong.eatsimple.menuNotify.EventRing;
 
@@ -84,6 +88,7 @@ public class SearchFragment extends Fragment {
     private LoadProductViewAdapter loadProductViewAdapter;
     private ArrayList<Product> productList;
     private ImageView ring;
+    private ScrollView scrollView;
 
 
     @Override
@@ -105,11 +110,15 @@ public class SearchFragment extends Fragment {
 
         cardView.setOnClickListener(v -> {
 
-            
             String edit = editText.getText().toString().trim();
             if (!edit.isEmpty()){
-                GetProduct.getData(getContext(),edit);
+                SearchHelp.getLoadProductHelp().setState(0);
+                SearchHelp.getLoadProductHelp().setNum(0);
+                SearchHelp.getLoadProductHelp().setEdit(edit);
+                GetProduct.getData(getContext());
+                Log.e("Click seatch ",edit);
                 System.out.println("Click seatch " + edit);
+
             }else {
                 Toast.makeText(getContext(), "Vùi lòng nhập từ khóa", Toast.LENGTH_SHORT).show();
             }
@@ -139,6 +148,24 @@ public class SearchFragment extends Fragment {
 
                 }
             });
+
+        scrollView.setOnScrollChangeListener(new View.OnScrollChangeListener() {
+
+            @Override
+            public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                System.out.println("OK ff" + scrollView.getBottom());
+                System.out.println("Cuoii " + scrollY);
+                System.out.println("Đầu " + oldScrollY);
+                System.out.println("Zô chỗ này" + SearchHelp.getLoadProductHelp().getYMIN());
+                System.out.println("TRANG: " + SearchHelp.getLoadProductHelp().getNum());
+                if ((scrollY >= SearchHelp.getLoadProductHelp().getYMIN())){
+                    SearchHelp.getLoadProductHelp().setState(1);
+                    SearchHelp.getLoadProductHelp().setNum(LoadProductHelp.getLoadProductHelp().getNum()+1);
+                    GetProduct.getData(getContext());
+                    SearchHelp.getLoadProductHelp().setYMIN(LoadProductHelp.getLoadProductHelp().getYMIN() + 262);
+                }
+            }
+        });
 
 
 
@@ -211,6 +238,7 @@ public class SearchFragment extends Fragment {
         recyclerView = view.findViewById(R.id.list_sp);
         productList = new ArrayList<>();
         ring = view.findViewById(R.id.notify);
+        scrollView = view.findViewById(R.id.scroll_sp);
     }
 
 }

@@ -4,10 +4,12 @@ package com.vientamthuong.eatsimple.loadProductByID;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
 import com.vientamthuong.eatsimple.beans.Product;
+import com.vientamthuong.eatsimple.mennuSearch.SearchHelp;
 
 import java.util.List;
 import java.util.logging.LogRecord;
@@ -52,10 +54,15 @@ public class LoadProductHandler {
                     }else if (msg.what == 15){
                         Bundle bundle = msg.getData();
                         List<Product> products = (List<Product>) bundle.getSerializable("products");
-                        productList2.clear();
+
+                        if (SearchHelp.getLoadProductHelp().getState() == 0){
+                            productList2.clear();
+                        }
+
                         productList2.addAll(products);
                         loadProductViewAdapter2.notifyDataSetChanged();
-//                        System.out.println("đã add vào " + products.size());
+                        loadProductViewAdapter2.getFilter().filter("");
+                        System.out.println("đã add vào notify " + products.size());
                     }
                 }
             };

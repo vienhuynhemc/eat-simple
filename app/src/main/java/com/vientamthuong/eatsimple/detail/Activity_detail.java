@@ -70,7 +70,7 @@ public class Activity_detail extends AppCompatActivity {
 
     private ArrayList<String> imgList = new ArrayList<>();
 
-    private TextView title, gia, sosao, kcal, time, contentdetail, soluong,gia_km;
+    private TextView title, gia, sosao, kcal, time, contentdetail, soluong,gia_km,so_luong_con_lai,so_luong_ban_ra;
     private ImageView hinh,ring;
     private Button decre, incre;
     private FloatingActionButton back, detail_add,detail_cart,detail_wishlist;
@@ -367,6 +367,9 @@ public class Activity_detail extends AppCompatActivity {
         int km = ((product.getGia()-product.getGia_km())*100/(product.getGia()));
         gia_km.setText(String.valueOf(km +"%"));
 
+        so_luong_con_lai.setText("Số lượng còn lại: " + product.getSo_luong_con_lai());
+        so_luong_ban_ra.setText("Số lượng đã bán: " + product.getSo_luong_ban_ra());
+
     }
 
     void getView() {
@@ -390,7 +393,8 @@ public class Activity_detail extends AppCompatActivity {
         detail_cart = findViewById(R.id.detail_cart);
         detail_wishlist = findViewById(R.id.detail_wishlist);
         ring = findViewById(R.id.notify);
-
+        so_luong_con_lai = findViewById(R.id.so_luong_con_lai);
+        so_luong_ban_ra = findViewById(R.id.so_luong_ban_ra);
     }
 
 }

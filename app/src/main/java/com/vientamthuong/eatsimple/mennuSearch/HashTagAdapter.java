@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.vientamthuong.eatsimple.R;
+import com.vientamthuong.eatsimple.admin.configuration.Configuration;
 import com.vientamthuong.eatsimple.beans.Product;
 import com.vientamthuong.eatsimple.beans.Tag;
 import com.vientamthuong.eatsimple.loadProductByID.LoadProductViewAdapter;
@@ -39,15 +40,15 @@ public class HashTagAdapter extends RecyclerView.Adapter<HashtagHolder> {
     @Override
     public HashtagHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
 
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_search_tag,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_search_tag, parent, false);
 
         HashtagHolder hashtagHolder = new HashtagHolder(view);
 
         hashtagHolder.getCardView().setOnClickListener(v -> {
             searchFragment.changeColor(hashtagHolder.getAdapterPosition());
-           // hashtagHolder.getName().setBackgroundResource(R.color.color_main);
+            // hashtagHolder.getName().setBackgroundResource(R.color.color_main);
 
-            switch (tagList.get(hashtagHolder.getAdapterPosition()).getId()){
+            switch (tagList.get(hashtagHolder.getAdapterPosition()).getId()) {
 
                 case "tag_1":
                     Collections.sort(productList, new Comparator<Product>() {
@@ -59,16 +60,16 @@ public class HashTagAdapter extends RecyclerView.Adapter<HashtagHolder> {
                     adapter.notifyDataSetChanged();
                     break;
                 case "tag_2":
-                    DateFormat f = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss");
+                    // DateFormat f = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss");
                     Collections.sort(productList, new Comparator<Product>() {
                         @Override
                         public int compare(Product o1, Product o2) {
-                            try {
-                                 return f.parse(o1.getNgay_tao().toString()).compareTo(f.parse(o2.getNgay_tao().toString()));
-                            } catch (ParseException e) {
-                                e.printStackTrace();
+                            if (o1.getNgay_tao() != null) {
+                                return (int) (o1.getNgay_tao().getTime() - o2.getNgay_tao().getTime());
+                            } else {
                                 return 0;
                             }
+
                         }
                     });
                     adapter.notifyDataSetChanged();

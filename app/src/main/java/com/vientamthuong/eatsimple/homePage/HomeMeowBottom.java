@@ -28,6 +28,7 @@ import com.vientamthuong.eatsimple.loadProductByID.LoadProductHelp;
 import com.vientamthuong.eatsimple.login.Activity_login;
 import com.vientamthuong.eatsimple.login.LoginTabFragment;
 import com.vientamthuong.eatsimple.mennuSearch.SearchFragment;
+import com.vientamthuong.eatsimple.mennuSearch.SearchHelp;
 import com.vientamthuong.eatsimple.menuNotify.NotifyPageFragment;
 import com.vientamthuong.eatsimple.menuWishlist.WishlistFragment;
 import com.vientamthuong.eatsimple.protocol.ActivityProtocol;
@@ -72,6 +73,9 @@ public class HomeMeowBottom extends AppCompatActivity implements ActivityProtoco
                 switch (item.getId()){
                     case 1:
 
+                        SearchHelp.getLoadProductHelp().setState(0);
+                        SearchHelp.getLoadProductHelp().setNum(0);
+                        SearchHelp.getLoadProductHelp().setYMIN(140);
                         frameLayout = searchFragment;
 
                         break;
