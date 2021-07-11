@@ -26,11 +26,13 @@ public class CartAdapter extends RecyclerView.Adapter<CartViewHolder> {
     private List<Cart> list;
     private ViewBinderHelper viewBinderHelper;
     private TextView tv_product,tv_price;
+    private UpdateCart updateCart;
 
     public CartAdapter(List<Cart> list,TextView tv_prouct,TextView tv_price) {
         this.list = list;
         this.tv_price = tv_price;
         this.tv_product = tv_prouct;
+        updateCart = new UpdateCart();
 
     }
 
@@ -105,6 +107,9 @@ public class CartAdapter extends RecyclerView.Adapter<CartViewHolder> {
                     tv_price.setText(Integer.parseInt(tv_price.getText().toString()) - cartModel.getGia_km()+"");
                 }
             }
+
+          updateCart.deleteCart(v.getContext(),list.get(holder.getAdapterPosition()).getMa_sp(),list.get(holder.getAdapterPosition()).getSizes().getMa_size(),0);
+
         });
         holder.btn_incre.setOnClickListener(v -> {
 
@@ -117,8 +122,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartViewHolder> {
                 }
             }
 
-
-
+            updateCart.deleteCart(v.getContext(),list.get(holder.getAdapterPosition()).getMa_sp(),list.get(holder.getAdapterPosition()).getSizes().getMa_size(),1);
         });
 
 

@@ -8,11 +8,10 @@ import java.io.Serializable;
 import java.util.List;
 
 public class Cart implements Serializable {
-
+    private static final long serialVersionUID = 1L;
     private String ma_sp;
     private String ma_kh;
     private int so_luong;
-    private static final long serialVersionUID = 1L;
     private String ten_sp;
     private String hinh;
     private String url;
@@ -25,6 +24,7 @@ public class Cart implements Serializable {
     private String ten_dm;
     private Size sizes;
     private int so_luong_con_lai;
+    private int so_luong_ban_ra;
     private int gia;
     private int gia_km;
     private String thong_tin;
@@ -206,5 +206,13 @@ public class Cart implements Serializable {
 
     public void setBytes(byte[] bytes) {
         this.bytes = bytes;
+    }
+
+    public int getSo_luong_ban_ra() {
+        return so_luong_ban_ra;
+    }
+
+    public void setSo_luong_ban_ra(int so_luong_ban_ra) {
+        this.so_luong_ban_ra = so_luong_ban_ra;
     }
 }

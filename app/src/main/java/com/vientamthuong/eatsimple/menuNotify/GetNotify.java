@@ -56,8 +56,6 @@ public class GetNotify {
                                 thongBao.setType(Integer.parseInt(object.getString("type")));
 
                                 addresses.add(thongBao);
-
-
                             }
                             System.out.println("THOng báo: " + addresses.size());
                             Message message = new Message();

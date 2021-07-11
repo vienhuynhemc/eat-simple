@@ -68,6 +68,7 @@ public class GetCart {
                                 cart.setSo_luong_con_lai(Integer.parseInt(object.getString("so_luong_con_lai")));
                                 cart.setGia(Integer.parseInt(object.getString("gia")));
                                 cart.setGia_km(Integer.parseInt(object.getString("gia_km")));
+                                cart.setSo_luong_ban_ra(Integer.parseInt(object.getString("so_luong_ban_ra")));
                                 carts.add(cart);
 
                             }
