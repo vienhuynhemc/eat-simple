@@ -59,6 +59,7 @@
                        android:orientation="horizontal">
                        <ImageView
                            android:id="@+id/imgP"
+                           android:scaleType="fitXY"
                            android:layout_gravity="center"
                            android:layout_width="100dp"
                            android:layout_height="100dp"
@@ -67,67 +68,50 @@
                            android:layout_marginLeft="10dp"
                            android:layout_gravity="center"
                            android:layout_width="wrap_content"
-                           android:layout_height="80dp"
+                           android:layout_height="70dp"
                            android:orientation="vertical">
                            <TextView
-                               android:layout_marginTop="10dp"
+                               android:layout_weight="1"
                                android:id="@+id/nameP"
+                               android:textStyle="bold"
+                               android:textColor="@color/color_main"
+                               android:gravity="center_vertical"
                                android:layout_width="match_parent"
                                android:layout_height="wrap_content"
                                android:text="Name"
-                               android:textSize="13sp"/>
+                               android:textSize="14sp"/>
                            <LinearLayout
-                               android:layout_marginTop="5dp"
-                               android:layout_marginBottom="5dp"
+                               android:layout_weight="1"
                                android:layout_width="match_parent"
                                android:layout_height="wrap_content"
                                android:orientation="horizontal">
-                               <ImageView
+                               <TextView
+                                   android:gravity="center"
+                                   android:layout_gravity="center"
+                                   android:layout_width="wrap_content"
+                                   android:text="size: "
+                                   android:layout_height="wrap_content"/>
+                               <TextView
+                                   android:id="@+id/activity_wishlist_size"
+                                   android:textStyle="bold"
+                                   android:gravity="center"
+                                   android:layout_gravity="center"
+                                   android:layout_width="wrap_content"
+                                   android:text="nhỏ"
+                                   android:layout_height="match_parent"/>
 
-                                   android:src="@drawable/activity_wishlist_item_star"
-                                   android:layout_width="15dp"
-                                   android:layout_height="15dp"/>
-                               <ImageView
-
-                                   android:src="@drawable/activity_wishlist_item_star"
-                                   android:layout_width="15dp"
-                                   android:layout_height="15dp"/>
-                               <ImageView
-
-                                   android:src="@drawable/activity_wishlist_item_star"
-                                   android:layout_width="15dp"
-                                   android:layout_height="15dp"/>
-                               <ImageView
-
-                                   android:src="@drawable/activity_wishlist_item_star"
-                                   android:layout_width="15dp"
-                                   android:layout_height="15dp"/>
-                               <ImageView
-
-                                   android:src="@drawable/activity_wishlist_item_icon_start_border"
-                                   android:layout_width="15dp"
-                                   android:layout_height="15dp"/>
 
                            </LinearLayout>
                            <TextView
-                                android:visibility="gone"
-                               android:layout_marginTop="5dp"
-                               android:layout_marginBottom="5dp"
-                               android:textColor="#A3A9AF"
-                               android:id="@+id/desP"
-                               android:layout_width="match_parent"
-                               android:layout_height="wrap_content"
-                               android:text="Name"
-                               android:textSize="13sp"/>
-                           <TextView
-                               android:layout_marginBottom="10dp"
-                               android:gravity="bottom"
+                               android:layout_weight="1"
+                               android:gravity="left|center_vertical"
                                android:textStyle="bold"
                                android:id="@+id/priceP"
                                android:layout_width="match_parent"
-                               android:layout_height="match_parent"
+                               android:layout_height="wrap_content"
                                android:text="Name"
-                               android:textSize="13sp"/>
+                               android:textColor="#f23"
+                               android:textSize="14sp"/>
                        </LinearLayout>
                    </LinearLayout>
                </androidx.cardview.widget.CardView>

@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<com.chauthai.swipereveallayout.SwipeRevealLayout xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/swpe_cart_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:mode="same_level"
+    app:dragEdge="right"
+    app:elevation="10dp"
+    android:layout_marginBottom="20dp"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Your secondary layout here -->
+    <LinearLayout
+        android:layout_width="50dp"
+        android:layout_height="match_parent"
+        android:translationX="5dp"
+        android:background="@drawable/activity_cart_button"
+        >
+
+        <android.widget.Button
+            android:id="@+id/cart_delete_one_item"
+            android:layout_gravity="center"
+           android:layout_marginLeft="10dp"
+            android:background="@drawable/activity_cart"
+            android:layout_height="80px"
+            android:layout_width="80px"
+            />
+
+    </LinearLayout>
+
+    <!-- Your main layout here -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="370dp"
+        android:elevation="10dp"
+        android:layout_height="wrap_content">
+
+        <CheckBox
+            android:id="@+id/checkbox_cart"
+            android:button="@null"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:translationX="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            android:background="@drawable/activity_cart_checkbox_custom"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout"
+            android:layout_width="320dp"
+            android:layout_height="wrap_content"
+
+            android:translationX="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"
+            >
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardview_one_item"
+                android:layout_width="106dp"
+                android:layout_height="106dp"
+                app:cardCornerRadius="53dp"
+                android:translationY="-1dp"
+                android:transformPivotX="2dp"
+                tools:ignore="MissingConstraints">
+                <androidx.cardview.widget.CardView
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    app:cardCornerRadius="50dp"
+                    android:layout_gravity="center"
+                    tools:ignore="MissingConstraints">
+
+                    <com.airbnb.lottie.LottieAnimationView
+                        android:id="@+id/img_cart_one_item"
+                        android:layout_width="98dp"
+                        android:layout_height="98dp"
+                        android:layout_gravity="center"
+                        android:scaleX="4"
+                        android:scaleY="4"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.0"
+                        app:lottie_autoPlay="true"
+                        app:lottie_loop="true"
+                        app:lottie_rawRes="@raw/loader_rectangle"
+
+                        />
+
+                </androidx.cardview.widget.CardView>
+            </androidx.cardview.widget.CardView>
+
+
+
+
+            <TextView
+                android:id="@+id/cart_one_item_title"
+                android:layout_width="191dp"
+                android:layout_height="22dp"
+                android:text="Sản phẩm 1"
+                android:textColor="@color/color_text_main"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.087"
+                app:layout_constraintStart_toEndOf="@+id/cardview_one_item"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.1" />
+
+            <TextView
+                android:id="@+id/cart_one_item_content"
+                android:layout_width="182dp"
+                android:layout_height="21dp"
+                android:text="Nội dung"
+                android:textSize="10sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.08"
+                app:layout_constraintStart_toEndOf="@+id/cardview_one_item"
+                app:layout_constraintTop_toBottomOf="@+id/cart_one_item_title"
+                app:layout_constraintVertical_bias="0.20" />
+
+            <TextView
+                android:id="@+id/cart_one_item_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="20.000đ"
+                android:textColor="@color/color_text_main"
+                android:textSize="20sp"
+                android:textStyle="bold"
+
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.026"
+                app:layout_constraintStart_toEndOf="@+id/cardview_one_item"
+                app:layout_constraintTop_toBottomOf="@+id/cart_one_item_content"
+                app:layout_constraintVertical_bias="0.642" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cart_number_one_item"
+                android:layout_width="74dp"
+                android:layout_height="26dp"
+                android:background="@drawable/activity_cart_bg_number_one_item"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.495"
+                app:layout_constraintStart_toEndOf="@+id/cart_one_item_price"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.92">
+
+                <android.widget.Button
+                    android:id="@+id/cart_number_decrease_item"
+                    android:layout_width="17dp"
+                    android:layout_height="17dp"
+                    android:background="@android:color/transparent"
+                    android:text="-"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.1"
+                    app:layout_constraintVertical_bias="0.3"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/cart_number_item"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:height="26dp"
+                    android:text="3"
+                    android:translationY="3dp"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.0" />
+
+                <android.widget.Button
+                    android:id="@+id/cart_number_increase_item"
+                    android:layout_width="16dp"
+                    android:layout_height="18dp"
+                    android:layout_marginStart="2dp"
+                    android:layout_marginEnd="4dp"
+                    app:layout_constraintHorizontal_bias="0.1"
+                    app:layout_constraintVertical_bias="0.3"
+                    android:background="@android:color/transparent"
+                    android:text="+"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/cart_number_item"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.chauthai.swipereveallayout.SwipeRevealLayout>
+

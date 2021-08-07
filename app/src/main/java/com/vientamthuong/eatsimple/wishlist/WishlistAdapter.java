@@ -2,6 +2,7 @@ package com.vientamthuong.eatsimple.wishlist;
 
 import android.content.Context;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,18 +16,27 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.bumptech.glide.Glide;
 import com.chauthai.swipereveallayout.SwipeRevealLayout;
 import com.chauthai.swipereveallayout.ViewBinderHelper;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.vientamthuong.eatsimple.R;
+import com.vientamthuong.eatsimple.SharedReferences.DataLocalManager;
+import com.vientamthuong.eatsimple.loadData.VolleyPool;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.WishlistViewHoler> {
@@ -38,6 +48,7 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
     private Context context;
     private ArrayList<Wishlist> products;
     private ViewBinderHelper viewBinderHelper = new ViewBinderHelper();
+    private int pos;
 
     private WishlistDAO wishlistDAO = new WishlistDAO();
 
@@ -115,14 +126,15 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
     @Override
     public void onBindViewHolder(@NonNull WishlistViewHoler holder, int position) {
         Wishlist w = products.get(position);
+        pos = position;
         if(w == null){
             return;
         }
         viewBinderHelper.bind(holder.swipeRevealLayout,w.getName());
         holder.txtName.setText(w.getName());
 
-//        viewBinderHelper.bind(holder.swipeRevealLayout,w.getDesP());
-//        holder.txtDes.setText(w.getDesP());
+        viewBinderHelper.bind(holder.swipeRevealLayout,w.getNameSize());
+        holder.txtSize.setText(w.getNameSize());
 
         viewBinderHelper.bind(holder.swipeRevealLayout,String.valueOf(w.getPriceP()));
         holder.txtPrice.setText(w.getPriceP()+" VNĐ");
@@ -130,14 +142,55 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
         viewBinderHelper.bind(holder.swipeRevealLayout,String.valueOf(w.getImg()));
         Glide.with(context).load(w.getImg()).into(holder.img);
 
+
+
         holder.layoutDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 products.remove(holder.getAdapterPosition());
 
                 // xoa khoi ds wishlist
-                wishlistDAO.deleteWishlist("001",w.getId());
+                wishlistDAO.deleteWishlist(w.getIdCustomer(),w.getId(),w.getSize());
                 notifyItemRemoved(holder.getAdapterPosition());
+            }
+        });
+        holder.btnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addCart(DataLocalManager.getAccount().getId(),w.getId(),w.getSize());
+            }
+        });
+
+        holder.cbAdd.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                holder.isCheck = isChecked;
+            }
+        });
+        holder.cbAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Wishlist wishlist = products.get(position);
+                Log.d("WWW",position+" pos");
+                checkboxes.add(wishlist.getId()+"_"+wishlist.getSize());
+                if(holder.isCheck) {
+                    if (checkboxes.size() > 0) {
+                        //  Toast.makeText(context, checkboxes.toString(), Toast.LENGTH_LONG).show();
+                    }
+                }
+                else{
+                    checkboxes.remove(wishlist.getId()+"_"+wishlist.getSize());
+                    if (checkboxes.size() > 0) {
+                        // Toast.makeText(context, checkboxes.toString(), Toast.LENGTH_LONG).show();
+                    }
+                }
+                for (Wishlist w : products){
+                    for(String s : checkboxes){
+                        if (s.equals(w.getId()+"_"+w.getSize())){
+                            chooseItem.put(s,w);
+                        }
+                    }
+                }
             }
         });
     }
@@ -155,7 +208,7 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
         private SwipeRevealLayout swipeRevealLayout;
         private LinearLayout layoutDelete;
         private ImageView img;
-        private TextView txtName, txtPrice;
+        private TextView txtName, txtPrice,txtSize;
         private CardView btnAdd;
         private CheckBox cbAdd;
 
@@ -177,8 +230,7 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
             img = itemView.findViewById(R.id.imgP);
             txtName = itemView.findViewById(R.id.nameP);
             txtPrice = itemView.findViewById(R.id.priceP);
-
-
+            txtSize = itemView.findViewById(R.id.activity_wishlist_size);
 
 //            shimmer = itemView.findViewById(R.id.shimmer);
 //
@@ -205,46 +257,42 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
 
 
 
-           btnAdd.setOnClickListener(new View.OnClickListener() {
-               @Override
-               public void onClick(View v) {
-                   Toast.makeText(context, "Thêm vào giở hàng thành công!", Toast.LENGTH_LONG).show();
-               }
-           });
-
-           cbAdd.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-               @Override
-               public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                   isCheck = isChecked;
-               }
-           });
-
-           cbAdd.setOnClickListener(new View.OnClickListener() {
-               @Override
-               public void onClick(View v) {
-                   checkboxes.add(txtName.getText().toString());
-                   if(isCheck) {
-                       if (checkboxes.size() > 0) {
-                         //  Toast.makeText(context, checkboxes.toString(), Toast.LENGTH_LONG).show();
-                       }
-                   }
-                   else{
-                       checkboxes.remove(txtName.getText().toString());
-                       if (checkboxes.size() > 0) {
-                          // Toast.makeText(context, checkboxes.toString(), Toast.LENGTH_LONG).show();
-                       }
-                   }
-                   for (Wishlist w : products){
-                       for(String s : checkboxes){
-                           if (s.equals(w.getName())){
-                               chooseItem.put(s,w);
-                           }
-                       }
-                   }
-               }
-           });
 
         }
+    }
+    private void addCart(String idCustomer,String idDish,String idSize){
+        String url = "https://eat-simple-app.000webhostapp.com/addCart.php";
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        if (response.equals("THEM_THANH_CONG")){
+                            Toast.makeText(context, "Thêm vào giỏ hàng thành công!", Toast.LENGTH_SHORT).show();
+                        }
+                        else{
+                            Toast.makeText(context, "Không thành công!", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("AAA",error.toString());
+                    }
+                }){
+            @Nullable
+            @org.jetbrains.annotations.Nullable
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                HashMap<String,String> params = new HashMap<>();
+                params.put("ma_kh",idCustomer);
+                params.put("ma_sp",idDish);
+                params.put("ma_size",idSize);
+                params.put("so_luong",1+"");
+                return params;
+            }
+        };
+        VolleyPool.getInstance(context).addRequest(stringRequest);
     }
 
 }

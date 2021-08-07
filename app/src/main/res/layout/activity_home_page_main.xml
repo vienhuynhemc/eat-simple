@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_home_page_layout"
     android:layout_width="match_parent"
+    android:orientation="vertical"
     android:layout_height="match_parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -19,11 +21,10 @@
         <!-- Kết thúc HEDAER -->
 
         <!-- Nội dung -->
-        <androidx.core.widget.NestedScrollView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginBottom="75dp"
+            android:layout_marginTop="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/activity_home_page_header"
             app:layout_constraintVertical_bias="0.0"
@@ -31,98 +32,137 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="match_parent">
 
                 <!-- Banner -->
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/activity_home_page_banner"
-                    android:layout_width="match_parent"
-                    android:layout_height="150dp"
-                    android:layout_marginStart="30dp"
-                    android:layout_marginEnd="30dp"
-                    app:cardBackgroundColor="#FFF2D5"
-                    app:cardCornerRadius="20dp"
-                    app:cardElevation="0dp"
-                    app:layout_constraintTop_toTopOf="parent">
+<!--                <androidx.cardview.widget.CardView-->
+<!--                    android:id="@+id/activity_home_page_banner"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="150dp"-->
+<!--                    android:layout_marginStart="30dp"-->
+<!--                    android:layout_marginEnd="30dp"-->
+<!--                    app:cardBackgroundColor="#FFF2D5"-->
+<!--                    app:cardCornerRadius="20dp"-->
+<!--                    app:cardElevation="0dp"-->
+<!--                    app:layout_constraintTop_toTopOf="parent">-->
 
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+<!--                    <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="match_parent">-->
 
-                        <com.airbnb.lottie.LottieAnimationView
-                            android:layout_width="250dp"
-                            android:layout_height="250dp"
-                            android:translationX="5dp"
-                            android:translationY="-50dp"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:lottie_autoPlay="true"
-                            app:lottie_loop="true"
-                            app:lottie_rawRes="@raw/activity_home_page_man_riding_a_red_scooter" />
+<!--                        <com.airbnb.lottie.LottieAnimationView-->
+<!--                            android:layout_width="250dp"-->
+<!--                            android:layout_height="250dp"-->
+<!--                            android:translationX="5dp"-->
+<!--                            android:translationY="-50dp"-->
+<!--                            app:layout_constraintEnd_toEndOf="parent"-->
+<!--                            app:layout_constraintTop_toTopOf="parent"-->
+<!--                            app:lottie_autoPlay="true"-->
+<!--                            app:lottie_loop="true"-->
+<!--                            app:lottie_rawRes="@raw/activity_home_page_man_riding_a_red_scooter" />-->
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="25dp"
-                            android:layout_marginTop="30dp"
-                            android:text="@string/activity_home_page_banner_1"
-                            android:textColor="@color/color_text_main"
-                            android:textSize="17sp"
-                            android:textStyle="bold"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+<!--                        <TextView-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_marginStart="25dp"-->
+<!--                            android:layout_marginTop="30dp"-->
+<!--                            android:text="@string/activity_home_page_banner_1"-->
+<!--                            android:textColor="@color/color_text_main"-->
+<!--                            android:textSize="17sp"-->
+<!--                            android:textStyle="bold"-->
+<!--                            app:layout_constraintStart_toStartOf="parent"-->
+<!--                            app:layout_constraintTop_toTopOf="parent" />-->
 
-                        <TextView
-                            android:id="@+id/activity_home_page_viecgiao"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="25dp"
-                            android:layout_marginTop="56dp"
-                            android:text="@string/activity_home_page_banner_2"
-                            android:textColor="@color/color_text_main"
-                            android:textSize="17sp"
-                            android:textStyle="bold"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+<!--                        <TextView-->
+<!--                            android:id="@+id/activity_home_page_viecgiao"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_marginStart="25dp"-->
+<!--                            android:layout_marginTop="56dp"-->
+<!--                            android:text="@string/activity_home_page_banner_2"-->
+<!--                            android:textColor="@color/color_text_main"-->
+<!--                            android:textSize="17sp"-->
+<!--                            android:textStyle="bold"-->
+<!--                            app:layout_constraintStart_toStartOf="parent"-->
+<!--                            app:layout_constraintTop_toTopOf="parent" />-->
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="5dp"
-                            android:text="@string/activity_home_page_banner_3"
-                            android:textColor="@color/color_main"
-                            android:textSize="17sp"
-                            android:textStyle="bold"
-                            app:layout_constraintStart_toEndOf="@id/activity_home_page_viecgiao"
-                            app:layout_constraintTop_toTopOf="@id/activity_home_page_viecgiao" />
+<!--                        <TextView-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_marginStart="5dp"-->
+<!--                            android:text="@string/activity_home_page_banner_3"-->
+<!--                            android:textColor="@color/color_main"-->
+<!--                            android:textSize="17sp"-->
+<!--                            android:textStyle="bold"-->
+<!--                            app:layout_constraintStart_toEndOf="@id/activity_home_page_viecgiao"-->
+<!--                            app:layout_constraintTop_toTopOf="@id/activity_home_page_viecgiao" />-->
 
-                        <androidx.cardview.widget.CardView
-                            android:id="@+id/activity_main_oder_now"
-                            android:layout_width="100dp"
-                            android:layout_height="30dp"
-                            android:layout_marginStart="25dp"
-                            android:layout_marginBottom="30dp"
-                            app:cardBackgroundColor="@color/color_main"
-                            app:cardCornerRadius="15dp"
-                            app:cardElevation="0dp"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toStartOf="parent">
+<!--                        <androidx.cardview.widget.CardView-->
+<!--                            android:id="@+id/activity_main_oder_now"-->
+<!--                            android:layout_width="100dp"-->
+<!--                            android:layout_height="30dp"-->
+<!--                            android:layout_marginStart="25dp"-->
+<!--                            android:layout_marginBottom="30dp"-->
+<!--                            app:cardBackgroundColor="@color/color_main"-->
+<!--                            app:cardCornerRadius="15dp"-->
+<!--                            app:cardElevation="0dp"-->
+<!--                            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                            app:layout_constraintStart_toStartOf="parent">-->
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:layout_gravity="center"
-                                android:gravity="center"
-                                android:text="@string/activity_home_page_orderNow"
-                                android:textColor="@color/white"
-                                android:textSize="13sp" />
-                        </androidx.cardview.widget.CardView>
+<!--                            <TextView-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="match_parent"-->
+<!--                                android:layout_gravity="center"-->
+<!--                                android:gravity="center"-->
+<!--                                android:text="@string/activity_home_page_orderNow"-->
+<!--                                android:textColor="@color/white"-->
+<!--                                android:textSize="13sp" />-->
+<!--                        </androidx.cardview.widget.CardView>-->
 
 
-                    </androidx.constraintlayout.widget.ConstraintLayout>
+<!--                    </androidx.constraintlayout.widget.ConstraintLayout>-->
 
-                </androidx.cardview.widget.CardView>
+<!--                </androidx.cardview.widget.CardView>-->
                 <!-- Kết thúc banner -->
+
+                <LinearLayout
+                    android:id="@+id/cart_view_banner"
+                    android:layout_width="match_parent"
+                    android:layout_height="90dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="MissingConstraints">
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                       android:layout_marginLeft="30dp"
+                        android:layout_marginRight="30dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/activity_cart_bg_item"
+                        app:cardElevation="5dp"
+                        app:layout_constraintVertical_bias="0"
+                        app:layout_constraintHorizontal_bias="0"
+                        app:cardCornerRadius="15dp"
+                        tools:ignore="MissingConstraints">
+
+                        <EditText
+                            android:id="@+id/search"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:paddingLeft="15dp"
+                            android:background="@android:color/transparent"
+                            android:hint="Tìm kiếm món ăn của bạn" />
+
+                    </androidx.cardview.widget.CardView>
+
+
+
+
+                </LinearLayout>
+
+
 
                 <!-- List danh mục -->
                 <FrameLayout
@@ -130,11 +170,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:clipChildren="false"
-                    app:layout_constraintTop_toBottomOf="@id/activity_home_page_banner" />
+                    app:layout_constraintTop_toBottomOf="@id/cart_view_banner" />
                 <!-- Kết thúc list danh mục -->
 
                 <!-- Món ăn phổ biến -->
                 <TextView
+                    android:id="@+id/textView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="30dp"
@@ -147,19 +188,45 @@
                     app:layout_constraintTop_toBottomOf="@id/activity_home_page_list_danh_muc" />
                 <!-- Kết thúc món ăn phổ biến -->
 
+
+                <ScrollView
+                    android:id="@+id/scroll_sp"
+                    android:layout_width="match_parent"
+                    android:layout_height="470dp"
+                    android:layout_marginStart="28dp"
+                    android:layout_marginTop="200dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/activity_home_page_list_danh_muc"
+                    tools:ignore="MissingConstraints,NotSibling,UnknownId">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/list_sp"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                    </androidx.recyclerview.widget.RecyclerView>
+
+
+                </ScrollView>
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </androidx.core.widget.NestedScrollView>
+
+
+        </LinearLayout>
         <!-- Kết thúc nội dung -->
 
-        <!-- Footer -->
-        <FrameLayout
-            android:id="@+id/activity_home_page_footer"
-            android:layout_width="match_parent"
-            android:layout_height="98dp"
-            app:layout_constraintBottom_toBottomOf="parent" />
-        <!-- Kết thúc footer -->
+<!--        &lt;!&ndash; Footer &ndash;&gt;-->
+<!--        <FrameLayout-->
+<!--            android:id="@+id/activity_home_page_footer"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="98dp"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent" />-->
+<!--        &lt;!&ndash; Kết thúc footer &ndash;&gt;-->
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+</FrameLayout>

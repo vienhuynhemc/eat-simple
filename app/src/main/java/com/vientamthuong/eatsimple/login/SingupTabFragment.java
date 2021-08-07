@@ -1,34 +1,60 @@
 package com.vientamthuong.eatsimple.login;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.media.Image;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
-import android.text.NoCopySpan;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.vientamthuong.eatsimple.R;
+import com.vientamthuong.eatsimple.date.DateTime;
 import com.vientamthuong.eatsimple.jbCrypt.BCrypt;
 import com.vientamthuong.eatsimple.loadData.VolleyPool;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -38,12 +64,14 @@ public class SingupTabFragment extends Fragment {
     // test commit
     EditText email, pass, repass, username;
     TextView notify;
+    ImageView imgView;
     Button btnSignUp;
     String sRePassword = "", sEmail = "", sPassword = "", sUsername = "";
     boolean checkPassword, checkEmail, checkLengthPass, checkSignUp, checkUsername;
     String urlCheckUsername = "https://eat-simple-app.000webhostapp.com/checkUsername.php";
     String urlSignUp = "https://eat-simple-app.000webhostapp.com/signUp.php";
     float v = 0;
+    int count = 100;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle saveInstanceState) {
@@ -232,16 +260,41 @@ public class SingupTabFragment extends Fragment {
                                             //BCrypt.
                                             String pass = BCrypt.hashpw(sPassword,BCrypt.gensalt());
                                             // tiến hành đăng ký
+                                            imgView = root.findViewById(R.id.activity_signup_img);
                                             StringRequest stringRequest = new StringRequest(Request.Method.POST, urlSignUp,
                                                     new Response.Listener<String>() {
                                                         @Override
                                                         public void onResponse(String response) {
                                                             if (response.trim().equals("successful")){
+                                                                // lưu tài khoản firebase
+                                                                String url = "https://eat-simple-app.000webhostapp.com/getIdAccount.php";
+                                                                StringRequest string = new StringRequest(Request.Method.GET, url,
+                                                                        new Response.Listener<String>() {
+                                                                            @Override
+                                                                            public void onResponse(String response) {
+                                                                                int count = Integer.parseInt(response)-1;
+
+                                                                                String img = "https://firebasestorage.googleapis.com/v0/b/eat-simple.appspot.com/o/tai_khoan%2Fno_name%2Favatar-1577909_960_720.png?alt=media&token=8c4906c4-5fee-4455-b1a2-8340291dbd1f";
+                                                                                createAccountFireBase("kh_"+count,sEmail,"tai_khoan/kh_"+count+"/"+count+".jpg",img,pass,getDateTimeNow().toString(),sUsername,"No Name");
+
+//                                                                                Glide.with(getActivity()).load(img).into(imgView);
+//                                                                                uploadImgToFirebase(imgView,"kh_"+count);
+                                                                               uploadImage("kh_"+count);
+                                                                            }
+                                                                        },
+                                                                        new Response.ErrorListener() {
+                                                                            @Override
+                                                                            public void onErrorResponse(VolleyError error) {
+                                                                                Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_SHORT).show();
+                                                                            }
+                                                                        });
+                                                                VolleyPool.getInstance(getActivity()).addRequest(string);
+
                                                                 notify.setText("Đăng ký thành công!");
                                                                 notify.setTextColor(Color.GREEN);
                                                                 checkSignUp = true;
 
-                                                                Intent intent = new Intent(getActivity(),activity_login.class);
+                                                                Intent intent = new Intent(getActivity(), Activity_login.class);
                                                                 intent.putExtra("username_signup",sUsername);
                                                                 startActivity(intent);
                                                             }
@@ -300,7 +353,6 @@ public class SingupTabFragment extends Fragment {
             }
 
         });
-
 
         return root;
     }
@@ -367,6 +419,7 @@ public class SingupTabFragment extends Fragment {
         btnSignUp = root.findViewById(R.id.button_singup);
         notify = root.findViewById(R.id.notify_signUp);
         username = root.findViewById(R.id.username_signUp);
+        imgView = root.findViewById(R.id.activity_signup_img);
 
 //        email.setTranslationX(0);
 //        pass.setTranslationX(0);
@@ -392,4 +445,106 @@ public class SingupTabFragment extends Fragment {
         matcher = pattern.matcher(email);
         return matcher.matches();
     }
+    private void createAccountFireBase(String ma_tai_khoan,String email,String hinh_dai_dien, String link_hinh_dai_dien,
+                                       String mat_khau,String ngay_tao, String tai_khoan,String ten_hien_thi){
+        DatabaseReference database = FirebaseDatabase.getInstance().getReference().child("tai_khoan").child(ma_tai_khoan);
+
+        database.child("email").setValue(email);
+        database.child("hinh_dai_dien").setValue(hinh_dai_dien);
+        database.child("link_hinh_dai_dien").setValue(link_hinh_dai_dien);
+        database.child("mat_khau").setValue(mat_khau);
+        database.child("ngay_tao").setValue(ngay_tao);
+        database.child("tai_khoan").setValue(tai_khoan);
+        database.child("ten_hien_thi").setValue(ten_hien_thi);
+    }
+    public DateTime getDateTimeNow(){
+        DateTime now = new DateTime();
+
+        java.util.Date time = Calendar.getInstance().getTime();
+        System.out.println(time);
+
+        Calendar date = Calendar.getInstance();
+
+        int day = Integer.parseInt(date.get(Calendar.DATE)+"");
+        int month = Integer.parseInt(date.get(Calendar.MONTH)+"");
+        int year = Integer.parseInt(date.get(Calendar.YEAR)+"");
+
+        String times = time.toString().split(" ")[3];
+        String[] t = times.split(":");
+        int hour = Integer.parseInt(t[0]+"");
+        int minute = Integer.parseInt(t[1]+"");
+        int second = Integer.parseInt(t[2]+"");
+
+
+        now.setDay(day);
+        now.setMonth(month);
+        now.setYear(year);
+        now.setHour(hour);
+        now.setMinute(minute);
+        now.setSecond(second);
+
+        return now;
+    }
+    private void uploadImgToFirebase(ImageView imageView, String ma_tai_khoan){
+        // Create a storage reference from our app
+        StorageReference storageRef = FirebaseStorage.getInstance().getReference("tai_khoan");
+
+        // Create a reference to "mountains.jpg"
+        StorageReference mountainsRef = storageRef.child(ma_tai_khoan).child(ma_tai_khoan.substring(ma_tai_khoan.lastIndexOf("_")+1)+".jpg");
+
+        // Get the data from an ImageView as byte
+        imageView.setDrawingCacheEnabled(true);
+        imageView.buildDrawingCache();
+        Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] data = baos.toByteArray();
+
+        UploadTask uploadTask = mountainsRef.putBytes(data);
+        uploadTask.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle unsuccessful uploads
+                Toast.makeText(getContext(), exception.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
+                // ...
+                Uri imgLink = taskSnapshot.getUploadSessionUri();
+            }
+        });
+    }
+    private void uploadImage(String ma_tai_khoan){
+        // Create a storage reference from our app
+        StorageReference storageRef = FirebaseStorage.getInstance().getReference("tai_khoan");
+
+        StorageReference mountainsRef = storageRef.child(ma_tai_khoan);
+        String url = "images/avatar.png";
+
+        Uri link = Uri.parse(url);
+
+            mountainsRef.putFile(link).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+                    //Toast.makeText(ProfileActivity.this, "Upload successful!", Toast.LENGTH_LONG).show();
+                    Log.d("signup","load anh thanh cong");
+
+                    mountainsRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+//                            String url = uri.toString();
+//                            imgAccount = url;
+//                            changeImageAccount(account.getId(),url);
+//                            DatabaseReference database = FirebaseDatabase.getInstance().getReference("tai_khoan").child(account.getId());
+//                            database.child("link_hinh_dai_dien").setValue(url);
+                        }
+                    });
+
+                }
+            });
+    }
+
 }

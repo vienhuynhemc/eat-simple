@@ -7,9 +7,13 @@
     <string name="activity_home_page_banner_1">Nhanh Nhất Trong</string>
     <string name="activity_home_page_banner_2">Việc Giao</string>
     <string name="activity_home_page_banner_3">Đồ Ăn</string>
+    <string name="acticity_cart_totalProduct">Tổng số sản phẩm</string>
     <string name="dialog_lost_connection_title">Không có kết nối</string>
     <string name="dialog_lost_connection_content">Không tìm thầy kết nối, vui lòng kiểm tra lại và nhấn nút "Thử lại"</string>
     <string name="dialog_lost_connection_refresh">Thử lại</string>
     <string name="dialog_lost_connection_ignore">Bỏ qua</string>
     <string name="activity_home_page_popular_food">Món ăn phổ biến</string>
+    <string name="facebook_app_id">145569414310150</string>
+    <string name="fb_login_protocol_scheme">fb145569414310150</string>
+
 </resources>

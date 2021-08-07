@@ -3,9 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="105dp"
-    android:layout_height="170dp">
+    android:layout_height="150dp">
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/cardView_category"
         android:layout_width="85dp"
         android:layout_height="110dp"
         app:cardBackgroundColor="@color/white"
@@ -45,6 +46,7 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <com.airbnb.lottie.LottieAnimationView
+                    android:id="@+id/img_product"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     app:lottie_autoPlay="true"
@@ -77,6 +79,7 @@
                 app:layout_constraintTop_toBottomOf="@id/activity_home_page_custom_danh_muc_image_view">
 
                 <com.airbnb.lottie.LottieAnimationView
+                    android:id="@+id/img_load"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scaleX="4"

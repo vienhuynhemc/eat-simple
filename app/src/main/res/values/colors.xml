@@ -13,10 +13,17 @@
     <color name="tomato">#fff1ff</color>
     <color name="cheese">#fffef0</color>
     <color name="dtbg">#ffc619</color>
+    <color name="gray">#D6D6CC</color>
 
     <!-- custom color -->
     <color name="color_main">#fecb4d</color>
     <color name="color_text_main">#2e2e2e</color>
+    <color name="gia">#8A8484</color>
+    <color name="gia_km">#EF2727</color>
+    <color name="color_cart_main">#5CEFE8E8</color>
+    <color name="color_text">#755A5A</color>
+
+
     <color name="color_admin_main">#4162fb</color>
     <color name="color_admin_xam">#d3dbdf</color>
 

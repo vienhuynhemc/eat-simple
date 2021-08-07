@@ -9,6 +9,7 @@ public class DataLocalManager {
     private static final String REF_FIRST = "REF_FIRST";
     private static final String REF_VALID = "REF_VALID";
     private static final String REF_ACCOUNT = "REF_ACCOUNT";
+    private static final String REF_RING = "REF_RING";
     private static DataLocalManager instance;
     private MyShareReferences myShareReferences;
 
@@ -47,6 +48,13 @@ public class DataLocalManager {
     }
     public static boolean isValid(){
         return DataLocalManager.getInstance().myShareReferences.getBooleanValue(REF_VALID);
+    }
+
+    public static void setRing(boolean input){
+        DataLocalManager.getInstance().myShareReferences.putBooleanValue(REF_RING,input);
+    }
+    public static boolean getRing() {
+    return DataLocalManager.getInstance().myShareReferences.getBooleanValue(REF_RING);
     }
 
 }

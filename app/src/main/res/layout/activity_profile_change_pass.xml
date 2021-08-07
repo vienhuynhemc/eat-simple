@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="350dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_height="wrap_content">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:text="Tạo mật khẩu mới"
+        android:background="#FFC107"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:gravity="center|left"
+        android:paddingLeft="25dp"
+        android:id="@+id/activity_profile_notify"
+        android:textColor="#D61103"
+        android:text=""/>
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_marginLeft="30dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_marginRight="30dp"
+        android:hint="Mật khẩu mới"
+        app:boxCornerRadiusBottomEnd="15dp"
+        app:boxCornerRadiusTopStart="15dp"
+        app:boxCornerRadiusTopEnd="15dp"
+        app:endIconMode="password_toggle"
+        app:boxCornerRadiusBottomStart="15dp"
+        app:startIconDrawable="@drawable/fragment_signup_pass"
+        android:layout_height="wrap_content">
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:id="@+id/activity_profile_newpass"
+            android:layout_height="wrap_content"/>
+    </com.google.android.material.textfield.TextInputLayout>
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_marginLeft="30dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="10dp"
+        app:endIconMode="password_toggle"
+        android:hint="Xác nhận mật khẩu"
+        app:boxCornerRadiusBottomEnd="15dp"
+        app:boxCornerRadiusTopStart="15dp"
+        app:boxCornerRadiusTopEnd="15dp"
+        app:boxCornerRadiusBottomStart="15dp"
+        app:startIconDrawable="@drawable/fragment_signup_pass"
+        android:layout_height="wrap_content">
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:id="@+id/activity_profile_repass"
+            android:layout_height="wrap_content"/>
+    </com.google.android.material.textfield.TextInputLayout>
+    <LinearLayout
+        android:layout_gravity="right"
+        android:layout_marginTop="15dp"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/activity_profile_cancel_pass"
+            android:textAllCaps="false"
+            android:layout_marginRight="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:text="Hủy"/>
+        <Button
+            android:id="@+id/activity_profile_confirm_pass"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="10dp"
+            android:textAllCaps="false"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:text="Xác nhận"/>
+
+    </LinearLayout>
+
+</LinearLayout>

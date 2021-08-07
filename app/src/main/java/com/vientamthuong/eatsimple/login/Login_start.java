@@ -25,7 +25,7 @@ public class Login_start extends Fragment {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), activity_login.class);
+                Intent intent = new Intent(getActivity(), Activity_login.class);
                 startActivity(intent);
             }
         });
