@@ -211,8 +211,11 @@ public class ProfileActivity extends AppCompatActivity {
                 String npass = newpass.getText().toString().trim();
                 String rpass = repass.getText().toString().trim();
 
-                if (npass.equals("") || rpass.equals("")){
-                    notify.setText("*Vui lòng nhập đầy đủ thông tin!");
+                if (npass.equals("")){
+                    notify.setText("*Vui lòng nhập password!");
+                }
+                else if (rpass.equals("")){
+                    notify.setText("*Vui lòng xác nhận password!");
                 }
                 else if(npass.length() <8){
                     notify.setText("*Mật khẩu phải có tối thiểu 8 ký tự!");
@@ -230,10 +233,13 @@ public class ProfileActivity extends AppCompatActivity {
                                         notify.setText("Đổi mật khẩu thành công!");
                                         notify.setTextColor(Color.GREEN);
 
+                                        Toast.makeText(ProfileActivity.this, "Đổi mật khẩu thành công!", Toast.LENGTH_SHORT).show();
+
                                         dialog.dismiss();
                                     }
                                     else{
                                         notify.setText("*Đã xảy ra lỗi, vui lòng thử lại!");
+                                        Toast.makeText(ProfileActivity.this, "Đã xảy ra lỗi, vui lòng thử lại!", Toast.LENGTH_SHORT).show();
                                     }
                                 }
                             },
@@ -329,7 +335,7 @@ public class ProfileActivity extends AppCompatActivity {
                                     StorageReference storageRef = FirebaseStorage.getInstance().getReference("tai_khoan");
 
                                     // Create a reference to "mountains.jpg"
-                                    StorageReference mountainsRef = storageRef.child(account.getId());
+                                    StorageReference mountainsRef = storageRef.child(account.getId()).child(account.getId()+".jpg");
                                     if (link != null) {
 
                                         mountainsRef.putFile(link).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {

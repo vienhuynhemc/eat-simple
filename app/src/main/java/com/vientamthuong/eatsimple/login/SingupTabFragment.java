@@ -1,11 +1,13 @@
 package com.vientamthuong.eatsimple.login;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.Image;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -14,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -57,8 +60,18 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import javax.mail.Authenticator;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 
 public class SingupTabFragment extends Fragment {
     // test commit
@@ -258,74 +271,14 @@ public class SingupTabFragment extends Fragment {
                                         }
                                         else{
                                             //BCrypt.
-                                            String pass = BCrypt.hashpw(sPassword,BCrypt.gensalt());
+
                                             // tiến hành đăng ký
                                             imgView = root.findViewById(R.id.activity_signup_img);
-                                            StringRequest stringRequest = new StringRequest(Request.Method.POST, urlSignUp,
-                                                    new Response.Listener<String>() {
-                                                        @Override
-                                                        public void onResponse(String response) {
-                                                            if (response.trim().equals("successful")){
-                                                                // lưu tài khoản firebase
-                                                                String url = "https://eat-simple-app.000webhostapp.com/getIdAccount.php";
-                                                                StringRequest string = new StringRequest(Request.Method.GET, url,
-                                                                        new Response.Listener<String>() {
-                                                                            @Override
-                                                                            public void onResponse(String response) {
-                                                                                int count = Integer.parseInt(response)-1;
 
-                                                                                String img = "https://firebasestorage.googleapis.com/v0/b/eat-simple.appspot.com/o/tai_khoan%2Fno_name%2Favatar-1577909_960_720.png?alt=media&token=8c4906c4-5fee-4455-b1a2-8340291dbd1f";
-                                                                                createAccountFireBase("kh_"+count,sEmail,"tai_khoan/kh_"+count+"/"+count+".jpg",img,pass,getDateTimeNow().toString(),sUsername,"No Name");
-
-//                                                                                Glide.with(getActivity()).load(img).into(imgView);
-//                                                                                uploadImgToFirebase(imgView,"kh_"+count);
-                                                                               uploadImage("kh_"+count);
-                                                                            }
-                                                                        },
-                                                                        new Response.ErrorListener() {
-                                                                            @Override
-                                                                            public void onErrorResponse(VolleyError error) {
-                                                                                Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_SHORT).show();
-                                                                            }
-                                                                        });
-                                                                VolleyPool.getInstance(getActivity()).addRequest(string);
-
-                                                                notify.setText("Đăng ký thành công!");
-                                                                notify.setTextColor(Color.GREEN);
-                                                                checkSignUp = true;
-
-                                                                Intent intent = new Intent(getActivity(), Activity_login.class);
-                                                                intent.putExtra("username_signup",sUsername);
-                                                                startActivity(intent);
-                                                            }
-                                                            else {
-                                                                notify.setText("*Lỗi kết nối! Vui lòng thử lại!");
-                                                                notify.setTextColor(Color.RED);
-                                                                checkSignUp = true;
-                                                            }
-                                                        }
-                                                    },
-                                                    new Response.ErrorListener() {
-                                                        @Override
-                                                        public void onErrorResponse(VolleyError error) {
-
-                                                        }
-                                                    }) {
-                                                @Nullable
-                                                @org.jetbrains.annotations.Nullable
-                                                @Override
-                                                protected Map<String, String> getParams() throws AuthFailureError {
-                                                    HashMap<String, String> params = new HashMap<>();
-                                                    params.put("username", sUsername);
-                                                    params.put("password", pass);
-                                                    params.put("email", sEmail);
-                                                    return params;
-                                                }
-                                            };
-                                            VolleyPool.getInstance(getContext()).addRequest(stringRequest);
+                                            // gửi mail
+                                            sendMail(sEmail);
 
 
-                                            Log.d("EEE", response);
                                         }
                                 }
                             },
@@ -356,60 +309,36 @@ public class SingupTabFragment extends Fragment {
 
         return root;
     }
+    public void sendMail(String emailTo){
+        String sEmail = "eatsimple2021@gmail.com";
+        String sPassword = "iacjphdbzujyglyy";
+        Properties properties = new Properties();
+        properties.put("mail.smtp.auth","true");
+        properties.put("mail.smtp.starttls.enable","true");
+        properties.put("mail.smtp.host","smtp.gmail.com");
+        properties.put("mail.smtp.port","587");
 
-    public void checkUsername(String username) {
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, urlCheckUsername,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-
-                    }
-                }) {
-            @Nullable
-            @org.jetbrains.annotations.Nullable
+        Session session = Session.getInstance(properties, new Authenticator() {
             @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                HashMap<String, String> params = new HashMap<>();
-                params.put("email", username);
-                return params;
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(sEmail,sPassword);
             }
-        };
-        VolleyPool.getInstance(getContext()).addRequest(stringRequest);
+        });
 
-    }
 
-    public void signUp(String email, String password) {
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, urlSignUp,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
+        try {
+            // create content
+            Message message = new MimeMessage(session);
+            // send mail
+            message.setFrom(new InternetAddress(sEmail));
 
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-
-                    }
-                }) {
-            @Nullable
-            @org.jetbrains.annotations.Nullable
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                HashMap<String, String> params = new HashMap<>();
-                params.put("email", email);
-                params.put("password", password);
-                return params;
-            }
-        };
-        VolleyPool.getInstance(getContext()).addRequest(stringRequest);
-
+            message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(emailTo));
+            message.setSubject("Đăng ký tài khoản Eat Simple thành công!");
+            message.setText("Chúc mừng bạn đã đăng ký tài khoản Eat Simple thành công! Đây là email chúng tôi sẽ liên hệ bạn mỗi khi có thông báo về Eat Simple, hi vọng bạn sẽ hài lòng về các món ăn của Eat Simple.");
+            new SendMail().execute(message);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
     }
 
     public void mapping(View root) {
@@ -421,20 +350,7 @@ public class SingupTabFragment extends Fragment {
         username = root.findViewById(R.id.username_signUp);
         imgView = root.findViewById(R.id.activity_signup_img);
 
-//        email.setTranslationX(0);
-//        pass.setTranslationX(0);
-//        repass.setTranslationX(0);
-//        btnSignUp.setTranslationX(0);
-//
-//        email.setAlpha(v);
-//        pass.setAlpha(v);
-//        repass.setAlpha(v);
-//        btnSignUp.setAlpha(v);
-//
-//        email.animate().translationY(100).alpha(1).setDuration(800).setStartDelay(300).start();
-//        pass.animate().translationY(100).alpha(1).setDuration(800).setStartDelay(500).start();
-//        repass.animate().translationY(100).alpha(1).setDuration(800).setStartDelay(500).start();
-//        btnSignUp.animate().translationY(100).alpha(1).setDuration(800).setStartDelay(700).start();
+
     }
 
     public boolean emailValidator(String email) {
@@ -545,6 +461,111 @@ public class SingupTabFragment extends Fragment {
 
                 }
             });
+    }
+    private class SendMail extends AsyncTask<Message,String,String> {
+
+        private ProgressDialog progressDialog;
+
+        @Override
+        protected String doInBackground(Message... messages) {
+            try {
+                Transport.send(messages[0]);
+                return "y";
+            } catch (MessagingException e) {
+                e.printStackTrace();
+                return "n";
+            }
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            progressDialog = ProgressDialog.show(getActivity(),"Vui lòng đợi...","Đang gửi...",true,false);
+
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+
+            super.onPostExecute(s);
+
+            progressDialog.dismiss();
+
+            if (s.equals("y")){
+                String pass = BCrypt.hashpw(sPassword,BCrypt.gensalt());
+                signUp(sUsername,pass,sEmail);
+            }
+            else{
+                notify.setText("Không thể gửi email, Vui lòng thử lại!");
+                notify.setTextColor(Color.RED);
+            }
+        }
+    }
+    private void signUp(String username, String pass, String email){
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, urlSignUp,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        if (response.trim().equals("successful")){
+                            // lưu tài khoản firebase
+                            String url = "https://eat-simple-app.000webhostapp.com/getIdAccount.php";
+                            StringRequest string = new StringRequest(Request.Method.GET, url,
+                                    new Response.Listener<String>() {
+                                        @Override
+                                        public void onResponse(String response) {
+                                            int count = Integer.parseInt(response)-1;
+
+                                            String img = "https://firebasestorage.googleapis.com/v0/b/eat-simple.appspot.com/o/tai_khoan%2Fno_name%2Favatar-1577909_960_720.png?alt=media&token=8c4906c4-5fee-4455-b1a2-8340291dbd1f";
+                                            createAccountFireBase("kh_"+count,sEmail,"tai_khoan/kh_"+count+"/"+count+".jpg",img,pass,getDateTimeNow().toString(),sUsername,"No Name");
+
+//                                                                                Glide.with(getActivity()).load(img).into(imgView);
+//                                                                                uploadImgToFirebase(imgView,"kh_"+count);
+                                            uploadImage("kh_"+count);
+                                        }
+                                    },
+                                    new Response.ErrorListener() {
+                                        @Override
+                                        public void onErrorResponse(VolleyError error) {
+                                            Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+                            VolleyPool.getInstance(getActivity()).addRequest(string);
+
+                            notify.setText("Đăng ký thành công!");
+                            notify.setTextColor(Color.GREEN);
+                            checkSignUp = true;
+
+                            Intent intent = new Intent(getActivity(), Activity_login.class);
+                            intent.putExtra("username_signup",sUsername);
+                            startActivity(intent);
+                        }
+                        else {
+                            notify.setText("*Lỗi kết nối! Vui lòng thử lại!");
+                            notify.setTextColor(Color.RED);
+                            checkSignUp = true;
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                }) {
+            @Nullable
+            @org.jetbrains.annotations.Nullable
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                HashMap<String, String> params = new HashMap<>();
+                params.put("username", username);
+                params.put("password", pass);
+                params.put("email", email);
+                return params;
+            }
+        };
+        VolleyPool.getInstance(getContext()).addRequest(stringRequest);
+
     }
 
 }

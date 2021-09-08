@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,6 +38,7 @@ import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
+import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -107,6 +109,7 @@ public class LoginTabFragment extends Fragment {
     private LoginButton loginButton;
     private GoogleSignInClient mGoogleSignInClient;
     int RC_SIGN_IN = 0;
+    CheckBox saveAccount;
 
     @Override
     public void onCreate(@Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
@@ -130,17 +133,33 @@ public class LoginTabFragment extends Fragment {
         forgotPass = root.findViewById(R.id.forgetPassword_login);
         login = root.findViewById(R.id.btn_login);
         notify = root.findViewById(R.id.notify_login);
+        saveAccount = root.findViewById(R.id.checkbox_saveAccount);
 
         // login google
         loginGoogle(root);
+
+        // hiển thị username, password khi nhấn nút lưu tài khoản
+        for (Map.Entry<String,String> map : DataLocalManager.getLoginInput().entrySet()){
+            if(map.getKey()!="" && map.getValue()!=""){
+                username.setText(map.getKey());
+                pass.setText(map.getValue());
+                saveAccount.setChecked(true);
+            }
+            else{
+                saveAccount.setChecked(false);
+            }
+        }
 
 
         // Test để làm admin
         login.setOnClickListener(v1 -> {
             String tai_khoan = username.getText().toString().trim();
             String mat_khau = pass.getText().toString().trim();
-            if(tai_khoan.equals("") || mat_khau.equals("")){
-                notify.setText("*Vui lòng nhập đủ thông tin!");
+            if(tai_khoan.equals("")){
+                notify.setText("*Vui lòng nhập username!");
+            }
+            else if(mat_khau.equals("")) {
+                notify.setText("*Vui lòng nhập password!");
             }
             else {
                 Map<String, String> result = new LinkedHashMap<>();
@@ -158,57 +177,71 @@ public class LoginTabFragment extends Fragment {
                                 if (result.size() == 0) {
                                     System.out.println("Sai tài khoản nhân viên, admin");
 
-                                    // kiểm tra tới tài khoản khách hàng
-                                    String urlLogin = "https://eat-simple-app.000webhostapp.com/login.php";
-                                    StringRequest request = new StringRequest(Request.Method.POST, urlLogin,
-                                            new Response.Listener<String>() {
-                                                @Override
-                                                public void onResponse(String response) {
-                                                    if (response.trim().equals("")) {
-                                                        notify.setTextColor(Color.RED);
-                                                        notify.setText("*Không tồn tại tài khoản!");
-                                                    } else {
-                                                        try {
+                                    if(mat_khau.length() < 8){
+                                        notify.setText("*Mật khẩu phải có tối thiểu 8 kí tự!");
+                                    }
+                                    else {
+                                        // kiểm tra tới tài khoản khách hàng
+                                        String urlLogin = "https://eat-simple-app.000webhostapp.com/login.php";
+                                        StringRequest request = new StringRequest(Request.Method.POST, urlLogin,
+                                                new Response.Listener<String>() {
+                                                    @Override
+                                                    public void onResponse(String response) {
+                                                        if (response.trim().equals("")) {
+                                                            notify.setTextColor(Color.RED);
+                                                            notify.setText("*Không tồn tại tài khoản!");
+                                                        } else {
+                                                            try {
 //                                                        Log.d("EEE",response);
-                                                            JSONObject object = new JSONObject(response);
-                                                            String user = object.getString("tai_khoan");
-                                                            String hashPassword = object.getString("mat_khau");
-                                                            String email = object.getString("email");
-                                                            String name = object.getString("ten_hien_thi");
-                                                            String imgLink = object.getString("link_hinh_dai_dien");
-                                                            if (BCrypt.checkpw(mat_khau, hashPassword)) {
-                                                                notify.setText("*Đăng nhập thành công!");
-                                                                notify.setTextColor(Color.GREEN);
+                                                                JSONObject object = new JSONObject(response);
+                                                                String user = object.getString("tai_khoan");
+                                                                String hashPassword = object.getString("mat_khau");
+                                                                String email = object.getString("email");
+                                                                String name = object.getString("ten_hien_thi");
+                                                                String imgLink = object.getString("link_hinh_dai_dien");
+                                                                if (BCrypt.checkpw(mat_khau, hashPassword)) {
 
-                                                                getAccount(tai_khoan);
+                                                                    if(saveAccount.isChecked()){
+                                                                        DataLocalManager.setLoginInput(tai_khoan,mat_khau);
+                                                                    }
+                                                                    else{
+                                                                        DataLocalManager.setLoginInput("","");
+                                                                    }
 
-                                                            } else {
-                                                                notify.setTextColor(Color.RED);
-                                                                notify.setText("*Không tồn tại tài khoản!");
+
+                                                                    notify.setText("*Đăng nhập thành công!");
+                                                                    notify.setTextColor(Color.GREEN);
+
+                                                                    getAccount(tai_khoan);
+
+                                                                } else {
+                                                                    notify.setTextColor(Color.RED);
+                                                                    notify.setText("*Không tồn tại tài khoản!");
+                                                                }
+                                                            } catch (JSONException e) {
+                                                                e.printStackTrace();
                                                             }
-                                                        } catch (JSONException e) {
-                                                            e.printStackTrace();
+
                                                         }
+                                                    }
+                                                },
+                                                new Response.ErrorListener() {
+                                                    @Override
+                                                    public void onErrorResponse(VolleyError error) {
 
                                                     }
-                                                }
-                                            },
-                                            new Response.ErrorListener() {
-                                                @Override
-                                                public void onErrorResponse(VolleyError error) {
-
-                                                }
-                                            }) {
-                                        @Nullable
-                                        @org.jetbrains.annotations.Nullable
-                                        @Override
-                                        protected Map<String, String> getParams() throws AuthFailureError {
-                                            HashMap<String, String> params = new HashMap<>();
-                                            params.put("username", username.getText().toString().trim());
-                                            return params;
-                                        }
-                                    };
-                                    VolleyPool.getInstance(getActivity()).addRequest(request);
+                                                }) {
+                                            @Nullable
+                                            @org.jetbrains.annotations.Nullable
+                                            @Override
+                                            protected Map<String, String> getParams() throws AuthFailureError {
+                                                HashMap<String, String> params = new HashMap<>();
+                                                params.put("username", username.getText().toString().trim());
+                                                return params;
+                                            }
+                                        };
+                                        VolleyPool.getInstance(getActivity()).addRequest(request);
+                                    }
                                 } else {
                                     if (BCrypt.checkpw(mat_khau, result.get("mat_khau"))) {
                                         System.out.println("dang nhap thanh cong");
@@ -244,6 +277,8 @@ public class LoginTabFragment extends Fragment {
         Intent intent = getActivity().getIntent();
         if (intent.getStringExtra("username_signup") != null){
             username.setText(intent.getStringExtra("username_signup"));
+            pass.setText("");
+            saveAccount.setChecked(false);
         }
 
         // hiển thị username khi thay đổi mật khẩu thành công!
@@ -373,6 +408,8 @@ public class LoginTabFragment extends Fragment {
                             createAccountAPI(account.getId(),account.getName(),account.getImgLink(),account.getEmail());
 
                             DataLocalManager.setAccounts(account);
+
+                            LoginManager.getInstance().logOut();
 
                             Log.d("SSS", DataLocalManager.getAccount().toString());
 
@@ -849,7 +886,7 @@ public class LoginTabFragment extends Fragment {
         } catch (ApiException e) {
             // The ApiException status code indicates the detailed failure reason.
             // Please refer to the GoogleSignInStatusCodes class reference for more information.
-//            Log.w(TAG, "signInResult:failed code=" + e.getStatusCode());
+            Log.w("AAA", "signInResult:failed code=" + e.getStatusCode());
 //            updateUI(null);
         }
     }
