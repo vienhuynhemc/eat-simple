@@ -13,6 +13,7 @@ public class DetailOrder {
     private MaGiamGia ma_giam_gia;
     private Address address;
 
+
     public DetailOrder() {
     }
 

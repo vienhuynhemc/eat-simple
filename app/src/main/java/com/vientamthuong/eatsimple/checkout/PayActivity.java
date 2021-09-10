@@ -326,38 +326,38 @@ public class PayActivity extends AppCompatActivity {
         });
     }
 
-    void eventCheck() {
-
-        for (int i = 0; i < reDiaChi.getChildCount(); i++) {
-
-            View view = reDiaChi.getChildAt(i);
-            CheckBox checkBox = view.findViewById(R.id.checkbox_cart);
-            System.out.println("Check");
-
-            checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
-                    if (isChecked) {
-                        System.out.println("Check0");
-                        for (int i = 0; i < reDiaChi.getChildCount(); i++) {
-                            View view = reDiaChi.getChildAt(i);
-                            CheckBox checkBox1 = view.findViewById(R.id.checkbox_cart);
-                            System.out.println("Check1");
-                            if (checkBox1 != checkBox) {
-                                checkBox1.setChecked(false);
-                                System.out.println("Check2");
-                            }
-                        }
-
-                    }
-                }
-            });
-
-
-        }
-
-    }
+//    void eventCheck() {
+//
+//        for (int i = 0; i < reDiaChi.getChildCount(); i++) {
+//
+//            View view = reDiaChi.getChildAt(i);
+//            CheckBox checkBox = view.findViewById(R.id.checkbox_cart);
+//            System.out.println("Check");
+//
+//            checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//                @Override
+//                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//
+//                    if (isChecked) {
+//                        System.out.println("Check0");
+//                        for (int i = 0; i < reDiaChi.getChildCount(); i++) {
+//                            View view = reDiaChi.getChildAt(i);
+//                            CheckBox checkBox1 = view.findViewById(R.id.checkbox_cart);
+//                            System.out.println("Check1");
+//                            if (checkBox1 != checkBox) {
+//                                checkBox1.setChecked(false);
+//                                System.out.println("Check2");
+//                            }
+//                        }
+//
+//                    }
+//                }
+//            });
+//
+//
+//        }
+//
+//    }
 
     void eventBack() {
         back.setOnClickListener(v -> {

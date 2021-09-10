@@ -23,6 +23,7 @@ import com.vientamthuong.eatsimple.beans.MaGiamGiaConfiguration;
 import com.vientamthuong.eatsimple.checkout.CheckoutConfiguration;
 import com.vientamthuong.eatsimple.checkout.PayActivity;
 import com.vientamthuong.eatsimple.date.DateTime;
+import com.vientamthuong.eatsimple.detailOrder.DetailOrder;
 import com.vientamthuong.eatsimple.loadData.VolleyPool;
 import com.vientamthuong.eatsimple.menuNotify.EventRing;
 
@@ -40,6 +41,7 @@ public class DetailPayActivity extends AppCompatActivity {
     private String ma_dh;
     private FloatingActionButton back;
     private ImageView ring;
+
 
 
     @Override
@@ -62,6 +64,14 @@ public class DetailPayActivity extends AppCompatActivity {
 
         EventRing.getInstance().setView(ring);
         EventRing.getInstance().startAnim();
+
+        xem_chi_tiet.setOnClickListener(v -> {
+
+            Intent intent = new Intent(DetailPayActivity.this, DetailOrder.class);
+            intent.putExtra("ma_dh",getMa_don_hang());
+            this.startActivity(intent);
+        });
+
     }
 
     void init(){
@@ -138,6 +148,8 @@ public class DetailPayActivity extends AppCompatActivity {
 
     }
 
-
+    public String getMa_don_hang() {
+        return ma_dh;
+    }
 
 }

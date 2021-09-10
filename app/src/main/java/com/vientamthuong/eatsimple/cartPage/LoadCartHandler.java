@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 
 import com.vientamthuong.eatsimple.beans.Cart;
 import com.vientamthuong.eatsimple.beans.Product;
+import com.vientamthuong.eatsimple.detailOrder.DetailOrderAdapter;
 import com.vientamthuong.eatsimple.loadProductByID.LoadProductHandler;
 import com.vientamthuong.eatsimple.loadProductByID.LoadProductHelp;
 import com.vientamthuong.eatsimple.loadProductByID.LoadProductViewAdapter;
@@ -18,8 +19,10 @@ public class LoadCartHandler {
 
     private Handler handler;
     private List<Cart> carts;
+    private List<Cart> order;
     private CartAdapter cartAdapter;
     private static LoadCartHandler loadCartHandler;
+    private DetailOrderAdapter orderAdapter;
 
     private LoadCartHandler(){
         // getHandler();
@@ -43,6 +46,12 @@ public class LoadCartHandler {
                         List<Cart> cart = (List<Cart>) bundle.getSerializable("carts");
                         carts.addAll(cart);
                         cartAdapter.notifyDataSetChanged();
+                    }
+                    if (msg.what == 149){
+                        Bundle bundle = msg.getData();
+                        List<Cart> cart = (List<Cart>) bundle.getSerializable("carts");
+                        order.addAll(cart);
+                        orderAdapter.notifyDataSetChanged();
                     }
                 }
             };
@@ -70,5 +79,21 @@ public class LoadCartHandler {
 
     public void setCartAdapter(CartAdapter cartAdapter) {
         this.cartAdapter = cartAdapter;
+    }
+
+    public DetailOrderAdapter getOrderAdapter() {
+        return orderAdapter;
+    }
+
+    public List<Cart> getOrder() {
+        return order;
+    }
+
+    public void setOrder(List<Cart> order) {
+        this.order = order;
+    }
+
+    public void setOrderAdapter(DetailOrderAdapter orderAdapter) {
+        this.orderAdapter = orderAdapter;
     }
 }
