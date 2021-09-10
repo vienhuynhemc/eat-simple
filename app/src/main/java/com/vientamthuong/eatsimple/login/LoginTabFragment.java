@@ -177,71 +177,70 @@ public class LoginTabFragment extends Fragment {
                                 if (result.size() == 0) {
                                     System.out.println("Sai tài khoản nhân viên, admin");
 
-                                    if(mat_khau.length() < 8){
-                                        notify.setText("*Mật khẩu phải có tối thiểu 8 kí tự!");
-                                    }
-                                    else {
-                                        // kiểm tra tới tài khoản khách hàng
-                                        String urlLogin = "https://eat-simple-app.000webhostapp.com/login.php";
-                                        StringRequest request = new StringRequest(Request.Method.POST, urlLogin,
-                                                new Response.Listener<String>() {
-                                                    @Override
-                                                    public void onResponse(String response) {
-                                                        if (response.trim().equals("")) {
-                                                            notify.setTextColor(Color.RED);
-                                                            notify.setText("*Không tồn tại tài khoản!");
-                                                        } else {
-                                                            try {
+//                                    if(mat_khau.length() < 8){
+//                                        notify.setText("*Mật khẩu phải có tối thiểu 8 kí tự!");
+//                                    }
+//                                    else {
+                                    // kiểm tra tới tài khoản khách hàng
+                                    String urlLogin = "https://eat-simple-app.000webhostapp.com/login.php";
+                                    StringRequest request = new StringRequest(Request.Method.POST, urlLogin,
+                                            new Response.Listener<String>() {
+                                                @Override
+                                                public void onResponse(String response) {
+                                                    if (response.trim().equals("")) {
+                                                        notify.setTextColor(Color.RED);
+                                                        notify.setText("*Không tồn tại tài khoản!");
+                                                    } else {
+                                                        try {
 //                                                        Log.d("EEE",response);
-                                                                JSONObject object = new JSONObject(response);
-                                                                String user = object.getString("tai_khoan");
-                                                                String hashPassword = object.getString("mat_khau");
-                                                                String email = object.getString("email");
-                                                                String name = object.getString("ten_hien_thi");
-                                                                String imgLink = object.getString("link_hinh_dai_dien");
-                                                                if (BCrypt.checkpw(mat_khau, hashPassword)) {
+                                                            JSONObject object = new JSONObject(response);
+                                                            String user = object.getString("tai_khoan");
+                                                            String hashPassword = object.getString("mat_khau");
+                                                            String email = object.getString("email");
+                                                            String name = object.getString("ten_hien_thi");
+                                                            String imgLink = object.getString("link_hinh_dai_dien");
+                                                            if (BCrypt.checkpw(mat_khau, hashPassword)) {
 
-                                                                    if(saveAccount.isChecked()){
-                                                                        DataLocalManager.setLoginInput(tai_khoan,mat_khau);
-                                                                    }
-                                                                    else{
-                                                                        DataLocalManager.setLoginInput("","");
-                                                                    }
-
-
-                                                                    notify.setText("*Đăng nhập thành công!");
-                                                                    notify.setTextColor(Color.GREEN);
-
-                                                                    getAccount(tai_khoan);
-
+                                                                if (saveAccount.isChecked()) {
+                                                                    DataLocalManager.setLoginInput(tai_khoan, mat_khau);
                                                                 } else {
-                                                                    notify.setTextColor(Color.RED);
-                                                                    notify.setText("*Không tồn tại tài khoản!");
+                                                                    DataLocalManager.setLoginInput("", "");
                                                                 }
-                                                            } catch (JSONException e) {
-                                                                e.printStackTrace();
+
+
+                                                                notify.setText("*Đăng nhập thành công!");
+                                                                notify.setTextColor(Color.GREEN);
+
+                                                                getAccount(tai_khoan);
+
+                                                            } else {
+                                                                notify.setTextColor(Color.RED);
+                                                                notify.setText("*Không tồn tại tài khoản!");
                                                             }
-
+                                                        } catch (JSONException e) {
+                                                            e.printStackTrace();
                                                         }
-                                                    }
-                                                },
-                                                new Response.ErrorListener() {
-                                                    @Override
-                                                    public void onErrorResponse(VolleyError error) {
 
                                                     }
-                                                }) {
-                                            @Nullable
-                                            @org.jetbrains.annotations.Nullable
-                                            @Override
-                                            protected Map<String, String> getParams() throws AuthFailureError {
-                                                HashMap<String, String> params = new HashMap<>();
-                                                params.put("username", username.getText().toString().trim());
-                                                return params;
-                                            }
-                                        };
-                                        VolleyPool.getInstance(getActivity()).addRequest(request);
-                                    }
+                                                }
+                                            },
+                                            new Response.ErrorListener() {
+                                                @Override
+                                                public void onErrorResponse(VolleyError error) {
+
+                                                }
+                                            }) {
+                                        @Nullable
+                                        @org.jetbrains.annotations.Nullable
+                                        @Override
+                                        protected Map<String, String> getParams() throws AuthFailureError {
+                                            HashMap<String, String> params = new HashMap<>();
+                                            params.put("username", username.getText().toString().trim());
+                                            return params;
+                                        }
+                                    };
+                                    VolleyPool.getInstance(getActivity()).addRequest(request);
+//                                }
                                 } else {
                                     if (BCrypt.checkpw(mat_khau, result.get("mat_khau"))) {
                                         System.out.println("dang nhap thanh cong");

@@ -55,7 +55,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
-            android:text="Thủ Đức, Hồ Chí Minh"
+            android:text="Đang tìm vị trí..."
             android:textColor="@color/color_text_main"
             android:textSize="15sp"
             android:textStyle="bold"
