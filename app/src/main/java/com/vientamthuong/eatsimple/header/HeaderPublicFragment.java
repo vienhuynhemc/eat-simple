@@ -1,19 +1,32 @@
 package com.vientamthuong.eatsimple.header;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -27,7 +40,9 @@ import com.vientamthuong.eatsimple.login.Activity_login;
 import com.vientamthuong.eatsimple.login.ProfileActivity;
 import com.vientamthuong.eatsimple.protocol.ActivityProtocol;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
 public class HeaderPublicFragment extends Fragment {
@@ -38,6 +53,11 @@ public class HeaderPublicFragment extends Fragment {
     // Button avatar
     private AppCompatButton appCompatButtonAvatar;
     private LottieAnimationView lottieAnimationViewAvatar;
+    private TextView txtLocation;
+
+    // location
+    private FusedLocationProviderClient fusedLocationProviderClient;
+
 
     @Nullable
     @Override
@@ -49,7 +69,38 @@ public class HeaderPublicFragment extends Fragment {
         // button avatar
         handlerButtonAvatar();
 
+        // get location
+        getLocation();
+
         return view;
+    }
+    private void getLocation() {
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getActivity());
+        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            fusedLocationProviderClient.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
+                @Override
+                public void onComplete(@NonNull Task<Location> task) {
+                    Location location = task.getResult();
+                    if(location!=null){
+                        Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
+
+                        try {
+
+                            List<Address> getLocations = geocoder.getFromLocation(location.getLatitude(),location.getLongitude(),1);
+                            txtLocation.setText(getLocations.get(0).getAddressLine(0));
+                            Log.d("TTT",getLocations.get(0).getAddressLine(0));
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                            Log.d("TTT","NO");
+
+                        }
+
+                    }
+                }
+            });
+        } else {
+            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 10);
+        }
     }
 
     public void getData(DatabaseReference root, DiaLogLoader diaLogLoader, List<LoadImageForView> imagesNeedLoad, AppCompatActivity appCompatActivity) {
@@ -107,6 +158,9 @@ public class HeaderPublicFragment extends Fragment {
         // Button avatar
         appCompatButtonAvatar = view.findViewById(R.id.activity_home_page_avatar_button);
         lottieAnimationViewAvatar = view.findViewById(R.id.activity_home_page_avatar_animation);
+
+        // location
+        txtLocation = view.findViewById(R.id.activity_home_page_name_location);
     }
     private void handlerButtonAvatar(){
         appCompatButtonAvatar.setOnClickListener(new View.OnClickListener() {
@@ -121,5 +175,4 @@ public class HeaderPublicFragment extends Fragment {
             }
         });
     }
-
 }

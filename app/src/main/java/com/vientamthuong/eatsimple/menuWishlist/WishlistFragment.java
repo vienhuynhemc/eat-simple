@@ -65,6 +65,7 @@ public class WishlistFragment extends Fragment {
     private LinearLayout btnCartWishlist;
     private TextView notify;
     private CardView btnAddCart;
+    private int cartNumber = 0;
 
 
     //Button add to more cart
@@ -210,11 +211,17 @@ public class WishlistFragment extends Fragment {
                     }
                     int count = 0;
                     for (Wishlist w: chooseInCheckbox){
-                        addCart(DataLocalManager.getAccount().getId(),w.getId(),w.getSize());
+                        addCart(idCustomer,w.getId(),w.getSize());
                         count++;
                     }
                     String rs = s.substring(0,s.lastIndexOf(","));
-                    Toast.makeText(getContext(), "Đã thêm "+ count+" món ăn vào giỏ hàng!", Toast.LENGTH_SHORT).show();
+
+                    if(cartNumber > 0){
+                        Toast.makeText(getContext(), "Đã thêm "+ cartNumber+" món ăn vào giỏ hàng!", Toast.LENGTH_SHORT).show();
+                    }
+                    else{
+                        Toast.makeText(getContext(), "Không thể thêm món ăn vào giỏ hàng có thể do hết món ăn!", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });
@@ -285,11 +292,12 @@ public class WishlistFragment extends Fragment {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        if (response.toString().equals("THEM_THANH_CONG")){
-                            Toast.makeText(getContext(), "Thêm vào giỏ hàng thành công!", Toast.LENGTH_SHORT).show();
+                        if (response.equals("THEM_THANH_CONG")){
+                            cartNumber++;
+//                            Toast.makeText(getContext(), "Thêm vào giỏ hàng thành công!", Toast.LENGTH_SHORT).show();
                         }
                         else{
-                            Toast.makeText(getContext(), "Không thành công!", Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(getContext(), "Không thành công!", Toast.LENGTH_SHORT).show();
                         }
                     }
                 },
@@ -311,5 +319,6 @@ public class WishlistFragment extends Fragment {
                 return params;
             }
         };
+        VolleyPool.getInstance(getContext()).addRequest(stringRequest);
     }
 }

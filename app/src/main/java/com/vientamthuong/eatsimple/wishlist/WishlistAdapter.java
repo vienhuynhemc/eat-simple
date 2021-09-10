@@ -1,6 +1,7 @@
 package com.vientamthuong.eatsimple.wishlist;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -31,6 +32,7 @@ import com.chauthai.swipereveallayout.ViewBinderHelper;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.vientamthuong.eatsimple.R;
 import com.vientamthuong.eatsimple.SharedReferences.DataLocalManager;
+import com.vientamthuong.eatsimple.detail.Activity_detail;
 import com.vientamthuong.eatsimple.loadData.VolleyPool;
 
 import java.util.ArrayList;
@@ -193,6 +195,13 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
                 }
             }
         });
+        holder.btnDetail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, Activity_detail.class);
+//                intent.putExtra("product",)
+            }
+        });
     }
 
     @Override
@@ -209,7 +218,7 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
         private LinearLayout layoutDelete;
         private ImageView img;
         private TextView txtName, txtPrice,txtSize;
-        private CardView btnAdd;
+        private CardView btnAdd,btnDetail;
         private CheckBox cbAdd;
 
         private boolean isCheck = false;
@@ -231,6 +240,7 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
             txtName = itemView.findViewById(R.id.nameP);
             txtPrice = itemView.findViewById(R.id.priceP);
             txtSize = itemView.findViewById(R.id.activity_wishlist_size);
+            btnDetail = itemView.findViewById(R.id.activity_wishlist_btnDetail);
 
 //            shimmer = itemView.findViewById(R.id.shimmer);
 //
@@ -253,9 +263,6 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
 //
 //                }
 //            },5000);
-
-
-
 
 
         }

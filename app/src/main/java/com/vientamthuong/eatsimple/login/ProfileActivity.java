@@ -2,6 +2,9 @@ package com.vientamthuong.eatsimple.login;
 
 import android.Manifest;
 import android.app.Dialog;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -9,6 +12,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.provider.Telephony;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -21,6 +25,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.fragment.app.FragmentActivity;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -74,6 +79,12 @@ public class ProfileActivity extends AppCompatActivity {
     final int REQUEST_CODE_IMAGE = 1;
     LinearLayout btnWishlist;
 
+
+    // tab lịch sử, đánh giá
+    LinearLayout btnHistoryTab;
+    LinearLayout btnRateTab;
+
+
     // dialog change img
     ImageView imageDisplay;
     @Override
@@ -83,8 +94,6 @@ public class ProfileActivity extends AppCompatActivity {
 
         mapping();
 
-
-        //account = new Account("","nhattruongmagtm","","nhattruongagtm@gmail.com","","","https://lovicouple.com/wp-content/uploads/2019/12/vai-avatar-cap-cho-cac-ban-de-facebook-25.jpg","School",null,"");
 
         // handler change password
         changePassword();
@@ -101,6 +110,11 @@ public class ProfileActivity extends AppCompatActivity {
         // handler btn wishlist
         handlerWishlist();
 
+        // history tab, rate tab
+
+
+
+
     }
     private void mapping(){
         btnInfo = findViewById(R.id.activity_profile_info);
@@ -113,6 +127,8 @@ public class ProfileActivity extends AppCompatActivity {
         btnWishlist = findViewById(R.id.activity_profile_wishlist);
         border1 = findViewById(R.id.activity_profile_border1);
         border2 = findViewById(R.id.activity_profile_border2);
+        btnHistoryTab = findViewById(R.id.activity_profile_history_tab);
+        btnRateTab = findViewById(R.id.activity_profile_rate_tab);
 
         if (account.getId().length() > 15){
             btnPassword.setVisibility(View.GONE);
@@ -141,6 +157,25 @@ public class ProfileActivity extends AppCompatActivity {
 //        email.setText(account.getEmail());
 //        Glide.with(this).load(account.getImgLink()).into(img);
     }
+    public void AddFragment(View view){
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        Fragment fragment = null;
+
+        switch (view.getId()){
+            case R.id.activity_profile_history_tab:
+                fragment = new HistoryTabFragment();
+                break;
+            case R.id.activity_profile_rate_tab:
+                fragment = new RateTabFragment();
+                break;
+        }
+        ft.replace(R.id.activity_profile_frg,fragment);
+        ft.commit();
+
+    }
+
+
     private void handlerSignOut(){
         btnSignOut.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -149,6 +149,7 @@ public class WishlistActivity extends AppCompatActivity {
 
             handlerAddCart(idCustomer);
             handlerRemove(idCustomer);
+        Toast.makeText(WishlistActivity.this, idCustomer, Toast.LENGTH_SHORT).show();
         }
 
     // xóa khỏi wishlist
@@ -175,7 +176,6 @@ public class WishlistActivity extends AppCompatActivity {
                          int count = 0;
                          WishlistDAO wishlistDAO = new WishlistDAO();
                          for (Wishlist w : chooseInCheckbox) {
-                             Toast.makeText(WishlistActivity.this, w.getId()+"_"+w.getSize(), Toast.LENGTH_SHORT).show();
                              if (wishlistDAO.deleteWishlist(idCustomer, w.getId(),w.getSize())) {
                                  deleleteWishlist(idCustomer,w.getId(),w.getSize());
                                  count++;
@@ -221,11 +221,11 @@ public class WishlistActivity extends AppCompatActivity {
                     }
                         int count = 0;
                         for (Wishlist w: chooseInCheckbox){
-                            addCart(DataLocalManager.getAccount().getId(),w.getId(),w.getSize());
+                            addCart(idCustomer,w.getId(),w.getSize());
                             count++;
                         }
                         String rs = s.substring(0,s.lastIndexOf(","));
-                    Toast.makeText(WishlistActivity.this, "Đã thêm "+ count+" món ăn vào giỏ hàng!", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(WishlistActivity.this, "Đã thêm "+ count+" món ăn vào giỏ hàng!", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -445,7 +445,7 @@ public class WishlistActivity extends AppCompatActivity {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                            if (response.toString().equals("THEM_THANH_CONG")){
+                            if (response.equals("THEM_THANH_CONG")){
                                 Toast.makeText(WishlistActivity.this, "Thêm vào giỏ hàng thành công!", Toast.LENGTH_SHORT).show();
                             }
                             else{
@@ -471,6 +471,7 @@ public class WishlistActivity extends AppCompatActivity {
                 return params;
             }
         };
+        VolleyPool.getInstance(this).addRequest(stringRequest);
     }
 
 
