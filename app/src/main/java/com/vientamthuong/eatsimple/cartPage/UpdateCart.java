@@ -50,7 +50,7 @@ public class UpdateCart {
                 params.put("ma_sp",ma_sp);
                 params.put("ma_size", ma_size);
                 params.put("ma_kh", DataLocalManager.getAccount().getId());
-                params.put("active", String.valueOf(active));
+                params.put("soluong", String.valueOf(active));
 
                 return params;
             }

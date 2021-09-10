@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.airbnb.lottie.LottieAnimationView;
@@ -31,6 +32,7 @@ public class CartViewHolder extends RecyclerView.ViewHolder {
      CheckBox checkBox;
      CardView cardView;
      LottieAnimationView img;
+     ConstraintLayout constraintLayout;
 //     ShimmerFrameLayout layout;
 
     public CartViewHolder(@NonNull View itemView) {
@@ -48,6 +50,7 @@ public class CartViewHolder extends RecyclerView.ViewHolder {
         checkBox = itemView.findViewById(R.id.checkbox_cart);
         cardView = itemView.findViewById(R.id.cardview_one_item);
         img =itemView.findViewById(R.id.img_cart_one_item);
+        constraintLayout = itemView.findViewById(R.id.constraintLayout);
 
 
 

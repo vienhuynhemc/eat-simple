@@ -57,9 +57,13 @@ public class LoadProductViewAdapter extends RecyclerView.Adapter<LoadProductView
                 product.setGia(p.getGia());
                 product.setSo_luong_con_lai(p.getSo_luong_con_lai());
                 product.setSo_luong_ban_ra(p.getSo_luong_ban_ra());
+
                 product.setKcal(p.getKcal());
+
                 product.setThoi_gian_nau(p.getThoi_gian_nau());
+
                 product.setThong_tin(p.getThong_tin());
+
                 product.setUrl(p.getUrl());
 
                 intent.putExtra("product",(Serializable) product );
@@ -73,7 +77,7 @@ public class LoadProductViewAdapter extends RecyclerView.Adapter<LoadProductView
 
                 v.getContext().startActivity(intent);
             }else {
-                Toast.makeText(v.getContext(), "Vui lòng chờ tải hình", Toast.LENGTH_SHORT).show();
+                Toast.makeText(v.getContext(), "Từ từ thôi bạn", Toast.LENGTH_SHORT).show();
             }
 
 

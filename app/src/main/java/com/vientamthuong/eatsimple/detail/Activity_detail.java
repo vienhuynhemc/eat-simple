@@ -363,7 +363,6 @@ public class Activity_detail extends AppCompatActivity {
         Bitmap bitmap = BitmapFactory.decodeByteArray(bitmaps, 0, bitmaps.length);
         hinh.setImageBitmap(bitmap);
 
-
         int km = ((product.getGia()-product.getGia_km())*100/(product.getGia()));
         gia_km.setText(String.valueOf(km +"%"));
 

@@ -1,5 +1,7 @@
 package com.vientamthuong.eatsimple.cartPage;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -18,7 +20,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.chauthai.swipereveallayout.ViewBinderHelper;
 import com.vientamthuong.eatsimple.R;
 import com.vientamthuong.eatsimple.beans.Cart;
+import com.vientamthuong.eatsimple.beans.Product;
+import com.vientamthuong.eatsimple.detail.Activity_detail;
 
+import java.io.ByteArrayOutputStream;
+import java.io.Serializable;
 import java.util.List;
 
 public class CartAdapter extends RecyclerView.Adapter<CartViewHolder> {
@@ -57,6 +63,16 @@ public class CartAdapter extends RecyclerView.Adapter<CartViewHolder> {
         viewBinderHelper = new ViewBinderHelper();
 
         viewBinderHelper.bind(holder.swipeRevealLayout,cartModel.getTen_sp());
+
+        holder.img.setOnClickListener(v -> {
+
+            detail_product(cartModel,v);
+
+        });
+
+        holder.title.setOnClickListener(v -> {
+            detail_product(cartModel,v);
+        });
 
 
 //        if (holder.checkBox.isChecked()){
@@ -101,14 +117,18 @@ public class CartAdapter extends RecyclerView.Adapter<CartViewHolder> {
         holder.btn_dcre.setOnClickListener(v -> {
             int num = Integer.parseInt(String.valueOf(holder.number.getText())) - 1;
             if (num >= 1 && num <= cartModel.getSo_luong_con_lai()){
-                holder.number.setText(num+"");
+
                 if (holder.checkBox.isChecked()){
                     tv_product.setText(Integer.parseInt(tv_product.getText().toString()) - 1 +"");
                     tv_price.setText(Integer.parseInt(tv_price.getText().toString()) - cartModel.getGia_km()+"");
                 }
+                updateCart.deleteCart(v.getContext(),list.get(holder.getAdapterPosition()).getMa_sp(),list.get(holder.getAdapterPosition()).getSizes().getMa_size(),num);
+                holder.number.setText(num+"");
+            }else if(cartModel.getSo_luong() > cartModel.getSo_luong_con_lai()){
+                updateCart.deleteCart(v.getContext(),list.get(holder.getAdapterPosition()).getMa_sp(),list.get(holder.getAdapterPosition()).getSizes().getMa_size(),cartModel.getSo_luong_con_lai());
+                Toast.makeText(v.getContext(), "Tự động cập nhật số lượng sản phẩm.", Toast.LENGTH_SHORT).show();
+                holder.number.setText(cartModel.getSo_luong_con_lai()+"");
             }
-
-          updateCart.deleteCart(v.getContext(),list.get(holder.getAdapterPosition()).getMa_sp(),list.get(holder.getAdapterPosition()).getSizes().getMa_size(),0);
 
         });
         holder.btn_incre.setOnClickListener(v -> {
@@ -120,9 +140,13 @@ public class CartAdapter extends RecyclerView.Adapter<CartViewHolder> {
                     tv_product.setText(Integer.parseInt(tv_product.getText().toString()) + 1 + "");
                     tv_price.setText(Integer.parseInt(tv_price.getText().toString()) + cartModel.getGia_km()+"");
                 }
+                updateCart.deleteCart(v.getContext(),list.get(holder.getAdapterPosition()).getMa_sp(),list.get(holder.getAdapterPosition()).getSizes().getMa_size(),num);
+            }else if(cartModel.getSo_luong() > cartModel.getSo_luong_con_lai()){
+                updateCart.deleteCart(v.getContext(),list.get(holder.getAdapterPosition()).getMa_sp(),list.get(holder.getAdapterPosition()).getSizes().getMa_size(),cartModel.getSo_luong_con_lai());
+                Toast.makeText(v.getContext(), "Tự động cập nhật số lượng sản phẩm.", Toast.LENGTH_SHORT).show();
+                holder.number.setText(cartModel.getSo_luong_con_lai()+"");
             }
 
-            updateCart.deleteCart(v.getContext(),list.get(holder.getAdapterPosition()).getMa_sp(),list.get(holder.getAdapterPosition()).getSizes().getMa_size(),1);
         });
 
 
@@ -158,4 +182,40 @@ public class CartAdapter extends RecyclerView.Adapter<CartViewHolder> {
     public int getItemCount() {
         return list.size();
     }
+
+    void detail_product(Cart cartModel,View v){
+        if (cartModel.getBitmap() != null){
+            Intent intent = new Intent(v.getContext(), Activity_detail.class);
+
+            Product product = new Product();
+            product.setMa_sp(cartModel.getMa_sp());
+            product.setTen_sp(cartModel.getTen_sp());
+            product.setGia_km(cartModel.getGia_km());
+            product.setGia(cartModel.getGia());
+            product.setSo_luong_con_lai(cartModel.getSo_luong_con_lai());
+            product.setSo_luong_ban_ra(cartModel.getSo_luong_ban_ra());
+
+            product.setKcal(cartModel.getKcal());
+
+            product.setThoi_gian_nau(cartModel.getThoi_gian_nau());
+
+            product.setThong_tin(cartModel.getThong_tin());
+
+            product.setUrl(cartModel.getUrl());
+
+            intent.putExtra("product",(Serializable) product );
+
+            Bitmap bitmap = cartModel.getBitmap();
+
+            ByteArrayOutputStream baos=new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.PNG,100,baos);
+            byte[] bytes = baos.toByteArray();
+            intent.putExtra("bitmap",bytes);
+
+            v.getContext().startActivity(intent);
+        }else {
+            Toast.makeText(v.getContext(), "Từ từ thôi bạn", Toast.LENGTH_SHORT).show();
+        }
+    }
+
 }
