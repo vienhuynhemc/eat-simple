@@ -16,7 +16,16 @@
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
             android:background="#FFE8A7"
+            android:visibility="visible"
             android:id="@+id/activity_profile_history"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/activity_profile_history_none"
+            android:visibility="gone"
+            android:text="Không có món ăn nào."
+            android:layout_marginBottom="10dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
     </LinearLayout>
 
