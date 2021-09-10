@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_marginTop="5dp"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/activity_profile_history_img"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginRight="16dp"
+        android:background="@color/gray"
+        android:scaleType="centerCrop" />
+
+    <TextView
+        android:id="@+id/activity_profile_history_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/activity_profile_history_img"
+        android:text="Gà rán Hong Kong"
+        android:textSize="13dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/activity_profile_history_size"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/activity_profile_history_name"
+        android:layout_marginTop="10dp"
+        android:layout_toEndOf="@+id/activity_profile_history_img"
+        android:layout_toRightOf="@+id/activity_profile_history_img"
+        android:text="Size: vừa"
+        android:textSize="13dp" />
+
+    <LinearLayout
+        android:id="@+id/activity_profile_history_label_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/activity_profile_history_size"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@+id/activity_profile_history_img"
+        android:gravity="right|center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/activity_profile_history_priceSale"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:text="79000 VNĐ" />
+
+        <TextView
+            android:id="@+id/activity_profile_history_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="59000 VNĐ"
+            android:textColor="#FA0015"
+            android:textSize="14dp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/activity_profile_history_number_dish"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/activity_profile_history_size"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@+id/activity_profile_history_img"
+        android:text="Số lượng: 5"
+        android:textSize="12dp" />
+
+</RelativeLayout>

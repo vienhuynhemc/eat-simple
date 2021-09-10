@@ -180,7 +180,7 @@ public class ProfileActivity extends AppCompatActivity {
         btnSignOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                signOut();
+                createDialogSignOut();
             }
         });
     }
@@ -217,6 +217,30 @@ public class ProfileActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+    public void createDialogSignOut(){
+        Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.dialog_signout);
+        Button btnY, btnN;
+        btnN = dialog.findViewById(R.id.no_signout);
+        btnY = dialog.findViewById(R.id.yes_signout);
+
+        btnN.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        btnY.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                signOut();
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+
     }
     private void createaDialogChangePassword(){
 
