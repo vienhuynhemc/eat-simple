@@ -18,7 +18,7 @@ public class DetailOrderHolder extends RecyclerView.ViewHolder {
     private TextView title,so_sao,gia,size;
     private LottieAnimationView img;
     private CardView cardView;
-    private AppCompatButton button;
+    private AppCompatButton button,danhgia;
     public DetailOrderHolder(@NonNull @NotNull View itemView) {
         super(itemView);
 
@@ -33,6 +33,15 @@ public class DetailOrderHolder extends RecyclerView.ViewHolder {
         cardView = view.findViewById(R.id.cardview_one_item);
         size = view.findViewById(R.id.size);
         button = view.findViewById(R.id.apdung);
+        danhgia = view.findViewById(R.id.danhgia);
+    }
+
+    public AppCompatButton getDanhgia() {
+        return danhgia;
+    }
+
+    public void setDanhgia(AppCompatButton danhgia) {
+        this.danhgia = danhgia;
     }
 
     public TextView getTitle() {

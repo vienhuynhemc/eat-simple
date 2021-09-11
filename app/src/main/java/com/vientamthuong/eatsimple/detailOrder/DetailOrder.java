@@ -71,10 +71,12 @@ public class DetailOrder extends AppCompatActivity {
 
         Intent intent = getIntent();
         String ma_dh = intent.getStringExtra("ma_dh");
+
         LoadCartHandler handler = LoadCartHandler.getInstance();
         handler.setOrder(cartList);
         handler.setOrderAdapter(adapter);
         handler.getHandler();
+
         GetDetailOrder.getData(DetailOrder.this,ma_dh);
         eventRing();
 

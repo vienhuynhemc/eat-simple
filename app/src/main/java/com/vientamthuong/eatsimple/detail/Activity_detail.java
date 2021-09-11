@@ -40,10 +40,14 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.vientamthuong.eatsimple.R;
 import com.vientamthuong.eatsimple.SharedReferences.DataLocalManager;
+import com.vientamthuong.eatsimple.beans.Comment;
 import com.vientamthuong.eatsimple.beans.Product;
 import com.vientamthuong.eatsimple.beans.Size;
+import com.vientamthuong.eatsimple.cartPage.LoadCartHandler;
 import com.vientamthuong.eatsimple.checkout.PayActivity;
 import com.vientamthuong.eatsimple.date.DateTime;
+import com.vientamthuong.eatsimple.detailOrder.DetailOrder;
+import com.vientamthuong.eatsimple.detailOrder.GetDetailOrder;
 import com.vientamthuong.eatsimple.homePage.HomeMeowBottom;
 import com.vientamthuong.eatsimple.loadData.VolleyPool;
 import com.vientamthuong.eatsimple.loadProductByID.LoadProductConfiguration;
@@ -70,7 +74,7 @@ public class Activity_detail extends AppCompatActivity {
 
     private ArrayList<String> imgList = new ArrayList<>();
 
-    private TextView title, gia, sosao, kcal, time, contentdetail, soluong,gia_km,so_luong_con_lai,so_luong_ban_ra;
+    private TextView title, gia, sosao, kcal, time,binhluan, contentdetail, soluong,gia_km,so_luong_con_lai,so_luong_ban_ra;
     private ImageView hinh,ring;
     private Button decre, incre;
     private FloatingActionButton back, detail_add,detail_cart,detail_wishlist;
@@ -82,6 +86,7 @@ public class Activity_detail extends AppCompatActivity {
     private int indexSize;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,6 +96,30 @@ public class Activity_detail extends AppCompatActivity {
         init();
         event();
         getDataSize();
+        eventBinhLuan();
+
+    }
+    void eventBinhLuan(){
+        binhluan.setOnClickListener(v -> {
+            Dialog dialog =openDialogDatabase(R.layout.activity_detail_comment_dialog);
+
+            RecyclerView recyclerView = dialog.findViewById(R.id.list_item);
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+            linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
+            linearLayoutManager.setSmoothScrollbarEnabled(true);
+            recyclerView.setLayoutManager(linearLayoutManager);
+            List<Comment> comments = new ArrayList<>();
+            CommentAdapter adapter = new CommentAdapter(comments);
+            recyclerView.setAdapter(adapter);
+
+            LoadCartHandler handler = LoadCartHandler.getInstance();
+            handler.setCommentAdapter(adapter);
+            handler.setComment(comments);
+            handler.getHandler();
+            GetComment.getData(v.getContext(),product.getMa_sp());
+
+        });
+
 
     }
 
@@ -394,6 +423,7 @@ public class Activity_detail extends AppCompatActivity {
         ring = findViewById(R.id.notify);
         so_luong_con_lai = findViewById(R.id.so_luong_con_lai);
         so_luong_ban_ra = findViewById(R.id.so_luong_ban_ra);
+        binhluan = findViewById(R.id.binhluan);
     }
 
 }

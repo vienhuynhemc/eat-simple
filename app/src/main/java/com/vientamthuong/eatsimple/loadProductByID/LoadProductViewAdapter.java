@@ -95,6 +95,7 @@ public class LoadProductViewAdapter extends RecyclerView.Adapter<LoadProductView
             holder.getGia().setText(String.valueOf(product.getGia()) + "đ");
             holder.getGia_km().setText(String.valueOf(product.getGia_km()) +"đ");
             holder.getGia().setPaintFlags(holder.getGia().getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+//            GetSoSao.getData(holder.getCardView().getContext(), product.getMa_sp(), holder.getSo_sao(),this);
 
             if (product.getBitmap() != null){
                 holder.getImg().setImageBitmap(product.getBitmap());

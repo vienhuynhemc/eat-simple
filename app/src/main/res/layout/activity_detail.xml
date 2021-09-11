@@ -85,7 +85,20 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.255" />
 
+        <TextView
+            android:id="@+id/binhluan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:text="Bình luận"
+            app:layout_constraintBottom_toTopOf="@+id/text_price_km"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/constraintLayout8"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="MissingConstraints" />
+
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout8"
             android:layout_width="193dp"
             android:layout_height="103dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -93,6 +106,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.04">
+
 
             <Button
                 android:id="@+id/incre"

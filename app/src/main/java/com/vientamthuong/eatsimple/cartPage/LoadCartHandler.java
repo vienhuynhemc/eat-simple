@@ -7,7 +7,9 @@ import android.os.Message;
 import androidx.annotation.NonNull;
 
 import com.vientamthuong.eatsimple.beans.Cart;
+import com.vientamthuong.eatsimple.beans.Comment;
 import com.vientamthuong.eatsimple.beans.Product;
+import com.vientamthuong.eatsimple.detail.CommentAdapter;
 import com.vientamthuong.eatsimple.detailOrder.DetailOrderAdapter;
 import com.vientamthuong.eatsimple.loadProductByID.LoadProductHandler;
 import com.vientamthuong.eatsimple.loadProductByID.LoadProductHelp;
@@ -23,6 +25,8 @@ public class LoadCartHandler {
     private CartAdapter cartAdapter;
     private static LoadCartHandler loadCartHandler;
     private DetailOrderAdapter orderAdapter;
+    private List<Comment> comment;
+    private CommentAdapter commentAdapter;
 
     private LoadCartHandler(){
         // getHandler();
@@ -44,6 +48,7 @@ public class LoadCartHandler {
                     if (msg.what == 100){
                         Bundle bundle = msg.getData();
                         List<Cart> cart = (List<Cart>) bundle.getSerializable("carts");
+                        carts.clear();
                         carts.addAll(cart);
                         cartAdapter.notifyDataSetChanged();
                     }
@@ -52,6 +57,14 @@ public class LoadCartHandler {
                         List<Cart> cart = (List<Cart>) bundle.getSerializable("carts");
                         order.addAll(cart);
                         orderAdapter.notifyDataSetChanged();
+                    }
+
+                    if (msg.what == 190){
+                        Bundle bundle = msg.getData();
+                        List<Comment> comments = (List<Comment>) bundle.getSerializable("comments");
+                        comment.clear();
+                        comment.addAll(comments);
+                        commentAdapter.notifyDataSetChanged();
                     }
                 }
             };
@@ -95,5 +108,37 @@ public class LoadCartHandler {
 
     public void setOrderAdapter(DetailOrderAdapter orderAdapter) {
         this.orderAdapter = orderAdapter;
+    }
+
+    public static LoadCartHandler getLoadCartHandler() {
+        return loadCartHandler;
+    }
+
+    public static void setLoadCartHandler(LoadCartHandler loadCartHandler) {
+        LoadCartHandler.loadCartHandler = loadCartHandler;
+    }
+
+    public List<Comment> getComments() {
+        return comment;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comment = comments;
+    }
+
+    public List<Comment> getComment() {
+        return comment;
+    }
+
+    public void setComment(List<Comment> comment) {
+        this.comment = comment;
+    }
+
+    public CommentAdapter getCommentAdapter() {
+        return commentAdapter;
+    }
+
+    public void setCommentAdapter(CommentAdapter commentAdapter) {
+        this.commentAdapter = commentAdapter;
     }
 }
