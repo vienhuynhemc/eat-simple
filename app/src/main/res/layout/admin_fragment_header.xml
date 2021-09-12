@@ -87,16 +87,46 @@
         app1:layout_constraintTop_toBottomOf="@id/icon_MaGiamGia"
         tools:ignore="RtlSymmetry" />
 
+    <TextView
+        android:id="@+id/icon_SanPham"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:background="@drawable/admin_background_select"
+        android:gravity="center"
+        android:paddingEnd="15dp"
+        android:paddingBottom="15dp"
+        android:textColor="#4162fb"
+        android:textSize="20sp"
+        android:translationY="-100dp"
+        app1:layout_constraintStart_toStartOf="parent"
+        app1:layout_constraintTop_toBottomOf="@id/icon_ThongTinCaNhan"
+        tools:ignore="RtlSymmetry" />
+
+    <TextView
+        android:id="@+id/icon_DonHang"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:background="@drawable/admin_background_select"
+        android:gravity="center"
+        android:paddingEnd="15dp"
+        android:paddingBottom="15dp"
+        android:textColor="#4162fb"
+        android:textSize="20sp"
+        android:translationY="-125dp"
+        app1:layout_constraintStart_toStartOf="parent"
+        app1:layout_constraintTop_toBottomOf="@id/icon_SanPham"
+        tools:ignore="RtlSymmetry" />
+
 
     <androidx.cardview.widget.CardView
         android:layout_width="25dp"
         android:layout_height="2dp"
-        android:translationY="-85dp"
+        android:translationY="-135dp"
         app1:cardBackgroundColor="#f5f5f5"
-        app1:cardElevation="0dp"
+        app1:cardElevation="-135dp"
         app1:layout_constraintEnd_toEndOf="parent"
         app1:layout_constraintStart_toStartOf="parent"
-        app1:layout_constraintTop_toBottomOf="@id/icon_ThongTinCaNhan" />
+        app1:layout_constraintTop_toBottomOf="@id/icon_DonHang" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/log_out"
@@ -104,13 +134,13 @@
         android:layout_height="42dp"
         android:layout_marginBottom="30dp"
         android:foregroundGravity="center"
-        android:translationY="-57dp"
+        android:translationY="-107dp"
         app1:cardBackgroundColor="@color/color_admin_main"
         app1:cardCornerRadius="21dp"
         app1:cardElevation="0dp"
         app1:layout_constraintEnd_toEndOf="parent"
         app1:layout_constraintStart_toStartOf="parent"
-        app1:layout_constraintTop_toBottomOf="@id/icon_ThongTinCaNhan">
+        app1:layout_constraintTop_toBottomOf="@id/icon_DonHang">
 
         <TextView
             android:id="@+id/icon_logout"

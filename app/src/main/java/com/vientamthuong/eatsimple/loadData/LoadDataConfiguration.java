@@ -17,4 +17,7 @@ public class LoadDataConfiguration {
     // Danh mục bên admin
     public static final int DANH_MUC_ADMIN = 5;
 
+    // Sản phẩm admin
+    public static final int SAN_PHAM_ADMIN = 6;
+
 }

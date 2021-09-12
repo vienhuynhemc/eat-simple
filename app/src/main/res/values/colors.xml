@@ -26,6 +26,7 @@
 
     <color name="color_admin_main">#4162fb</color>
     <color name="color_admin_xam">#d3dbdf</color>
+    <color name="color_admin_unable">#d8d8d8</color>
 
     <!-- Home page admin -->
     <color name="admin_home_page_1">#1de9b6</color>
