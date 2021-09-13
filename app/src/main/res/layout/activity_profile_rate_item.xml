@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:padding="10dp"
+    android:layout_margin="5dp"
+    android:background="#BFEBFF"
+    android:layout_height="wrap_content">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:id="@+id/activity_profile_rate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp">
+
+            <ImageView
+                android:id="@+id/activity_profile_rate_img"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_marginRight="16dp"
+                android:background="@color/gray"
+                android:scaleType="centerCrop" />
+
+            <TextView
+                android:id="@+id/activity_profile_rate_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/activity_profile_rate_img"
+                android:text="Gà rán Hong Kong"
+                android:textSize="13dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/activity_profile_rate_size"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/activity_profile_rate_name"
+                android:layout_marginTop="10dp"
+                android:layout_toEndOf="@+id/activity_profile_rate_img"
+                android:layout_toRightOf="@+id/activity_profile_rate_img"
+                android:text="Size: vừa"
+                android:textSize="13dp" />
+
+            <LinearLayout
+                android:id="@+id/activity_profile_rate_label_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/activity_profile_rate_size"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="10dp"
+                android:layout_toRightOf="@+id/activity_profile_rate_img"
+                android:gravity="right|center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/activity_profile_rate_priceSale"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:text="79000 VNĐ" />
+
+                <TextView
+                    android:id="@+id/activity_profile_rate_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="59000 VNĐ"
+                    android:textColor="#FA0015"
+                    android:textSize="14dp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <View
+            android:id="@+id/activity_profile_history_hr"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/activity_profile_rate"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="10dp"
+            android:background="#44C5FF" />
+
+        <LinearLayout
+            android:id="@+id/activity_profile_history_total_price"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/activity_profile_rate"
+            android:layout_marginTop="15dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <LinearLayout
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/activity_profile_history_total_l"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:text="Số sao: "
+                        android:textSize="14dp" />
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:id="@+id/activity_profile_rate_number"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/activity_profile_rate_cmt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/activity_profile_rate_total_p"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="Nội dung:"
+                        android:textSize="15dp" />
+
+                    <ScrollView
+                        android:layout_width="wrap_content"
+                        android:layout_height="35dp"
+                        android:layout_marginTop="5dp">
+
+                        <TextView
+                            android:id="@+id/activity_profile_comment"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="" />
+                    </ScrollView>
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/activity_profile_history_total_price"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="10dp"
+            android:background="#FFC107"
+            android:gravity="center"
+            android:padding="8dp"
+            android:text="Đã đánh giá"
+            android:textColor="@color/white"
+            android:textSize="12dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/activity_profile_rate_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/activity_profile_history_total_price"
+            android:layout_marginTop="10dp"
+            android:paddingTop="8dp"
+            android:text="Thời gian: 07 tháng 05 năm 2021"
+            android:textSize="12dp"
+            android:textStyle="italic" />
+    </RelativeLayout>
+
+</LinearLayout>

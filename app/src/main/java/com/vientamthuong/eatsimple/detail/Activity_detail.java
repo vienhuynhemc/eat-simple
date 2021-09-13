@@ -280,18 +280,23 @@ public class Activity_detail extends AppCompatActivity {
                     DatabaseReference database = FirebaseDatabase.getInstance().getReference("yeu_thich").child(DataLocalManager.getAccount().getId());
 //               if (database.child(product.getMa_sp()+"_"+sizes.get(indexSize).getMa_size()) == null){
                     WishlistDAO dao = new WishlistDAO(Activity_detail.this);
-                    dao.insertToWishlist(DataLocalManager.getAccount().getId(),product.getMa_sp(),sizes.get(indexSize).getMa_size());
+                    if(sizes.size() > 0){
+                        dao.insertToWishlist(DataLocalManager.getAccount().getId(),product.getMa_sp(),sizes.get(indexSize).getMa_size());
 
-                    DatabaseReference d = database.child(product.getMa_sp()+"_"+sizes.get(indexSize).getMa_size());
+                        DatabaseReference d = database.child(product.getMa_sp()+"_"+sizes.get(indexSize).getMa_size());
 
-                    d.child("PriceS").setValue(product.getGia_km());
-                    d.child("id").setValue(product.getMa_sp());
-                    d.child("idCustomer").setValue(DataLocalManager.getAccount().getId());
-                    d.child("img").setValue(product.getUrl());
-                    d.child("name").setValue(product.getTen_sp());
-                    d.child("nameSize").setValue(sizes.get(indexSize).getTen_size());
-                    d.child("priceP").setValue(product.getGia());
-                    d.child("size").setValue(sizes.get(indexSize).getMa_size());
+                        d.child("PriceS").setValue(product.getGia_km());
+                        d.child("id").setValue(product.getMa_sp());
+                        d.child("idCustomer").setValue(DataLocalManager.getAccount().getId());
+                        d.child("img").setValue(product.getUrl());
+                        d.child("name").setValue(product.getTen_sp());
+                        d.child("nameSize").setValue(sizes.get(indexSize).getTen_size());
+                        d.child("priceP").setValue(product.getGia());
+                        d.child("size").setValue(sizes.get(indexSize).getMa_size());
+                    }
+                    else{
+                        Toast.makeText(Activity_detail.this, "Vui lòng chờ load size!", Toast.LENGTH_SHORT).show();
+                    }
 //               }
 
 

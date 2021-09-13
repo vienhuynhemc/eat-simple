@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentSender;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -20,6 +21,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.IntentSenderRequest;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.widget.AppCompatButton;
@@ -41,14 +46,22 @@ import com.facebook.GraphResponse;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.identity.GetSignInIntentRequest;
+import com.google.android.gms.auth.api.identity.Identity;
+import com.google.android.gms.auth.api.identity.SignInCredential;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
+
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.vientamthuong.eatsimple.R;
@@ -83,6 +96,7 @@ import android.widget.Toast;
 
 import java.util.Properties;
 import java.util.Random;
+import java.util.concurrent.Executor;
 
 import javax.mail.Authenticator;
 import javax.mail.Message;
@@ -108,8 +122,12 @@ public class LoginTabFragment extends Fragment {
     private CallbackManager callbackManager;
     private LoginButton loginButton;
     private GoogleSignInClient mGoogleSignInClient;
-    int RC_SIGN_IN = 0;
+    private static final int RC_SIGN_IN = 25;
     CheckBox saveAccount;
+
+    private static final int REQUEST_CODE_GOOGLE_SIGN_IN = 10; /* unique request id */
+    private GoogleApiClient mGoogleApiClient;
+
 
     @Override
     public void onCreate(@Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
@@ -137,6 +155,7 @@ public class LoginTabFragment extends Fragment {
 
         // login google
         loginGoogle(root);
+//        gg(root);
 
         // hiển thị username, password khi nhấn nút lưu tài khoản
         for (Map.Entry<String,String> map : DataLocalManager.getLoginInput().entrySet()){
@@ -215,7 +234,7 @@ public class LoginTabFragment extends Fragment {
 
                                                             } else {
                                                                 notify.setTextColor(Color.RED);
-                                                                notify.setText("*Không tồn tại tài khoản!");
+                                                                notify.setText("*Mật khẩu không đúng, vui lòng thử lại!");
                                                             }
                                                         } catch (JSONException e) {
                                                             e.printStackTrace();
@@ -852,6 +871,12 @@ public class LoginTabFragment extends Fragment {
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+
+    }
+
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         callbackManager.onActivityResult(requestCode, resultCode, data);
         super.onActivityResult(requestCode, resultCode, data);
@@ -863,7 +888,36 @@ public class LoginTabFragment extends Fragment {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             handleSignInResult(task);
         }
+        if(resultCode == getActivity().RESULT_OK) {
+            if (requestCode == REQUEST_CODE_GOOGLE_SIGN_IN) {
+                try {
+                    SignInCredential credential = Identity.getSignInClient(getActivity()).getSignInCredentialFromIntent(data);
+                    // Signed in successfully - show authenticated UI
+
+                    String id = credential.getId().substring(0,credential.getId().indexOf('@'));
+
+                    Account account = new Account();
+                    account.setId(id);
+                    account.setImgLink(credential.getProfilePictureUri()+"");
+                    account.setName(credential.getDisplayName());
+                    account.setEmail(credential.getId());
+                    System.out.println(account);
+
+                    createAccountAPI(account.getId(),account.getName(),account.getImgLink(),account.getEmail());
+
+                    DataLocalManager.setAccounts(account);
+
+                    startActivity(new Intent(getActivity(), HomeMeowBottom.class));
+
+                } catch (ApiException e) {
+                    // The ApiException status code indicates the detailed failure reason.
+                    Toast.makeText(getContext(), "NO", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
     }
+
+
     private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
         try {
             GoogleSignInAccount acc = completedTask.getResult(ApiException.class);
@@ -883,6 +937,7 @@ public class LoginTabFragment extends Fragment {
             // Signed in successfully, show authenticated UI.
 
         } catch (ApiException e) {
+            Toast.makeText(getActivity(), "signInResult:failed code=" + e.getStatusCode(), Toast.LENGTH_SHORT).show();
             // The ApiException status code indicates the detailed failure reason.
             // Please refer to the GoogleSignInStatusCodes class reference for more information.
             Log.w("AAA", "signInResult:failed code=" + e.getStatusCode());
@@ -890,9 +945,11 @@ public class LoginTabFragment extends Fragment {
         }
     }
     private void signIn() {
+
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
+
     private void loginGoogle(View root){
         // Set the dimensions of the sign-in button.
         SignInButton signInButton = root.findViewById(R.id.sign_in_button);
@@ -903,13 +960,14 @@ public class LoginTabFragment extends Fragment {
             public void onClick(View v) {
                 switch (v.getId()) {
                     case R.id.sign_in_button:
-                        signIn();
+                        signIn1();
                         break;
                 }
             }
         });
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
         mGoogleSignInClient = GoogleSignIn.getClient(getContext(), gso);
+
     }
     private void createAccountAPI(String id,String name,String img,String email){
         String url = "https://eat-simple-app.000webhostapp.com/createAccountAPI.php";
@@ -918,10 +976,10 @@ public class LoginTabFragment extends Fragment {
                     @Override
                     public void onResponse(String response) {
                         if (response.equals("success")) {
-                            Toast.makeText(getActivity(), "create success", Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(getActivity(), "create success", Toast.LENGTH_SHORT).show();
                         }
                         else{
-                            Toast.makeText(getActivity(), "error create", Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(getActivity(), "error create", Toast.LENGTH_SHORT).show();
                         }
                     }
                 },
@@ -955,6 +1013,34 @@ public class LoginTabFragment extends Fragment {
         database.child(id).child("ngay_tao").setValue("null");
         database.child(id).child("tai_khoan").setValue(id);
         database.child(id).child("ten_hien_thi").setValue(name);
+    }
+    private void signIn1() {
+        GetSignInIntentRequest request =
+                GetSignInIntentRequest.builder()
+                        .setServerClientId(getString(R.string.server_client_id))
+                        .build();
+
+        Identity.getSignInClient(getActivity())
+                .getSignInIntent(request)
+                .addOnSuccessListener(
+                        result -> {
+                            try {
+                                startIntentSenderForResult(
+                                        result.getIntentSender(),
+                                        REQUEST_CODE_GOOGLE_SIGN_IN,
+                                        /* fillInIntent= */ null,
+                                        /* flagsMask= */ 0,
+                                        /* flagsValue= */ 0,
+                                        /* extraFlags= */ 0,
+                                        /* options= */ null);
+                            } catch (IntentSender.SendIntentException e) {
+                                Toast.makeText(getContext(), "Google Sign-in failed", Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                .addOnFailureListener(
+                        e -> {
+                            Toast.makeText(getContext(), "Google Sign-in failed 1", Toast.LENGTH_SHORT).show();
+                        });
     }
 
 }

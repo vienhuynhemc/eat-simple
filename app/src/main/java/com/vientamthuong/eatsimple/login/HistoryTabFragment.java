@@ -81,6 +81,7 @@ public class HistoryTabFragment extends Fragment {
 
 
         String url = "https://eat-simple-app.000webhostapp.com/getOrderByIdCustomer.php";
+        ArrayList<Order> reverse = new ArrayList<>();
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
@@ -116,6 +117,7 @@ public class HistoryTabFragment extends Fragment {
                                 order.setItem(items);
 
                                 orders.add(order);
+
                             }
                             if(orders.size() == 0){
                                 none.setVisibility(View.VISIBLE);
