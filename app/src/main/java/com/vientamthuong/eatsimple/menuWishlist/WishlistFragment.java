@@ -163,7 +163,7 @@ public class WishlistFragment extends Fragment {
                     } else {
                         try {
                             int count = 0;
-                            WishlistDAO wishlistDAO = new WishlistDAO();
+                            WishlistDAO wishlistDAO = new WishlistDAO(getContext());
                             for (Wishlist w : chooseInCheckbox) {
                                 Toast.makeText(getContext(), w.getId()+"_"+w.getSize(), Toast.LENGTH_SHORT).show();
                                 if (wishlistDAO.deleteWishlist(idCustomer, w.getId(),w.getSize())) {
