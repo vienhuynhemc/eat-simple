@@ -40,7 +40,7 @@ public class SanPham {
             }
             this.sizes = size_new;
         }
-        if(sanPham.getDanhMucSanPham() != null){
+        if (sanPham.getDanhMucSanPham() != null) {
             this.danhMucSanPham = new DanhMucSanPham(sanPham.getDanhMucSanPham());
         }
         this.chonXoa = sanPham.isChonXoa();
@@ -227,4 +227,10 @@ public class SanPham {
     }
 
 
+    public int getSoLuongConLaiTheoSize(String nho) {
+        for (Size size : sizes) {
+            if (size.getMa_size().equals(nho)) return size.getSo_luong_con_lai();
+        }
+        return 0;
+    }
 }
