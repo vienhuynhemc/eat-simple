@@ -580,9 +580,15 @@ public class SanPhamFragment extends Fragment implements MainFragment {
                 case "Ngày tạo":
                     if (o1.getNgayTao() != null) {
                         if (nowSort == Configuration.ASC) {
-                            return (int) (o1.getNgayTao().getTime() - o2.getNgayTao().getTime());
+                            long t1 = o1.getNgayTao().getTime();
+                            long t2 = o2.getNgayTao().getTime();
+                            if (t1 == t2) return 0;
+                            return t1 > t2 ? 1 : -1;
                         } else {
-                            return (int) (o2.getNgayTao().getTime() - o1.getNgayTao().getTime());
+                            long t1 = o1.getNgayTao().getTime();
+                            long t2 = o2.getNgayTao().getTime();
+                            if (t1 == t2) return 0;
+                            return t1 > t2 ? -1 : 1;
                         }
                     } else {
                         return 0;
