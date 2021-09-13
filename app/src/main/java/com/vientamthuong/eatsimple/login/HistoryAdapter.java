@@ -42,7 +42,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HostoryV
     public void onBindViewHolder(@NonNull HostoryViewHolder holder, int position) {
         Order order = list.get(position);
 
-        holder.total.setText(" VNĐ");
+        holder.total.setText(order.getTong_tien()+" VNĐ");
         holder.time.setText("Thời gian: "+order.getNgay_tao().getDay()+" tháng "+order.getNgay_tao().getMonth()+" năm "+order.getNgay_tao().getYear());
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
@@ -72,8 +72,6 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HostoryV
             time = itemView.findViewById(R.id.activity_profile_history_time);
 
             recyclerView = itemView.findViewById(R.id.activity_profile_hostory_recyler);
-
-
 
 
         }
