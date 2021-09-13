@@ -223,11 +223,11 @@ public class ThongBaoNoiFragment extends Fragment {
                 if (valueDiffNull == count) {
                     diaLogLoader.dismiss();
                     // Sắp xếp lại theo giảm dần ngày
-                    Collections.sort(thongBaoChuongs, new Comparator<ThongBaoChuong>() {
-                        @Override
-                        public int compare(ThongBaoChuong o1, ThongBaoChuong o2) {
-                            return (int) (o2.getNgay_tao().getTime() - o1.getNgay_tao().getTime());
-                        }
+                    thongBaoChuongs.sort((o1, o2) -> {
+                        long t1 = o1.getNgay_tao().getTime();
+                        long t2 = o2.getNgay_tao().getTime();
+                        if (t1 == t2) return 0;
+                        return t1 > t2 ? 1 : -1;
                     });
                     // Xong từ firebase thì h tải hình từ internet về nào :v
                     ActivityProtocol activityProtocol = (ActivityProtocol) appCompatActivity;
