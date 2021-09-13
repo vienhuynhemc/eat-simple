@@ -227,7 +227,7 @@ public class DanhMucFragment extends Fragment implements MainFragment {
                             ma_thong_bao_ca_nhan = "ma_thong_bao_ca_nhan_" + jsonObject.getString("ma_thong_bao_ca_nhan");
                             break;
                         }
-                        System.out.println(ma_thong_bao_ca_nhan+" Ok");
+                        System.out.println(ma_thong_bao_ca_nhan + " Ok");
                         // Firebase
                         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
                         DatabaseReference root = firebaseDatabase.getReference();
@@ -384,7 +384,7 @@ public class DanhMucFragment extends Fragment implements MainFragment {
                 show();
                 sort();
                 // Đếm số sản phẩm
-                countSl(root);
+                countSl();
                 // Và giờ tải hình từ các link hình
                 if (!activityProtocol.isRunningVolley()) {
                     activityProtocol.setRunningVolley(true);
@@ -401,28 +401,34 @@ public class DanhMucFragment extends Fragment implements MainFragment {
         });
     }
 
-    private void countSl(DatabaseReference root) {
-        root.child("san_pham").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                Map<String, Integer> map = new HashMap<>();
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    String ma_danh_muc = dataSnapshot.child("ma_danh_muc").getValue().toString();
-                    Integer object = map.get(ma_danh_muc);
-                    if (object == null) {
-                        map.put(ma_danh_muc, 1);
-                    } else {
-                        map.put(ma_danh_muc, map.get(ma_danh_muc) + 1);
+    private void countSl() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST,
+                WebService.get_so_san_pham_danh_muc,
+                response -> {
+                    try {
+                        Map<String, Integer> map = new HashMap<>();
+                        JSONArray jsonArray = new JSONArray(response);
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            JSONObject jsonObject = jsonArray.getJSONObject(i);
+                            String ma_danh_muc = jsonObject.getString("ma_danh_muc");
+                            int so_luong = jsonObject.getInt("so_luong");
+                            if (map.containsKey(ma_danh_muc)) {
+                                map.put(ma_danh_muc, map.get(ma_danh_muc) + so_luong);
+                            } else {
+                                map.put(ma_danh_muc, so_luong);
+                            }
+                        }
+                        updateSl(map);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-                }
-                updateSl(map);
-            }
-
-            @Override
-            public void onCancelled(@NonNull @NotNull DatabaseError error) {
-
-            }
+                }, error -> {
         });
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
+                WebService.TIME_OUT_MS,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        VolleyPool.getInstance(getActivity()).addRequest(stringRequest);
     }
 
     private void updateSl(Map<String, Integer> map) {
@@ -502,13 +508,13 @@ public class DanhMucFragment extends Fragment implements MainFragment {
                     }
                     break;
                 case "Số lượng sản phẩm":
-                    try {
-                        int a = Integer.parseInt(search);
-                        if (a == danhMuc.getSoSanPham()) {
+                    if (search.trim().length() == 0) {
+                        isOKe = true;
+                    } else {
+                        String s = danhMuc.getSoSanPham() + "";
+                        if (s.contains(search)) {
                             isOKe = true;
                         }
-                    } catch (Exception e) {
-                        isOKe = false;
                     }
                     break;
             }
@@ -543,9 +549,15 @@ public class DanhMucFragment extends Fragment implements MainFragment {
                 case "Ngày tạo":
                     if (o1.getNgayTao() != null) {
                         if (nowSort == Configuration.ASC) {
-                            return (int) (o1.getNgayTao().getTime() - o2.getNgayTao().getTime());
+                            long t1 = o1.getNgayTao().getTime();
+                            long t2 = o2.getNgayTao().getTime();
+                            if (t1 == t2) return 0;
+                            return t1 > t2 ? 1 : -1;
                         } else {
-                            return (int) (o2.getNgayTao().getTime() - o1.getNgayTao().getTime());
+                            long t1 = o1.getNgayTao().getTime();
+                            long t2 = o2.getNgayTao().getTime();
+                            if (t1 == t2) return 0;
+                            return t1 > t2 ? -1 : 1;
                         }
                     } else {
                         return 0;

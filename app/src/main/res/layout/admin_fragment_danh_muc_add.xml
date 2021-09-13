@@ -188,6 +188,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
+            android:paddingBottom="20dp"
             android:layout_height="wrap_content">
 
             <EditText
@@ -195,7 +196,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp"
                 android:background="@null"
                 android:hint="Tên danh mục"
                 android:inputType="text"
@@ -204,7 +204,6 @@
                 android:paddingEnd="20dp"
                 android:textColor="#2a2935"
                 android:textSize="12sp"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:ignore="Autofill,HardcodedText" />
 
@@ -214,12 +213,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="5dp"
-                android:layout_marginBottom="10dp"
                 android:text="Tên danh mục không được bỏ trống"
                 android:textColor="#F44336"
                 android:textSize="11sp"
                 android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tenDanhMuc"
                 tools:ignore="HardcodedText,SmallSp" />

@@ -80,6 +80,7 @@ public class HeaderPublicFragment extends Fragment {
             fusedLocationProviderClient.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
                 @Override
                 public void onComplete(@NonNull Task<Location> task) {
+                    System.out.println("OK");
                     Location location = task.getResult();
                     if(location!=null){
                         Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
@@ -87,7 +88,15 @@ public class HeaderPublicFragment extends Fragment {
                         try {
 
                             List<Address> getLocations = geocoder.getFromLocation(location.getLatitude(),location.getLongitude(),1);
-                            txtLocation.setText(getLocations.get(0).getAddressLine(0));
+                            String[] lo = getLocations.get(0).getAddressLine(0).split(", ");
+                            String s = "";
+                            for (int i = 2; i< 4;i++){
+                                s+= lo[i];
+                                if (i != 3){
+                                    s+= ", ";
+                                }
+                            }
+                            txtLocation.setText(s);
                             Log.d("TTT",getLocations.get(0).getAddressLine(0));
                         } catch (IOException e) {
                             e.printStackTrace();

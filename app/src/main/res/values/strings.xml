@@ -17,5 +17,6 @@
     <string name="fb_login_protocol_scheme">fb145569414310150</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="server_client_id">110392649298195547849</string>
 
 </resources>

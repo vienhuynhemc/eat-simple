@@ -255,6 +255,7 @@ public class SingupTabFragment extends Fragment {
 
                 if (sEmail.equals("") || sPassword.equals("") || sRePassword.equals("") || sUsername.equals("")) {
                     notify.setText("*Vui lòng nhập đủ thông tin!");
+                    notify.setTextColor(Color.RED);
                     checkSignUp = false;
                 } else if (checkEmail == true && checkPassword == true && checkLengthPass == true && checkUsername == true) {
                     // check email

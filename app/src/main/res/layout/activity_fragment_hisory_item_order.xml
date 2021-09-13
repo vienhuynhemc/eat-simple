@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_marginTop="5dp"
+    android:layout_marginBottom="5dp"
     android:layout_height="wrap_content">
 
     <ImageView
@@ -70,5 +70,12 @@
         android:layout_toRightOf="@+id/activity_profile_history_img"
         android:text="Số lượng: 5"
         android:textSize="12dp" />
+
+    <View
+        android:background="#FFD34F"
+        android:layout_marginTop="5dp"
+        android:layout_below="@+id/activity_profile_history_img"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
 
 </RelativeLayout>

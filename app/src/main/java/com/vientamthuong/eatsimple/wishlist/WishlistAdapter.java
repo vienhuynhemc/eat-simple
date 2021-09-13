@@ -2,7 +2,11 @@ package com.vientamthuong.eatsimple.wishlist;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SyncStatusObserver;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Handler;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,9 +36,17 @@ import com.chauthai.swipereveallayout.ViewBinderHelper;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.vientamthuong.eatsimple.R;
 import com.vientamthuong.eatsimple.SharedReferences.DataLocalManager;
+import com.vientamthuong.eatsimple.beans.Cart;
+import com.vientamthuong.eatsimple.beans.Product;
 import com.vientamthuong.eatsimple.detail.Activity_detail;
 import com.vientamthuong.eatsimple.loadData.VolleyPool;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -144,6 +156,62 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
         viewBinderHelper.bind(holder.swipeRevealLayout,String.valueOf(w.getImg()));
         Glide.with(context).load(w.getImg()).into(holder.img);
 
+        holder.btnDetail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                // get dish's information
+
+                String url ="https://eat-simple-app.000webhostapp.com/dataTranmissionWishlist.php";
+                StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
+                        new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+                                try {
+                                    JSONObject object = new JSONObject(response);
+                                    TranmissionData dish = new TranmissionData();
+                                    dish.setId(object.getString("ma_sp"));
+                                    dish.setName(object.getString("ten_sp"));
+                                    dish.setNumberRest(Integer.parseInt(object.getString("so_luong_con_lai")));
+                                    dish.setNumberSaled(Integer.parseInt(object.getString("so_luong_ban_ra")));
+                                    dish.setPrice(Integer.parseInt(object.getString("gia")));
+                                    dish.setPriceSale(Integer.parseInt(object.getString("gia_km")));
+                                    dish.setInformation(object.getString("thong_tin"));
+                                    dish.setKcal(Integer.parseInt(object.getString("kcal")));
+                                    dish.setTime(Integer.parseInt(object.getString("thoi_gian_nau")));
+                                    dish.setUrl(object.getString("url"));
+
+
+                                    holder.img.buildDrawingCache();
+                                    Bitmap bitmap = holder.img.getDrawingCache();
+
+                                    detail_product(dish,bitmap);
+
+
+
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        },
+                        new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                System.out.println(error.toString());
+                            }
+                        }){
+                    @Nullable
+                    @Override
+                    protected Map<String, String> getParams() throws AuthFailureError {
+                        HashMap<String,String> params = new HashMap<>();
+                        params.put("ma_sp",w.getId());
+                        return params;
+                    }
+                };
+                VolleyPool.getInstance(context).addRequest(stringRequest);
+            }
+        });
+
 
 
         holder.layoutDelete.setOnClickListener(new View.OnClickListener() {
@@ -152,6 +220,7 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
                 products.remove(holder.getAdapterPosition());
 
                 // xoa khoi ds wishlist
+                wishlistDAO.deleleteWishlist1(w.getIdCustomer(),w.getId(),w.getSize());
                 wishlistDAO.deleteWishlist(w.getIdCustomer(),w.getId(),w.getSize());
                 notifyItemRemoved(holder.getAdapterPosition());
             }
@@ -195,13 +264,7 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
                 }
             }
         });
-        holder.btnDetail.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context, Activity_detail.class);
-//                intent.putExtra("product",)
-            }
-        });
+
     }
 
     @Override
@@ -301,5 +364,40 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
         };
         VolleyPool.getInstance(context).addRequest(stringRequest);
     }
+    void detail_product(TranmissionData dish,Bitmap bitmap){
+
+            Intent intent = new Intent(context, Activity_detail.class);
+
+            Product product = new Product();
+            product.setMa_sp(dish.getId());
+            product.setTen_sp(dish.getName());
+            product.setGia_km(dish.getPriceSale());
+            product.setGia(dish.getPrice());
+            product.setSo_luong_con_lai(dish.getNumberRest());
+            product.setSo_luong_ban_ra(dish.getNumberSaled());
+
+            product.setKcal(dish.getKcal());
+
+            product.setThoi_gian_nau(dish.getTime());
+
+            product.setThong_tin(dish.getInformation());
+
+            product.setUrl(dish.getUrl());
+
+            intent.putExtra("product",(Serializable) product );
+
+
+            ByteArrayOutputStream baos=new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.PNG,100,baos);
+            byte[] bytes = baos.toByteArray();
+
+            intent.putExtra("bitmap",bytes);
+
+
+
+            context.startActivity(intent);
+    }
+
+
 
 }

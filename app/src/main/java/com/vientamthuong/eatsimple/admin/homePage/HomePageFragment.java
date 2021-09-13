@@ -30,6 +30,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class HomePageFragment extends Fragment implements MainFragment {
@@ -155,7 +156,12 @@ public class HomePageFragment extends Fragment implements MainFragment {
                                     }
                                 }
                                 diaLogLoader.dismiss();
-                                Collections.sort(thongBaoCaNhanTrangChus, (o1, o2) -> (int) (o2.getNgay_tao().getTime()-o1.getNgay_tao().getTime()));
+                                thongBaoCaNhanTrangChus.sort((o1, o2) -> {
+                                    long t1 = o1.getNgay_tao().getTime();
+                                    long t2 = o2.getNgay_tao().getTime();
+                                    if (t1 == t2) return 0;
+                                    return t1 > t2 ? -1 : 1;
+                                });
                             }
 
                             @Override

@@ -55,6 +55,9 @@ import com.vientamthuong.eatsimple.model.AccountFirebase;
 import com.vientamthuong.eatsimple.wishlist.WishlistActivity;
 
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -107,14 +110,6 @@ public class ProfileActivity extends AppCompatActivity {
         //handler back home page
         handlerBack();
 
-        // handler btn wishlist
-        handlerWishlist();
-
-        // history tab, rate tab
-
-
-
-
     }
     private void mapping(){
         btnInfo = findViewById(R.id.activity_profile_info);
@@ -124,8 +119,6 @@ public class ProfileActivity extends AppCompatActivity {
         name = findViewById(R.id.activity_profile_info_name);
         email = findViewById(R.id.activity_profile_info_email);
         img = findViewById(R.id.activity_profile_info_img);
-        btnWishlist = findViewById(R.id.activity_profile_wishlist);
-        border1 = findViewById(R.id.activity_profile_border1);
         border2 = findViewById(R.id.activity_profile_border2);
         btnHistoryTab = findViewById(R.id.activity_profile_history_tab);
         btnRateTab = findViewById(R.id.activity_profile_rate_tab);
@@ -133,7 +126,6 @@ public class ProfileActivity extends AppCompatActivity {
         if (account.getId().length() > 15){
             btnPassword.setVisibility(View.GONE);
             btnInfo.setVisibility(View.GONE);
-            border1.setVisibility(View.GONE);
             border2.setVisibility(View.GONE);
         }
         //
@@ -204,19 +196,77 @@ public class ProfileActivity extends AppCompatActivity {
         btnPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                createaDialogChangePassword();
+                createDialogPassword();
             }
         });
     }
-    private void handlerWishlist(){
-        btnWishlist.setOnClickListener(new View.OnClickListener() {
+    private void createDialogPassword(){
+        Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.fragment_dialog_enter_password);
+
+        TextInputEditText password = dialog.findViewById(R.id.fragment_dialog_input_code_pass);
+        Button btnCancel = dialog.findViewById(R.id.btnNo_pass);
+        Button btnConfirm = dialog.findViewById(R.id.btn_confirm_pass);
+
+        btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ProfileActivity.this, WishlistActivity.class);
-                intent.putExtra("ma_kh",account.getId());
-                startActivity(intent);
+                dialog.dismiss();
             }
         });
+        btnConfirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String pass = password.getText().toString().trim();
+
+                if(pass.equals("")){
+                    Toast.makeText(ProfileActivity.this, "Vui lòng nhập mật khẩu!", Toast.LENGTH_SHORT).show();
+                }
+                else if(pass.length() < 8){
+                    Toast.makeText(ProfileActivity.this, "Mật khẩu phải có tối thiểu 8 ký tự!", Toast.LENGTH_LONG).show();
+                }
+                else{
+                    String url = "https://eat-simple-app.000webhostapp.com/getPasswordByIdCustomer.php";
+                    StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
+                            new Response.Listener<String>() {
+                                @Override
+                                public void onResponse(String response) {
+                                    try {
+                                        JSONObject object = new JSONObject(response);
+                                        String password = object.getString("mat_khau");
+                                        if (BCrypt.checkpw(pass,password)){
+                                            createaDialogChangePassword();
+                                            dialog.dismiss();
+                                        }
+                                        else{
+                                            Toast.makeText(ProfileActivity.this, "Mật khẩu không đúng, vui lòng thử lại!", Toast.LENGTH_SHORT).show();
+                                        }
+
+
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            },
+                            new Response.ErrorListener() {
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+                                    System.out.print(error.toString());
+                                }
+                            }){
+                        @Nullable
+                        @Override
+                        protected Map<String, String> getParams() throws AuthFailureError {
+                            HashMap<String,String> params = new HashMap<>();
+                            params.put("ma_kh",DataLocalManager.getAccount().getId());
+                            return params;
+                        }
+                    };
+                    VolleyPool.getInstance(ProfileActivity.this).addRequest(stringRequest);
+                }
+            }
+        });
+        dialog.show();
     }
     public void createDialogSignOut(){
         Dialog dialog = new Dialog(this);

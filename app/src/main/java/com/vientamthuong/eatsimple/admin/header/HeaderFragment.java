@@ -19,10 +19,13 @@ import com.vientamthuong.eatsimple.R;
 import com.vientamthuong.eatsimple.admin.configuration.Configuration;
 import com.vientamthuong.eatsimple.admin.danhMuc.DanhMucFragment;
 import com.vientamthuong.eatsimple.admin.dialog.DiaLogConfirm;
+import com.vientamthuong.eatsimple.admin.donHang.DonHangFragment;
 import com.vientamthuong.eatsimple.admin.homePage.HomePageFragment;
 import com.vientamthuong.eatsimple.admin.loadData.LoadData;
 import com.vientamthuong.eatsimple.admin.maGiamGia.MaGiamGiaFragment;
 import com.vientamthuong.eatsimple.admin.model.MainFragment;
+import com.vientamthuong.eatsimple.admin.sanPham.SanPhamFragment;
+import com.vientamthuong.eatsimple.admin.session.DataSession;
 import com.vientamthuong.eatsimple.admin.thongTinCaNhan.ThongTinCaNhanFragment;
 import com.vientamthuong.eatsimple.diaLog.DiaLogLoader;
 import com.vientamthuong.eatsimple.fontAwesome.FontAwesomeManager;
@@ -39,6 +42,8 @@ public class HeaderFragment extends Fragment {
     private TextView iconMaGiamGia;
     private TextView iconLogout;
     private TextView iconThongTinCaNhan;
+    private TextView iconSanPham;
+    private TextView iconDonHang;
     private CardView cardViewLogout;
     private int nowSelect;
     private MainFragment mainFragment;
@@ -59,9 +64,22 @@ public class HeaderFragment extends Fragment {
         iconDanhMuc.setOnClickListener(v -> moveTo(iconDanhMuc));
         iconMaGiamGia.setOnClickListener(v -> moveTo(iconMaGiamGia));
         iconThongTinCaNhan.setOnClickListener(v -> moveTo(iconThongTinCaNhan));
+        iconSanPham.setOnClickListener(v -> moveTo(iconSanPham));
+        iconDonHang.setOnClickListener(v -> moveTo(iconDonHang));
         cardViewLogout.setOnClickListener(v -> {
             actionLogout();
         });
+        if (DataSession.getInstance().getCap_do() != 0) {
+            iconDanhMuc.setEnabled(false);
+            iconMaGiamGia.setEnabled(false);
+            iconSanPham.setEnabled(false);
+            iconDanhMuc.setTextColor(getActivity().getColor(R.color.color_admin_unable));
+            iconMaGiamGia.setTextColor(getActivity().getColor(R.color.color_admin_unable));
+            iconSanPham.setTextColor(getActivity().getColor(R.color.color_admin_unable));
+            iconMaGiamGia.setBackground(null);
+            iconDanhMuc.setBackground(null);
+            iconSanPham.setBackground(null);
+        }
     }
 
     public void getData(DatabaseReference root, DiaLogLoader diaLogLoader, List<LoadImageForView> imagesNeedLoad, AppCompatActivity appCompatActivity) {
@@ -75,6 +93,8 @@ public class HeaderFragment extends Fragment {
         FontAwesomeManager.getInstance().addIcon(iconMaGiamGia, "fas", "\uf02a", getActivity());
         FontAwesomeManager.getInstance().addIcon(iconLogout, "fas", "\uf2f5", getActivity());
         FontAwesomeManager.getInstance().addIcon(iconThongTinCaNhan, "fas", "\uf505", getActivity());
+        FontAwesomeManager.getInstance().addIcon(iconSanPham, "fab", "\uf7df", getActivity());
+        FontAwesomeManager.getInstance().addIcon(iconDonHang, "fab", "\uf50e", getActivity());
     }
 
     private void actionLogout() {
@@ -119,6 +139,16 @@ public class HeaderFragment extends Fragment {
                     nextSelect = Configuration.THONG_TIN_CA_NHAN;
                 }
                 break;
+            case R.id.icon_SanPham:
+                if (nowSelect != Configuration.SAN_PHAM) {
+                    nextSelect = Configuration.SAN_PHAM;
+                }
+                break;
+            case R.id.icon_DonHang:
+                if (nowSelect != Configuration.DON_HANG) {
+                    nextSelect = Configuration.DON_HANG;
+                }
+                break;
         }
         if (nextSelect != -1) {
             handleSelect(nextSelect);
@@ -157,6 +187,20 @@ public class HeaderFragment extends Fragment {
                 replaceFragment(thongTinCaNhanFragment);
                 mainFragment = thongTinCaNhanFragment;
                 break;
+            case Configuration.SAN_PHAM:
+                iconSanPham.setTextColor(getActivity().getColor(R.color.white));
+                iconSanPham.setBackgroundResource(R.drawable.admin_background_select);
+                SanPhamFragment sanPhamFragment = new SanPhamFragment();
+                replaceFragment(sanPhamFragment);
+                mainFragment = sanPhamFragment;
+                break;
+            case Configuration.DON_HANG:
+                iconDonHang.setTextColor(getActivity().getColor(R.color.white));
+                iconDonHang.setBackgroundResource(R.drawable.admin_background_select);
+                DonHangFragment donHangFragment = new DonHangFragment();
+                replaceFragment(donHangFragment);
+                mainFragment = donHangFragment;
+                break;
         }
     }
 
@@ -169,12 +213,18 @@ public class HeaderFragment extends Fragment {
     private void resetView() {
         iconHome.setTextColor(getActivity().getColor(R.color.color_admin_main));
         iconHome.setBackground(null);
-        iconDanhMuc.setTextColor(getActivity().getColor(R.color.color_admin_main));
-        iconDanhMuc.setBackground(null);
-        iconMaGiamGia.setTextColor(getActivity().getColor(R.color.color_admin_main));
-        iconMaGiamGia.setBackground(null);
         iconThongTinCaNhan.setTextColor(getActivity().getColor(R.color.color_admin_main));
         iconThongTinCaNhan.setBackground(null);
+        iconDonHang.setTextColor(getActivity().getColor(R.color.color_admin_main));
+        iconDonHang.setBackground(null);
+        if (DataSession.getInstance().getCap_do() == 0) {
+            iconMaGiamGia.setTextColor(getActivity().getColor(R.color.color_admin_main));
+            iconMaGiamGia.setBackground(null);
+            iconDanhMuc.setTextColor(getActivity().getColor(R.color.color_admin_main));
+            iconDanhMuc.setBackground(null);
+            iconSanPham.setTextColor(getActivity().getColor(R.color.color_admin_main));
+            iconSanPham.setBackground(null);
+        }
     }
 
     private void getView(View view) {
@@ -185,6 +235,8 @@ public class HeaderFragment extends Fragment {
         iconLogout = view.findViewById(R.id.icon_logout);
         cardViewLogout = view.findViewById(R.id.log_out);
         iconThongTinCaNhan = view.findViewById(R.id.icon_ThongTinCaNhan);
+        iconSanPham = view.findViewById(R.id.icon_SanPham);
+        iconDonHang = view.findViewById(R.id.icon_DonHang);
     }
 
     public void update() {

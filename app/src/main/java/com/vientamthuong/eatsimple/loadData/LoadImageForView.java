@@ -10,6 +10,7 @@ import androidx.cardview.widget.CardView;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.android.volley.toolbox.ImageRequest;
+import com.vientamthuong.eatsimple.admin.model.SanPham;
 import com.vientamthuong.eatsimple.admin.model.ThongBaoChuong;
 import com.vientamthuong.eatsimple.model.DanhMuc;
 
@@ -38,6 +39,8 @@ public class LoadImageForView {
     private CardView cardViewIm;
     // Danh mục bên admin
     private com.vientamthuong.eatsimple.admin.model.DanhMuc danhMucAdmin;
+    // Sản phẩm admin
+    private SanPham sanPhamAdmin;
     // Thông báo chuông
     private ThongBaoChuong thongBaoChuong;
     //-----------------------------------------------------------
@@ -75,6 +78,16 @@ public class LoadImageForView {
         this.type = type;
         // Lấy url
         this.url = danhMuc.getUrl();
+    }
+
+    // Sản phẩm bên admin
+    public LoadImageForView(AppCompatActivity appCompatActivity,SanPham sanPham,
+                            int type) {
+        this.sanPhamAdmin = sanPham;
+        this.appCompatActivity = appCompatActivity;
+        this.type = type;
+        // Lấy url
+        this.url = sanPham.getUrl();
     }
 
     // Thông báo chuông
@@ -122,6 +135,9 @@ public class LoadImageForView {
                     break;
                 case LoadDataConfiguration.DANH_MUC_ADMIN:
                     danhMucAdmin.setHinh(response);
+                    break;
+                case LoadDataConfiguration.SAN_PHAM_ADMIN:
+                    sanPhamAdmin.setHinh(response);
                     break;
             }
             isComplete = true;

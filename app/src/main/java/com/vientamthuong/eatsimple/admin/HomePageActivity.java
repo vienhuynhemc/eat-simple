@@ -116,7 +116,9 @@ public class HomePageActivity extends AppCompatActivity implements ActivityProto
                                 // Kiểm tra nếu thằng xong này type thông báo chuông thì thông báo
                                 if (imagesNeedLoad.get(count).getType() == LoadDataConfiguration.IMAGE_THONG_BAO_CHUONG) {
                                     runOnUiThread(() -> topHeaderFragment.update());
-                                } else if (imagesNeedLoad.get(count).getType() == LoadDataConfiguration.DANH_MUC_ADMIN) {
+                                } else if (imagesNeedLoad.get(count).getType() == LoadDataConfiguration.DANH_MUC_ADMIN
+                                || imagesNeedLoad.get(count).getType() == LoadDataConfiguration.SAN_PHAM_ADMIN
+                                ) {
                                     runOnUiThread(() -> headerFragment.update());
                                 }
                                 imagesNeedLoad.remove(count);
