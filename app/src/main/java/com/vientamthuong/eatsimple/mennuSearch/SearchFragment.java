@@ -211,7 +211,7 @@ public class SearchFragment extends Fragment {
         tagList.add(new Tag("tag_3","Giá rẻ",""));
         tagList.add(new Tag("tag_4","Còn lại",""));
         tagList.add(new Tag("tag_5","Bán chạy",""));
-        tagList.add(new Tag("tag_6","Đánh giá",""));
+//        tagList.add(new Tag("tag_6","Đánh giá",""));
     }
     public void changeColor(int index){
 

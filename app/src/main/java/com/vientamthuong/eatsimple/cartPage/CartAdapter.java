@@ -89,12 +89,22 @@ public class CartAdapter extends RecyclerView.Adapter<CartViewHolder> {
                     int total_product = Integer.parseInt(tv_product.getText().toString());
                     int total_price = Integer.parseInt(tv_price.getText().toString());
                     tv_product.setText(String.valueOf(total_product + num));
-                    tv_price.setText(String.valueOf(total_price + cartModel.getGia_km()*num));
+                    if (cartModel.getGia_km() != 0){
+                        tv_price.setText(String.valueOf(total_price + cartModel.getGia_km()*num));
+                    }else {
+                        tv_price.setText(String.valueOf(total_price + cartModel.getGia()*num));
+                    }
+
                 }else {
                     int total_product = Integer.parseInt(tv_product.getText().toString());
                     int total_price = Integer.parseInt(tv_price.getText().toString());
                     tv_product.setText(String.valueOf(total_product - num));
-                    tv_price.setText(String.valueOf(total_price - cartModel.getGia_km()*num));
+                    if (cartModel.getGia_km() != 0){
+                        tv_price.setText(String.valueOf(total_price - cartModel.getGia_km()*num));
+                    }else {
+                        tv_price.setText(String.valueOf(total_price - cartModel.getGia()*num));
+                    }
+
                 }
 
             }

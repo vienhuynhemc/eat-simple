@@ -123,7 +123,7 @@ public class ProfileActivity extends AppCompatActivity {
         btnHistoryTab = findViewById(R.id.activity_profile_history_tab);
         btnRateTab = findViewById(R.id.activity_profile_rate_tab);
 
-        if (account.getId().length() > 15){
+        if (account.getId().length() > 10){
             btnPassword.setVisibility(View.GONE);
             btnInfo.setVisibility(View.GONE);
             border2.setVisibility(View.GONE);

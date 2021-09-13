@@ -139,11 +139,13 @@ public class CartPageFragment extends Fragment {
             if (checkBox.isChecked()){
                 int soluong = Integer.parseInt(num.getText().toString().trim());
 
-                if ( soluong > list_Item.get(i).getSo_luong_con_lai()){
-                    Toast.makeText(getContext(), "Sản phẩm " + list_Item.get(i).getTen_sp() + " hum đủ số lượng gòi" , Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                carts.add(list_Item.get(i));
+//                if ( soluong > list_Item.get(i).getSo_luong_con_lai()){
+//                    Toast.makeText(getContext(), "Sản phẩm " + list_Item.get(i).getTen_sp() + " hum đủ số lượng gòi" , Toast.LENGTH_SHORT).show();
+//                    return;
+//                }
+                Cart cart = list_Item.get(i);
+                cart.setSoluongsp(soluong);
+                carts.add(cart);
             }
         }
         if (carts.size() != 0){

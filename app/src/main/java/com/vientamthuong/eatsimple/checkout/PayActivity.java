@@ -410,7 +410,11 @@ public class PayActivity extends AppCompatActivity {
 
         int tien = 0;
         for (int i = 0; i < carts.size(); i++) {
-            tien += carts.get(i).getGia_km();
+            if (carts.get(i).getGia_km() != 0){
+                tien += carts.get(i).getGia_km()*carts.get(i).getSoluongsp();
+            }else{
+                tien += carts.get(i).getGia()*carts.get(i).getSoluongsp();
+            }
         }
         tamtinh.setText(tien + " VND");
         tongtien.setText(tien + MaGiamGiaConfiguration.PHIVANCHUYEN + " VND");
