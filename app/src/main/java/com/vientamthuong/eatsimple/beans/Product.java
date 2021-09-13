@@ -25,6 +25,7 @@ public class Product implements Serializable {
     private int so_luong_con_lai;
     private int gia;
     private int gia_km;
+    private double sosao;
     private String thong_tin;
     private Bitmap bitmap;
     private boolean isLoadImg;
@@ -33,6 +34,13 @@ public class Product implements Serializable {
         isLoadImg = false;
     }
 
+    public double getSosao() {
+        return sosao;
+    }
+
+    public void setSosao(double sosao) {
+        this.sosao = sosao;
+    }
 
     public String getMa_sp() {
         return ma_sp;

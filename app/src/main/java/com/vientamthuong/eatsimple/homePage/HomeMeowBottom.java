@@ -135,7 +135,7 @@ public class HomeMeowBottom extends AppCompatActivity implements ActivityProtoco
             @Override
             public void onClickItem(MeowBottomNavigation.Model item) {
 
-                Toast.makeText(getApplicationContext(), "You onclick" + item.getId(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Bạn đã vào trang " + item.getId(), Toast.LENGTH_SHORT).show();
 
             }
         });

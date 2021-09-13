@@ -31,9 +31,18 @@ public class Cart implements Serializable {
     private Bitmap bitmap;
     private boolean isLoadImg;
     private byte[] bytes;
+    private int soluongsp;
 
     public Cart() {
         sizes = new Size();
+    }
+
+    public int getSoluongsp() {
+        return soluongsp;
+    }
+
+    public void setSoluongsp(int soluongsp) {
+        this.soluongsp = soluongsp;
     }
 
     public String getMa_sp() {

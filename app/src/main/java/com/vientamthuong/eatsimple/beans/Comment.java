@@ -13,9 +13,18 @@ public class Comment {
     private String size;
     private DateTime time;
     private Bitmap bitmap;
+    private double avg_so_sao;
     private boolean isload;
 
     public Comment() {
+    }
+
+    public double getAvg_so_sao() {
+        return avg_so_sao;
+    }
+
+    public void setAvg_so_sao(double avg_so_sao) {
+        this.avg_so_sao = avg_so_sao;
     }
 
     public boolean isIsload() {

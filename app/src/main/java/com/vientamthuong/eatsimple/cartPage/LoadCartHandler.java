@@ -3,6 +3,7 @@ package com.vientamthuong.eatsimple.cartPage;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
@@ -27,6 +28,7 @@ public class LoadCartHandler {
     private DetailOrderAdapter orderAdapter;
     private List<Comment> comment;
     private CommentAdapter commentAdapter;
+    private TextView tv;
 
     private LoadCartHandler(){
         // getHandler();
@@ -65,6 +67,7 @@ public class LoadCartHandler {
                         comment.clear();
                         comment.addAll(comments);
                         commentAdapter.notifyDataSetChanged();
+
                     }
                 }
             };
@@ -140,5 +143,13 @@ public class LoadCartHandler {
 
     public void setCommentAdapter(CommentAdapter commentAdapter) {
         this.commentAdapter = commentAdapter;
+    }
+
+    public TextView getTv() {
+        return tv;
+    }
+
+    public void setTv(TextView tv) {
+        this.tv = tv;
     }
 }

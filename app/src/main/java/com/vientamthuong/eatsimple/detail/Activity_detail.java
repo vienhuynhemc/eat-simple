@@ -94,32 +94,68 @@ public class Activity_detail extends AppCompatActivity {
 
         getView();
         init();
+        eventBinhLuan();
         event();
         getDataSize();
-        eventBinhLuan();
+
 
     }
     void eventBinhLuan(){
-        binhluan.setOnClickListener(v -> {
-            Dialog dialog =openDialogDatabase(R.layout.activity_detail_comment_dialog);
 
+        binhluan.setOnClickListener(v -> {
+            Dialog dialog = openDialogDatabase(R.layout.activity_detail_comment_dialog);
             RecyclerView recyclerView = dialog.findViewById(R.id.list_item);
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
             linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
             linearLayoutManager.setSmoothScrollbarEnabled(true);
             recyclerView.setLayoutManager(linearLayoutManager);
+
             List<Comment> comments = new ArrayList<>();
             CommentAdapter adapter = new CommentAdapter(comments);
-            recyclerView.setAdapter(adapter);
 
             LoadCartHandler handler = LoadCartHandler.getInstance();
+            recyclerView.setAdapter(adapter);
+
             handler.setCommentAdapter(adapter);
             handler.setComment(comments);
             handler.getHandler();
-            GetComment.getData(v.getContext(),product.getMa_sp());
+            GetComment.getData(this,product.getMa_sp());
 
         });
 
+        String urlLoad = "https://eat-simple-app.000webhostapp.com/getSoSao.php";
+        StringRequest request = new StringRequest(Request.Method.POST, urlLoad,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        double so_sao = Double.parseDouble(response);
+                        System.out.println("Số sao:" + response);
+                        sosao.setText(String.valueOf((double) Math.round(so_sao * 10) / 10));
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                }) {
+            @Nullable
+            @org.jetbrains.annotations.Nullable
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                HashMap<String, String> params = new HashMap<>();
+                params.put("ma_sp",product.getMa_sp());
+                return params;
+            }
+        };
+        VolleyPool.getInstance(this).addRequest(request);
+
+//        int so_sao = 0;
+//        for (int i = 0;i<= comments.size();i++){
+//            so_sao += comments.get(i).getSosao();
+//        }
+//
+//        tv.setText(String.valueOf((double) Math.round((so_sao/comments.size()) * 10) / 10));
 
     }
 

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Message;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -35,7 +36,7 @@ import java.util.Map;
 
 public class GetComment {
 
-    public static void getData(Context context,String ma_sp){
+    public static void getData(Context context, String ma_sp){
 
         String urlLoad = "https://eat-simple-app.000webhostapp.com/loadComment.php";
         StringRequest request = new StringRequest(Request.Method.POST, urlLoad,
@@ -61,6 +62,10 @@ public class GetComment {
                                 comment.setTime(new DateTime(object.getString("ngay_tao")));
                                 comments.add(comment);
                             }
+
+
+
+
                             Message message = new Message();
                             message.what = 190;
                             Bundle bundle = new Bundle();
