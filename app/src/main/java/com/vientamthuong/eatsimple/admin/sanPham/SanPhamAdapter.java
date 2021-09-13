@@ -1,6 +1,5 @@
-package com.vientamthuong.eatsimple.admin.danhMuc;
+package com.vientamthuong.eatsimple.admin.sanPham;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -18,8 +17,13 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.vientamthuong.eatsimple.R;
 import com.vientamthuong.eatsimple.admin.configuration.WebService;
+import com.vientamthuong.eatsimple.admin.danhMuc.DanhMucEditFragment;
+import com.vientamthuong.eatsimple.admin.danhMuc.DanhMucFragment;
+import com.vientamthuong.eatsimple.admin.danhMuc.DanhMucSession;
+import com.vientamthuong.eatsimple.admin.danhMuc.DanhMucViewHolder;
 import com.vientamthuong.eatsimple.admin.dialog.DiaLogConfirm;
 import com.vientamthuong.eatsimple.admin.model.DanhMuc;
+import com.vientamthuong.eatsimple.admin.model.SanPham;
 import com.vientamthuong.eatsimple.admin.session.DataSession;
 import com.vientamthuong.eatsimple.date.DateTime;
 import com.vientamthuong.eatsimple.loadData.VolleyPool;
@@ -32,103 +36,134 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class DanhMucAdapter extends RecyclerView.Adapter<DanhMucViewHolder> {
+public class SanPhamAdapter extends RecyclerView.Adapter<SanPhamViewHolder> {
 
     private int resource;
-    private List<DanhMuc> show;
-    private List<DanhMuc> root;
+    private List<SanPham> show;
+    private List<SanPham> root;
     private Context context;
-    private DanhMucFragment danhMucFragment;
+    private SanPhamFragment sanPhamFragment;
 
-    public DanhMucAdapter(int resource, List<DanhMuc> show, List<DanhMuc> root, DanhMucFragment danhMucFragment) {
+    public SanPhamAdapter(int resource, List<SanPham> show, List<SanPham> root, SanPhamFragment sanPhamFragment) {
         this.resource = resource;
         this.show = show;
         this.root = root;
-        this.danhMucFragment = danhMucFragment;
+        this.sanPhamFragment = sanPhamFragment;
     }
 
     @NonNull
     @Override
-    public DanhMucViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new DanhMucViewHolder(LayoutInflater.from(parent.getContext()).inflate(resource, parent, false));
+    public SanPhamViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return new SanPhamViewHolder(LayoutInflater.from(parent.getContext()).inflate(resource, parent, false));
     }
 
-
-    @SuppressLint("SetTextI18n")
     @Override
-    public void onBindViewHolder(@NonNull DanhMucViewHolder holder, int position) {
-        DanhMuc danhMuc = show.get(position);
-        holder.getChonXoa().setChecked(danhMuc.isChonXoa());
+    public void onBindViewHolder(@NonNull SanPhamViewHolder holder, int position) {
+        SanPham sanPham = show.get(position);
+        holder.getChonXoa().setChecked(sanPham.isChonXoa());
         holder.getChonXoa().setOnClickListener(v -> {
-            danhMuc.setChonXoa(!danhMuc.isChonXoa());
-            for (DanhMuc d : root) {
-                if (d.getMaDanhMuc().equals(danhMuc.getMaDanhMuc())) {
-                    d.setChonXoa(danhMuc.isChonXoa());
-                    danhMucFragment.updateButtonXoa();
+            sanPham.setChonXoa(!sanPham.isChonXoa());
+            for (SanPham d : root) {
+                if (d.getMaSanPham().equals(sanPham.getMaSanPham())) {
+                    d.setChonXoa(sanPham.isChonXoa());
+                    sanPhamFragment.updateButtonXoa();
                     break;
                 }
             }
         });
         holder.getXoa().setOnClickListener(v -> {
-            DiaLogConfirm diaLogConfirm = new DiaLogConfirm(danhMucFragment.getActivity());
-            diaLogConfirm.getTextViewTitle().setText("Xóa một danh mục");
-            diaLogConfirm.getTextViewContent().setText("Bạn có chắc chắn rằng mình muốn xóa danh mục có ID: " + danhMuc.getMaDanhMuc() + " không?");
+            DiaLogConfirm diaLogConfirm = new DiaLogConfirm(sanPhamFragment.getActivity());
+            diaLogConfirm.getTextViewTitle().setText("Xóa một sản phẩm");
+            diaLogConfirm.getTextViewContent().setText("Bạn có chắc chắn rằng mình muốn xóa sản phẩm có ID: " + sanPham.getMaSanPham() + " không?");
             diaLogConfirm.getBtTry().setText("Không");
             diaLogConfirm.getBtIgnore().setText("Xóa");
             diaLogConfirm.getBtTry().setOnClickListener(v1 -> diaLogConfirm.dismiss());
             diaLogConfirm.getBtIgnore().setOnClickListener(v1 -> {
                 diaLogConfirm.dismiss();
                 // Xóa danh mục
-                removeDanhMuc(danhMuc.getMaDanhMuc());
+                removeDanhMuc(sanPham.getMaSanPham());
                 // Tạo thông báo cá nhân
-                addThongBaoCaNhan(danhMuc.getMaDanhMuc());
+                addThongBaoCaNhan(sanPham.getMaSanPham());
             });
             diaLogConfirm.show();
         });
         holder.getSua().setOnClickListener(v -> {
-            DanhMucSession.getInstance().setDanhMuc(new DanhMuc(danhMuc));
-            FragmentTransaction fragmentTransaction = danhMucFragment.getActivity().getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.add(R.id.f2, new DanhMucEditFragment(), "edit");
+            SanPhamSession.getInstance().setSanPham(new SanPham(sanPham));
+            FragmentTransaction fragmentTransaction = sanPhamFragment.getActivity().getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.add(R.id.f2, new SanPhamEditFragment(), "edit");
             fragmentTransaction.commit();
         });
-        if (danhMuc.getMaDanhMuc() != null) {
-            holder.getMaDanhMuc().setText("#" + danhMuc.getMaDanhMuc());
-            holder.updateMaDanhMuc();
+        if (sanPham.getMaSanPham() != null) {
+            holder.getMaSp().setText("#" + sanPham.getMaSanPham());
+            holder.updateSanPham();
         }
-        if (danhMuc.getTenDanhMuc() != null) {
-            holder.getTenDanhMuc().setText(danhMuc.getTenDanhMuc());
-            holder.updateTenDanhMuc();
+        if (sanPham.getTenSanPham() != null) {
+            holder.getTenSp().setText(sanPham.getTenSanPham());
+            holder.updateTenSp();
         }
-        if (danhMuc.getNgayTao() != null) {
-            holder.getNgayTao().setText(danhMuc.getNgayTao().toStringDateTypeNumberStringNumber());
+        if (sanPham.getNgayTao() != null) {
+            holder.getNgayTao().setText(sanPham.getNgayTao().toStringDateTypeNumberStringNumber());
             holder.updateNgayTao();
         }
-        if (danhMuc.getHinh() != null) {
-            holder.getHinhDaiDien().setImageBitmap(danhMuc.getHinh());
+        if (sanPham.getHinh() != null) {
+            holder.getHinhDaiDien().setImageBitmap(sanPham.getHinh());
             holder.updateHinhDaiDien();
         }
-        if (danhMuc.getSoSanPham() != -1) {
-            holder.getThongTin().setText("Số lượng sản phẩm: " + danhMuc.getSoSanPham());
-            holder.updateSl();
+        if (sanPham.getDanhMucSanPham() != null) {
+            holder.getDm().setText("Danh mục: " + sanPham.getDanhMucSanPham().getTenDanhMuc());
+            holder.updateDm();
         }
-    }
-
-    @Override
-    public int getItemCount() {
-        return show.size();
+        if (sanPham.getGia() != -1) {
+            String gia = "Giá gốc: " + String.format("%,.0f", (double) sanPham.getGia());
+            if (sanPham.getGia_km() != -1) {
+                gia += " - Giá Khuyến mãi: " + String.format("%,.0f", (double) sanPham.getGia_km());
+            }
+            holder.getGia().setText(gia);
+            holder.updateGia();
+        }
+        if (sanPham.getSizes() != null) {
+            holder.getSize().setText("Kích cỡ: " + sanPham.getSizeString());
+            holder.updateSize();
+        }
+        if (sanPham.getKcal() != -1) {
+            holder.getKcal().setText("Kcal: " + sanPham.getKcal());
+            holder.updateKcal();
+        }
+        if (sanPham.getThoi_gian_nau() != -1) {
+            holder.getThoi_gian_nau().setText("Thời gian nấu: " + sanPham.getThoi_gian_nau() + " phút");
+            holder.updateThoiGianNau();
+        }
+        if (sanPham.getSo_luong_ban_ra() != -1) {
+            holder.getSo_luong_ban_ra().setText("Số lượng đã bán: " + sanPham.getSo_luong_ban_ra());
+            holder.updateSoLuongBanRa();
+        }
+        if (sanPham.getSoLuongSanPham() != -1) {
+            holder.getSo_luong_san_pham().setText("Số lượng còn lại: " + sanPham.getSoLuongSanPham());
+            holder.updateSoLuongSanPham();
+        }
+        if (sanPham.getDanhGiaSanPhams() != null) {
+            holder.getSo_danh_gia().setText("Số đánh giá: " + sanPham.getDanhGiaSanPhams().size());
+            holder.updateSoDanhGia();
+            holder.getSao().setText("Đánh giá: " + sanPham.getSao() + " sao");
+            holder.updateSoSao();
+        }
     }
 
     private void removeDanhMuc(String ma_danh_muc) {
-        // Firebase
-        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-        DatabaseReference root = firebaseDatabase.getReference();
-        root.child("danh_muc").child(ma_danh_muc).child("ton_tai").setValue("1");
-        Toast.makeText(danhMucFragment.getActivity(), "Xóa thành công: " + ma_danh_muc, Toast.LENGTH_SHORT).show();
         // Webservice
         StringRequest stringRequest = new StringRequest(Request.Method.POST,
-                WebService.xoa_mot_danh_muc,
+                WebService.xoa_mot_san_pham,
                 response -> {
-                    Toast.makeText(danhMucFragment.getActivity(), "Xóa thành công danh mục có ID là #" + ma_danh_muc, Toast.LENGTH_SHORT).show();
+                    for (SanPham sanPham : root) {
+                        if (sanPham.getMaSanPham().equals(ma_danh_muc)) {
+                            root.remove(sanPham);
+                            break;
+                        }
+                    }
+                    Toast.makeText(sanPhamFragment.getActivity(), "Xóa thành công sản phẩm có ID là #" + ma_danh_muc, Toast.LENGTH_SHORT).show();
+                    // Show
+                    sanPhamFragment.show();
+                    sanPhamFragment.sort();
                 }, error -> {
         }) {
             @Nullable
@@ -143,7 +178,7 @@ public class DanhMucAdapter extends RecyclerView.Adapter<DanhMucViewHolder> {
                 WebService.TIME_OUT_MS,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        VolleyPool.getInstance(danhMucFragment.getActivity()).addRequest(stringRequest);
+        VolleyPool.getInstance(sanPhamFragment.getActivity()).addRequest(stringRequest);
     }
 
     private void addThongBaoCaNhan(String ma_danh_muc) {
@@ -169,7 +204,7 @@ public class DanhMucAdapter extends RecyclerView.Adapter<DanhMucViewHolder> {
                         map.put("nv_nhan", "");
                         map.put("ngay_tao", nowDate.toString());
                         map.put("type", "0");
-                        map.put("noi_dung", "vừa xóa một danh mục có ID là");
+                        map.put("noi_dung", "vừa xóa một sản phẩm có ID là");
                         map.put("noi_dung_quan_trong", "#" + ma_danh_muc);
                         root.child("thong_bao_ca_nhan").child(ma_thong_bao_ca_nhan).setValue(map);
                         // Webservice
@@ -184,7 +219,7 @@ public class DanhMucAdapter extends RecyclerView.Adapter<DanhMucViewHolder> {
                 WebService.TIME_OUT_MS,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        VolleyPool.getInstance(danhMucFragment.getActivity()).addRequest(stringRequest);
+        VolleyPool.getInstance(sanPhamFragment.getActivity()).addRequest(stringRequest);
     }
 
     private void addNewThongBaoCaNhanWebService(String ma_thong_bao_ca_nhan, DateTime ngay_tao, String ma_danh_muc) {
@@ -202,7 +237,7 @@ public class DanhMucAdapter extends RecyclerView.Adapter<DanhMucViewHolder> {
                 params.put("nv_nhan", "");
                 params.put("ngay_tao", ngay_tao.toString());
                 params.put("type", "0");
-                params.put("noi_dung", "vừa xóa một danh mục có ID là");
+                params.put("noi_dung", "vừa xóa một sản phẩm có ID là");
                 params.put("noi_dung_quan_trong", "#" + ma_danh_muc);
                 return params;
             }
@@ -211,7 +246,11 @@ public class DanhMucAdapter extends RecyclerView.Adapter<DanhMucViewHolder> {
                 WebService.TIME_OUT_MS,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        VolleyPool.getInstance(danhMucFragment.getActivity()).addRequest(stringRequest);
+        VolleyPool.getInstance(sanPhamFragment.getActivity()).addRequest(stringRequest);
     }
 
+    @Override
+    public int getItemCount() {
+        return show.size();
+    }
 }

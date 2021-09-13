@@ -58,9 +58,9 @@
                 android:layout_marginStart="10dp"
                 android:text="Gà nướng siêu cấp"
                 android:textColor="#2a2935"
-                android:visibility="invisible"
                 android:textSize="13sp"
                 android:textStyle="bold"
+                android:visibility="invisible"
                 app:layout_constraintStart_toEndOf="@id/card1"
                 app:layout_constraintTop_toTopOf="@id/card1"
                 tools:ignore="HardcodedText" />
@@ -89,10 +89,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:text="#dm_1"
-                android:visibility="invisible"
                 android:textColor="#d5d7e9"
                 android:textSize="11sp"
                 android:textStyle="bold"
+                android:visibility="invisible"
                 app:layout_constraintStart_toEndOf="@id/card1"
                 app:layout_constraintTop_toBottomOf="@id/tenDanhMuc"
                 tools:ignore="HardcodedText,SmallSp" />
@@ -116,7 +116,6 @@
             </androidx.cardview.widget.CardView>
 
             <TextView
-                android:visibility="invisible"
                 android:id="@+id/ngayTao"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -125,6 +124,7 @@
                 android:textColor="#d5d7e9"
                 android:textSize="11sp"
                 android:textStyle="bold"
+                android:visibility="invisible"
                 app:layout_constraintBottom_toBottomOf="@id/card1"
                 app:layout_constraintStart_toEndOf="@id/card1"
                 app:layout_constraintTop_toBottomOf="@id/maDanhMuc"
@@ -149,11 +149,13 @@
                     app:lottie_rawRes="@raw/loader_rectangle" />
             </androidx.cardview.widget.CardView>
 
+
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/noiDung"
-                android:visibility="invisible"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="invisible"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/card1">
 
@@ -186,13 +188,34 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+
+
             <androidx.cardview.widget.CardView
-                android:visibility="invisible"
+                android:id="@+id/slLottie"
+                android:layout_width="150dp"
+                android:layout_height="10dp"
+                android:layout_marginStart="45dp"
+                android:layout_marginTop="10dp"
+                app:cardCornerRadius="5dp"
+                app:cardElevation="0dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/card1">
+
+                <com.airbnb.lottie.LottieAnimationView
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    app:lottie_autoPlay="true"
+                    app:lottie_loop="true"
+                    app:lottie_rawRes="@raw/loader_rectangle" />
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
                 android:id="@+id/buttonSua"
                 android:layout_width="70dp"
                 android:layout_height="30dp"
                 android:layout_marginEnd="10dp"
                 android:layout_marginBottom="10dp"
+                android:visibility="invisible"
                 app:cardBackgroundColor="#e8efff"
                 app:cardCornerRadius="15dp"
                 app:cardElevation="0dp"
@@ -215,8 +238,8 @@
                 android:id="@+id/suaLottie"
                 android:layout_width="70dp"
                 android:layout_height="10dp"
-                android:layout_marginBottom="19dp"
                 android:layout_marginEnd="10dp"
+                android:layout_marginBottom="19dp"
                 app:cardCornerRadius="5dp"
                 app:cardElevation="0dp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -230,34 +253,14 @@
                     app:lottie_rawRes="@raw/loader_rectangle" />
             </androidx.cardview.widget.CardView>
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/slLottie"
-                android:layout_width="150dp"
-                android:layout_height="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginStart="45dp"
-                app:cardCornerRadius="5dp"
-                app:cardElevation="0dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/card1">
-
-                <com.airbnb.lottie.LottieAnimationView
-                    android:layout_width="150dp"
-                    android:layout_height="150dp"
-                    app:lottie_autoPlay="true"
-                    app:lottie_loop="true"
-                    app:lottie_rawRes="@raw/loader_rectangle" />
-            </androidx.cardview.widget.CardView>
-
-
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/buttonXoa"
-                android:visibility="invisible"
                 android:layout_width="70dp"
                 android:layout_height="30dp"
                 android:layout_marginEnd="10dp"
                 android:layout_marginBottom="10dp"
+                android:visibility="invisible"
                 app:cardCornerRadius="20dp"
                 app:cardElevation="0dp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -279,8 +282,8 @@
                 android:id="@+id/xoaLottie"
                 android:layout_width="70dp"
                 android:layout_height="10dp"
-                android:layout_marginBottom="19dp"
                 android:layout_marginEnd="10dp"
+                android:layout_marginBottom="19dp"
                 app:cardCornerRadius="5dp"
                 app:cardElevation="0dp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -301,12 +304,12 @@
                 android:layout_marginStart="3dp"
                 android:buttonTint="@color/color_admin_main"
                 android:paddingStart="4dp"
-                android:visibility="invisible"
                 android:scaleX="0.7"
                 android:scaleY="0.7"
                 android:text="Đã chọn"
                 android:textColor="#2a2935"
                 android:textSize="11sp"
+                android:visibility="invisible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 tools:ignore="HardcodedText,RtlSymmetry,SmallSp" />
@@ -315,8 +318,8 @@
                 android:id="@+id/chonXoaLottie"
                 android:layout_width="70dp"
                 android:layout_height="10dp"
-                android:layout_marginBottom="19dp"
                 android:layout_marginStart="10dp"
+                android:layout_marginBottom="19dp"
                 app:cardCornerRadius="5dp"
                 app:cardElevation="0dp"
                 app:layout_constraintBottom_toBottomOf="parent"

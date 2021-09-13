@@ -15,4 +15,9 @@ public class WebService {
     public static final String lay_ma_thong_bao_ca_nhan_tiep_theo = "http://eat-simple-app.000webhostapp.com/lay_ma_thong_bao_ca_nhan_tiep_theo.php";
     public static final String them_mot_thong_bao_ca_nhan_moi = "http://eat-simple-app.000webhostapp.com/them_mot_thong_bao_ca_nhan_moi.php";
 
+    // Sản phẩm
+    public static final String xoa_mot_san_pham = "http://eat-simple-app.000webhostapp.com/xoa_mot_san_pham.php";
+    public static final String lay_san_pham_1 = "https://eat-simple-app.000webhostapp.com/lay_all_sp_1.php";
+    public static final String lay_san_pham_2 = "https://eat-simple-app.000webhostapp.com/lay_all_sp_2.php";
+    public static final String lay_san_pham_3 = "https://eat-simple-app.000webhostapp.com/lay_all_sp_3.php";
 }

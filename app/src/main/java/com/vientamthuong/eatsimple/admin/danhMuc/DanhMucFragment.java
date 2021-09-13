@@ -412,10 +412,10 @@ public class DanhMucFragment extends Fragment implements MainFragment {
                             JSONObject jsonObject = jsonArray.getJSONObject(i);
                             String ma_danh_muc = jsonObject.getString("ma_danh_muc");
                             int so_luong = jsonObject.getInt("so_luong");
-                            if(map.containsKey(ma_danh_muc)){
-                                map.put(ma_danh_muc,map.get(ma_danh_muc)+so_luong);
-                            }else{
-                                map.put(ma_danh_muc,so_luong);
+                            if (map.containsKey(ma_danh_muc)) {
+                                map.put(ma_danh_muc, map.get(ma_danh_muc) + so_luong);
+                            } else {
+                                map.put(ma_danh_muc, so_luong);
                             }
                         }
                         updateSl(map);
@@ -508,13 +508,13 @@ public class DanhMucFragment extends Fragment implements MainFragment {
                     }
                     break;
                 case "Số lượng sản phẩm":
-                    try {
-                        int a = Integer.parseInt(search);
-                        if (a == danhMuc.getSoSanPham()) {
+                    if (search.trim().length() == 0) {
+                        isOKe = true;
+                    } else {
+                        String s = danhMuc.getSoSanPham() + "";
+                        if (s.contains(search)) {
                             isOKe = true;
                         }
-                    } catch (Exception e) {
-                        isOKe = false;
                     }
                     break;
             }
