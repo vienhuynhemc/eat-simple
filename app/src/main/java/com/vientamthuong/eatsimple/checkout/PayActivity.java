@@ -27,13 +27,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.vientamthuong.eatsimple.R;
 import com.vientamthuong.eatsimple.SharedReferences.DataLocalManager;
+import com.vientamthuong.eatsimple.admin.configuration.WebService;
+import com.vientamthuong.eatsimple.admin.session.DataSession;
 import com.vientamthuong.eatsimple.beans.Address;
 import com.vientamthuong.eatsimple.beans.Cart;
 import com.vientamthuong.eatsimple.beans.MaGiamGia;
@@ -149,7 +154,7 @@ public class PayActivity extends AppCompatActivity {
                                 } else {
 
                                     String ma_dh = response;
-
+                                    addThongBaoCaNhan(ma_dh);
                                     for (int i = 0; i < carts.size(); i++) {
                                         String urlLoad = "https://eat-simple-app.000webhostapp.com/addChiTietDonHang.php";
                                         int finalI = i;
@@ -179,6 +184,7 @@ public class PayActivity extends AppCompatActivity {
                                                 params.put("tien", String.valueOf(carts.get(finalI).getGia_km()*carts.get(finalI).getSo_luong()));
                                                 return params;
                                             }
+
                                         };
                                         VolleyPool.getInstance(PayActivity.this).addRequest(request);
 
@@ -457,5 +463,75 @@ public class PayActivity extends AppCompatActivity {
             dialog.show();
             return dialog;
         }
+    }
+
+    private void addThongBaoCaNhan(String ma_dh) {
+//        StringRequest stringRequest = new StringRequest(Request.Method.GET,
+//                WebService.lay_ma_thong_bao_chuong_tiep_theo,
+//                response -> {
+//                    JSONArray jsonArray = null;
+//                    try {
+//                        String ma_thong_bao_ca_nhan = null;
+//                        jsonArray = new JSONArray(response);
+//                        for (int i = 0; i < jsonArray.length(); i++) {
+//                            JSONObject jsonObject = jsonArray.getJSONObject(i);
+//                            ma_thong_bao_ca_nhan = "tbc_" + jsonObject.getString("ma_thong_bao_chuong");
+//                            break;
+//                        }
+//                        System.out.println(ma_thong_bao_ca_nhan + " Ok");
+//                        // Firebase
+//                        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+//                        DatabaseReference root = firebaseDatabase.getReference();
+//                        DateTime nowDate = new DateTime();
+//                        Map<String, Object> map = new HashMap<>();
+//                        map.put("1", "nv_1");
+//                        map.put("2", "nv_2");
+//                        map.put("3", "nv_3");
+//                        map.put("4", "nv_4");
+//                        map.put("5", "nv_5");
+//                        Map<String,Object> map2 = new HashMap<>();
+//                        map2.put("kieu_nguoi_gui","0");
+//                        map2.put("ma_nguoi_gui",DataLocalManager.getAccount().getId());
+//                        map2.put("ngay_tao",nowDate.toString());
+//                        map2.put("noi_dung","vừa thanh toán đơn hàng #"+ma_dh);
+//                        root.child("thong_bao_chuong").child(ma_thong_bao_ca_nhan).setValue(map);
+//                        root.child("chi_tiet_thong_bao_chuong").child(ma_thong_bao_ca_nhan).setValue(map2);
+//                        // Webservice
+//                        addNewThongBaoCaNhanWebService(ma_thong_bao_ca_nhan, nowDate, "vừa thanh toán đơn hàng #"+ma_dh);
+//                    } catch (JSONException e) {
+//                        e.printStackTrace();
+//                    }
+//                }, error -> {
+//            System.out.println(error.toString());
+//        });
+//        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
+//                WebService.TIME_OUT_MS,
+//                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+//                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+//        VolleyPool.getInstance(this).addRequest(stringRequest);
+    }
+
+    private void addNewThongBaoCaNhanWebService(String ma_thong_bao_ca_nhan, DateTime ngay_tao, String noi_dung) {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST,
+                WebService.them_mot_thong_bao_chuong_moi,
+                response -> {
+                }, error -> {
+        }) {
+            @Nullable
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("ma_thong_bao_chuong", ma_thong_bao_ca_nhan);
+                params.put("ngay_tao", ngay_tao.toString());
+                params.put("noi_dung", noi_dung);
+                params.put("ma_nguoi_gui", DataLocalManager.getAccount().getId());
+                return params;
+            }
+        };
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
+                WebService.TIME_OUT_MS,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        VolleyPool.getInstance(this).addRequest(stringRequest);
     }
 }

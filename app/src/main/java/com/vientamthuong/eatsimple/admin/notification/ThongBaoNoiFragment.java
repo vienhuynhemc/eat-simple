@@ -227,7 +227,7 @@ public class ThongBaoNoiFragment extends Fragment {
                         long t1 = o1.getNgay_tao().getTime();
                         long t2 = o2.getNgay_tao().getTime();
                         if (t1 == t2) return 0;
-                        return t1 > t2 ? 1 : -1;
+                        return t1 > t2 ? -1 : 1;
                     });
                     // Xong từ firebase thì h tải hình từ internet về nào :v
                     ActivityProtocol activityProtocol = (ActivityProtocol) appCompatActivity;

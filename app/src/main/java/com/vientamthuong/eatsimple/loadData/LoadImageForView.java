@@ -10,7 +10,10 @@ import androidx.cardview.widget.CardView;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.android.volley.toolbox.ImageRequest;
+import com.vientamthuong.eatsimple.admin.donHang.DonHangFragment;
+import com.vientamthuong.eatsimple.admin.model.DonHang;
 import com.vientamthuong.eatsimple.admin.model.SanPham;
+import com.vientamthuong.eatsimple.admin.model.SanPhamDonHang;
 import com.vientamthuong.eatsimple.admin.model.ThongBaoChuong;
 import com.vientamthuong.eatsimple.model.DanhMuc;
 
@@ -41,6 +44,11 @@ public class LoadImageForView {
     private com.vientamthuong.eatsimple.admin.model.DanhMuc danhMucAdmin;
     // Sản phẩm admin
     private SanPham sanPhamAdmin;
+    // Đơn hàng Admin
+    private DonHangFragment donHangFragment;
+    private DonHang donHangAdmin;
+    // Sản phẩm đơn hàng
+    private SanPhamDonHang sanPhamDonHangAdmin;
     // Thông báo chuông
     private ThongBaoChuong thongBaoChuong;
     //-----------------------------------------------------------
@@ -81,13 +89,33 @@ public class LoadImageForView {
     }
 
     // Sản phẩm bên admin
-    public LoadImageForView(AppCompatActivity appCompatActivity,SanPham sanPham,
+    public LoadImageForView(AppCompatActivity appCompatActivity, SanPham sanPham,
                             int type) {
         this.sanPhamAdmin = sanPham;
         this.appCompatActivity = appCompatActivity;
         this.type = type;
         // Lấy url
         this.url = sanPham.getUrl();
+    }
+
+    public LoadImageForView(AppCompatActivity appCompatActivity, SanPhamDonHang sanPham,
+                            int type) {
+        this.sanPhamDonHangAdmin = sanPham;
+        this.appCompatActivity = appCompatActivity;
+        this.type = type;
+        // Lấy url
+        this.url = sanPham.getUrl();
+    }
+
+    // Đơn hàng bên admin
+    public LoadImageForView(AppCompatActivity appCompatActivity, DonHang donHang, DonHangFragment donHangFragment,
+                            int type) {
+        this.donHangAdmin = donHang;
+        this.appCompatActivity = appCompatActivity;
+        this.donHangFragment = donHangFragment;
+        this.type = type;
+        // Lấy url
+        this.url = donHang.getKhachHangDonHang().getUrl();
     }
 
     // Thông báo chuông
@@ -138,6 +166,13 @@ public class LoadImageForView {
                     break;
                 case LoadDataConfiguration.SAN_PHAM_ADMIN:
                     sanPhamAdmin.setHinh(response);
+                    break;
+                case LoadDataConfiguration.DON_HANG_ADMIN:
+                    donHangAdmin.getKhachHangDonHang().setHinh(response);
+                    donHangFragment.update();
+                    break;
+                case LoadDataConfiguration.SAN_PHAM_DON_HANG_ADMIN:
+                    sanPhamDonHangAdmin.setHinh(response);
                     break;
             }
             isComplete = true;

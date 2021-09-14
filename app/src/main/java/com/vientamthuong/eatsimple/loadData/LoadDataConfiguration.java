@@ -20,4 +20,9 @@ public class LoadDataConfiguration {
     // Sản phẩm admin
     public static final int SAN_PHAM_ADMIN = 6;
 
+    // Đơn hàng admin
+    public static final int DON_HANG_ADMIN = 7;
+
+    public static final int SAN_PHAM_DON_HANG_ADMIN = 8;
+
 }

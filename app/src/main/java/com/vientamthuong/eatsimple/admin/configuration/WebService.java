@@ -24,4 +24,13 @@ public class WebService {
     public static final String lay_ma_san_pham_tiep_theo ="https://eat-simple-app.000webhostapp.com/lay_ma_san_pham_tiep_theo.php";
     public static final String them_mot_san_pham_moi = "http://eat-simple-app.000webhostapp.com/them_mot_san_pham_moi.php";
     public static final String edit_san_pham = "http://eat-simple-app.000webhostapp.com/edit_san_pham.php";
+
+    // Thông báo chuông
+    public static final String lay_ma_thong_bao_chuong_tiep_theo = "https://eat-simple-app.000webhostapp.com/lay_ma_thong_bao_chuong_tiep_theo.php";
+    public static final String them_mot_thong_bao_chuong_moi = "https://eat-simple-app.000webhostapp.com/them_mot_thong_chuong_moi.php";
+
+    // Đơn hàng
+    public static final String duyet_don_hang = "https://eat-simple-app.000webhostapp.com/duyet_don_hang.php";
+    public static final String lay_don_hang_1 = "https://eat-simple-app.000webhostapp.com/lay_all_dh_1.php";
+    public static final String lay_don_hang_2 = "https://eat-simple-app.000webhostapp.com/lay_all_dh_2.php";
 }
