@@ -68,6 +68,7 @@ public class DonHangAdapter extends RecyclerView.Adapter<DonHangViewHolder> {
             diaLogConfirm.getBtIgnore().setText("Duyệt");
             diaLogConfirm.getBtTry().setOnClickListener(v1 -> diaLogConfirm.dismiss());
             diaLogConfirm.getBtIgnore().setOnClickListener(v1 -> {
+                System.out.println(donHang.getSanPhamDonHangs());
                 diaLogConfirm.dismiss();
                 // Xóa danh mục
                 removeDanhMuc(donHang.getMa_dh(), donHang.getKhachHangDonHang().getMa_kh(), donHang.getTrang_thai() + 1);

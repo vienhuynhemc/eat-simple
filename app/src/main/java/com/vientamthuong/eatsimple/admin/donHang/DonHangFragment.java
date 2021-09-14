@@ -286,13 +286,15 @@ public class DonHangFragment extends Fragment implements MainFragment {
                                         } else {
                                             donHang1.getSanPhamDonHangs().add(s);
                                         }
-                                        donHangAdapter.notifyDataSetChanged();
                                         break;
                                     }
                                 }
                             }
                             imagesNeedLoad.add(new LoadImageForView(appCompatActivity, s, LoadDataConfiguration.SAN_PHAM_DON_HANG_ADMIN));
                         }
+                        donHangAdapter.notifyDataSetChanged();
+                        this.show();
+                        this.sort();
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
