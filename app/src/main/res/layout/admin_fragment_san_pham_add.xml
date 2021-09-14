@@ -54,7 +54,7 @@
         android:id="@+id/textChinh"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Thêm danh mục"
+        android:text="Thêm sản phẩm"
         android:textColor="#2a2935"
         android:textSize="17sp"
         android:textStyle="bold"

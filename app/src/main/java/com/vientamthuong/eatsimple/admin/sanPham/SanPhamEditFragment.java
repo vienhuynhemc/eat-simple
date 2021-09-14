@@ -69,6 +69,7 @@ public class SanPhamEditFragment extends Fragment {
     private ImageView hinhSanPham;
     private Spinner chon_danh_muc;
     private FloatingActionButton done;
+    private TextView textChinh;
 
     // List danh mục
     private List<DanhMucSanPham> danhMucSanPhams;
@@ -124,6 +125,7 @@ public class SanPhamEditFragment extends Fragment {
         thoi_gian_nau.setText(sanPham.getThoi_gian_nau()+"");
         kcal.setText(sanPham.getKcal()+"");
         noi_dung.setText(sanPham.getThong_tin());
+        textChinh.setText("#" + sanPham.getMaSanPham());
         for (Size size : sanPham.getSizes()) {
             if (size.getMa_size().equals("size_0")) {
                 nho.setChecked(true);
@@ -173,6 +175,7 @@ public class SanPhamEditFragment extends Fragment {
     }
 
     private void getView(View view) {
+        textChinh = view.findViewById(R.id.textChinh);
         buttonBack = view.findViewById(R.id.buttonBack);
         buttonCamera = view.findViewById(R.id.buttonCamera);
         buttonStorage = view.findViewById(R.id.buttonStorage);
