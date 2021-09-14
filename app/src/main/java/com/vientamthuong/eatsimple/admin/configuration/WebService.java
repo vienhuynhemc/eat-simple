@@ -20,4 +20,8 @@ public class WebService {
     public static final String lay_san_pham_1 = "https://eat-simple-app.000webhostapp.com/lay_all_sp_1.php";
     public static final String lay_san_pham_2 = "https://eat-simple-app.000webhostapp.com/lay_all_sp_2.php";
     public static final String lay_san_pham_3 = "https://eat-simple-app.000webhostapp.com/lay_all_sp_3.php";
+    public static final String lay_all_dm = "https://eat-simple-app.000webhostapp.com/lay_all_dm.php";
+    public static final String lay_ma_san_pham_tiep_theo ="https://eat-simple-app.000webhostapp.com/lay_ma_san_pham_tiep_theo.php";
+    public static final String them_mot_san_pham_moi = "http://eat-simple-app.000webhostapp.com/them_mot_san_pham_moi.php";
+    public static final String edit_san_pham = "http://eat-simple-app.000webhostapp.com/edit_san_pham.php";
 }

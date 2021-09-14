@@ -228,7 +228,7 @@ public class SanPhamFragment extends Fragment implements MainFragment {
                 }
             }
             DiaLogConfirm diaLogConfirm = new DiaLogConfirm(getActivity());
-            diaLogConfirm.getTextViewTitle().setText("Xóa nhiều danh mục");
+            diaLogConfirm.getTextViewTitle().setText("Xóa nhiều sản phẩm");
             diaLogConfirm.getTextViewContent().setText("Bạn có chắc chắn rằng mình muốn xóa " + ma_danh_mucs.size() + " sản phẩm đã chọn không?");
             diaLogConfirm.getBtTry().setText("Không");
             diaLogConfirm.getBtIgnore().setText("Xóa");

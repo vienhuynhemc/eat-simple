@@ -64,7 +64,7 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
     private ViewBinderHelper viewBinderHelper = new ViewBinderHelper();
     private int pos;
 
-    private WishlistDAO wishlistDAO = new WishlistDAO();
+    private WishlistDAO wishlistDAO = new WishlistDAO(context);
 
 
     public WishlistAdapter(Context context, ArrayList<Wishlist> products) {
@@ -220,7 +220,7 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
                 products.remove(holder.getAdapterPosition());
 
                 // xoa khoi ds wishlist
-                wishlistDAO.deleleteWishlist1(w.getIdCustomer(),w.getId(),w.getSize());
+                deleleteWishlist1(w.getIdCustomer(),w.getId(),w.getSize());
                 wishlistDAO.deleteWishlist(w.getIdCustomer(),w.getId(),w.getSize());
                 notifyItemRemoved(holder.getAdapterPosition());
             }
@@ -340,7 +340,7 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
                             Toast.makeText(context, "Thêm vào giỏ hàng thành công!", Toast.LENGTH_SHORT).show();
                         }
                         else{
-                            Toast.makeText(context, "Không thành công!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, "Không thể thêm vào giỏ hàng!", Toast.LENGTH_SHORT).show();
                         }
                     }
                 },
@@ -396,6 +396,38 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
 
 
             context.startActivity(intent);
+    }
+    public void deleleteWishlist1(String idCustomer,String idProduct,String idSize){
+        String url = "http://eat-simple-app.000webhostapp.com/deleteWishlist.php";
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        if (response.equals("success")){
+                            Toast.makeText(context, "Đã xóa khỏi danh sách yêu thích!", Toast.LENGTH_SHORT).show();
+                        }
+                        else{
+                            Toast.makeText(context, "Đã xảy ra lỗi! Không thể xóa!", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(context, "Loi xóa wishlist", Toast.LENGTH_SHORT).show();
+            }
+        }){
+            @Nullable
+            @org.jetbrains.annotations.Nullable
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                HashMap<String,String> params = new HashMap<>();
+                params.put("ma_khach_hang", idCustomer);
+                params.put("ma_san_pham", idProduct);
+                params.put("ma_size", idSize);
+                return params;
+            }
+        };
+        VolleyPool.getInstance(context).addRequest(stringRequest);
     }
 
 
