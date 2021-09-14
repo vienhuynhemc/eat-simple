@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.vientamthuong.eatsimple.R;
+import com.vientamthuong.eatsimple.homePage.HomeMeowBottom;
 import com.vientamthuong.eatsimple.homePage.HomePageActivity;
 
 public class IntroductFragmentObject extends Fragment {
@@ -45,7 +46,7 @@ public class IntroductFragmentObject extends Fragment {
             CardView buttonNext = view.findViewById(R.id.activity_introductory_skip);
             buttonNext.setOnClickListener(v -> {
                 Intent intent = new Intent();
-                intent.setClass(view.getContext(), HomePageActivity.class);
+                intent.setClass(view.getContext(), HomeMeowBottom.class);
                 appCompatActivity.finish();
                 // Ghi vô file để lần sau không chạy intro nữa
                 SharedPreferences.Editor editor = appCompatActivity.getSharedPreferences().edit();

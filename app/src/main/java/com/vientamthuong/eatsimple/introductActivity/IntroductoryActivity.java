@@ -14,6 +14,7 @@ import androidx.viewpager.widget.ViewPager;
 import com.airbnb.lottie.LottieAnimationView;
 import com.vientamthuong.eatsimple.R;
 import com.vientamthuong.eatsimple.data.SourceSound;
+import com.vientamthuong.eatsimple.homePage.HomeMeowBottom;
 import com.vientamthuong.eatsimple.homePage.HomePageActivity;
 
 public class IntroductoryActivity extends AppCompatActivity {
@@ -63,7 +64,7 @@ public class IntroductoryActivity extends AppCompatActivity {
             Handler handler = new Handler();
             handler.postDelayed(() -> {
                 Intent intent = new Intent();
-                intent.setClass(IntroductoryActivity.this, HomePageActivity.class);
+                intent.setClass(IntroductoryActivity.this, HomeMeowBottom.class);
                 finish();
                 startActivity(intent);
             }, 4500);

@@ -47,11 +47,11 @@
         <activity android:name=".detailPay.DetailPayActivity" />
         <activity android:name=".checkout.PayActivity" />
         <activity android:name=".homePage.HomeMeowBottom">
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
+<!--                        <intent-filter>-->
+<!--                            <action android:name="android.intent.action.MAIN" />-->
 
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
+<!--                            <category android:name="android.intent.category.LAUNCHER" />-->
+<!--                        </intent-filter>-->
         </activity>
         <activity android:name=".wishlist.WishlistActivity">
 
@@ -71,20 +71,20 @@
             <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
             <!-- </intent-filter> -->
         </activity>
-        <activity android:name=".introductActivity.IntroductoryActivity" /> <!-- <activity android:name=".homePage.HomePageActivity"> -->
-        <!-- <intent-filter> -->
-        <!-- <action android:name="android.intent.action.MAIN" /> -->
-        <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-        <!-- </intent-filter> -->
-        <!-- </activity> -->
+        <activity android:name=".introductActivity.IntroductoryActivity"> <!-- <activity android:name=".homePage.HomePageActivity"> -->
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
+        </activity>
         <activity android:name=".admin.HomePageActivity">
 
-             <intent-filter>
-             <action android:name="android.intent.action.MAIN" />
+                         <intent-filter>
+                         <action android:name="android.intent.action.MAIN" />
 
 
-             <category android:name="android.intent.category.LAUNCHER" />
-             </intent-filter>
+                         <category android:name="android.intent.category.LAUNCHER" />
+                         </intent-filter>
         </activity>
         <activity android:name=".login.ProfileActivity">
 
