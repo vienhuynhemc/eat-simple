@@ -135,6 +135,7 @@ public class PayActivity extends AppCompatActivity {
                 }else{
                     ma_gg = "null";
                 }
+                System.out.println("MÃ giảm giá:" + ma_gg);
 
 
                 String urlLoad = "https://eat-simple-app.000webhostapp.com/checkout.php";
@@ -214,7 +215,6 @@ public class PayActivity extends AppCompatActivity {
                         params.put("ma_gg", finalMa_gg);
                         params.put("time", String.valueOf(CheckoutConfiguration.TIME));
                         params.put("ngay_tao",new DateTime().toString());
-
                         return params;
                     }
                 };
