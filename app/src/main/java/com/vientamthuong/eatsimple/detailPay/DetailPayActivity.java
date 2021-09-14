@@ -90,7 +90,9 @@ public class DetailPayActivity extends AppCompatActivity {
                             ngay_tao.setText(new DateTime(object.getString("ngay_tao")).toStringDateTypeNumberStringNumber().toString());
                             MaGiamGia maGiamGia = new MaGiamGia();
                             maGiamGia.setKieugg(Integer.parseInt(object.getString("kieu_mgg")));
-                            maGiamGia.setGiatri(Integer.parseInt(object.getString("gia_tri")));
+                            maGiamGia.setGiatri(Double.parseDouble(object.getString("gia_tri")));
+                            System.out.println("Gia trị mgg:" + Double.parseDouble(object.getString("gia_tri")));
+
                             System.out.println("KIEU MAGG: " + maGiamGia.getKieugg());
                             tong_tien.setText(maGiamGia.convert2(Integer.parseInt(object.getString("tong_tien"))) + " VND");
                             phi_van_chuyen.setText(MaGiamGiaConfiguration.PHIVANCHUYEN + " VND");
